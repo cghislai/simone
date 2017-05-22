@@ -9,7 +9,7 @@ export class DockerOptionsService {
   constructor() {
     this.options = {
       host: 'hosta',
-      port: 2375,
+      port: 4242,
       protocol: 'http',
       timeout: 6,
       socketPath: '',
@@ -21,7 +21,7 @@ export class DockerOptionsService {
   }
 
   getOptions(): SimoneDockerOptions {
-    return this.options;
+    return Object.assign({}, this.options);
   }
 
   setOptions(options: SimoneDockerOptions) {

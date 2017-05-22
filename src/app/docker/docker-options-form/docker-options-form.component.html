@@ -1,57 +1,93 @@
-<form>
+<form class="ui-widget">
   <div class="row">
-    <label>SocketPath</label>
-    <input type="text"
-           [(ngModel)]="options.socketPath"
-           name="socket">
+    <label>Mode</label>
+    <p-selectButton [ngModel]="optionsMode"
+                    (ngModelChange)="onOptionsModeChange($event)"
+                    [options]="optionsModes"
+                    name="optionsMode"
+    ></p-selectButton>
+    <p-toggleButton [(ngModel)]="tlsEnabled" name="tls"
+                    onLabel="TLS" offLabel="noTLS"
+    ></p-toggleButton>
   </div>
-  <div class="row">
+  <div class="row" [hidden]="!isModeSocket">
+    <label>SocketPath</label>
+    <input type="text" pInputText name="socket"
+           [(ngModel)]="options.socketPath">
+  </div>
+  <div class="row" [hidden]="isModeSocket">
     <label>Host</label>
-    <input type="text"
+    <input type="text" pInputText
            [(ngModel)]="options.host"
            name="host">
   </div>
-  <div class="row">
+  <div class="row" [hidden]="isModeSocket">
     <label>Port</label>
-    <input type="text"
-           [(ngModel)]="options.port"
-           name="port">
+    <p-spinner size="6" [(ngModel)]="options.port"
+               name="port"></p-spinner>
   </div>
-  <div class="row">
-    <label>protocol</label>
-    <input type="text"
-           [(ngModel)]="options.protocol"
-           name="protocol">
+  <div class="row" [hidden]="isModeSocket">
+    <label>Protocol</label>
+    <p-selectButton [(ngModel)]="options.protocol"
+                    [options]="protocols"
+                    name="protocol"
+    ></p-selectButton>
   </div>
   <div class="row">
     <label>Timeout</label>
-    <input type="text"
+    <input type="text" pInputText
            [(ngModel)]="options.timeout"
            name="timeout">
   </div>
-  <div class="row">
+  <div class="row" [hidden]="!tlsEnabled">
     <label>Ca</label>
-    <input type="file" name="ca"
-           (change)="onCaChange($event)">
+    <div class="row  wrap spacing">
+      <textarea pInputTextarea [(ngModel)]="options.ca"
+                name="ca"></textarea>
+      <input type="file" name="caFile" hidden #caFileUpload
+             (change)="onCaChange($event)">
+      <button pButton type="button"
+              label="Open"
+              (click)="caFileUpload.click()"></button>
+    </div>
   </div>
-  <div class="row">
+  <div class="row" [hidden]="!tlsEnabled">
     <label>Cert</label>
-    <input type="file"  name="cert"
-           (change)="onCertChange($event)">
+    <div class="row    wrap spacing">
+      <textarea pInputTextarea [(ngModel)]="options.cert"
+                name="cert"></textarea>
+      <button pButton type="button"
+              label="Open"
+              (click)="certFileUpload.click()"></button>
+      <input type="file" name="certFile" hidden #certFileUpload
+             (change)="onCertChange($event)">
+    </div>
+
   </div>
-  <div class="row">
+  <div class="row" [hidden]="!tlsEnabled">
     <label>Key</label>
-    <input type="file"  name="key"
-           (change)="onKeyChange($event)">
+    <div class="row  wrap spacing">
+      <textarea pInputTextarea [(ngModel)]="options.key"
+                name="key"></textarea>
+      <button pButton type="button"
+              label="Open"
+              (click)="keyileUpload.click()"></button>
+      <input type="file" name="keyFile" hidden #keyileUpload
+             (change)="onKeyChange($event)">
+    </div>
+
   </div>
+  <div class="action-row">
 
-  <button type="text" pButton
-          label="Save"
-          (click)="onSubmit()"
-  ></button>
+    <button type="text" pButton
+            label="Save"
+            (click)="onSubmit()"
+    ></button>
 
-  <button type="text" pButton
-          label="Cancel"
-          (click)="onCancel()"
-  ></button>
+    <button type="text" pButton
+            label="Cancel"
+            (click)="onCancel()"
+    ></button>
+
+  </div>
 </form>

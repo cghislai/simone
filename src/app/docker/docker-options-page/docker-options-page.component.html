@@ -1,21 +1,37 @@
-<h1>Options</h1>
+<div class="options ui-widget">
+  <p-growl [(value)]="messages" [life]="800"></p-growl>
 
-<app-docker-options-form [ngModel]="options"
-                         (ngModelChange)="onOptionsChange($event)"
-></app-docker-options-form>
+  <p-panel header="Client">
+    <div class="client-panel">
+      <label>Client {{ (clientStated | async) ? 'started' : 'stopped'}}</label>
 
-<button type="text" pButton
-        label="Stop"
-        [disabled]="!(running | async)"
-        (click)="onStop()"
-></button>
+      <button type="text" pButton
+              label="Stop"
+              (click)="onStopClicked()"
+              *ngIf="(clientStated | async)"
+      ></button>
 
-<button type="text" pButton
-        label="Info"
-        [disabled]="!(running | async)"
-        (click)="onInfo()"
-></button>
+      <button type="text" pButton
+              label="Start"
+              (click)="onStartClicked()"
+              *ngIf="!(clientStated | async)"
+      ></button>
+    </div>
+  </p-panel>
 
-running: {{ running | async }}
-reachable: {{ reachable | async }}
-info: {{ info | json }}
+  <p-panel header="Options" styleClass="options-panel">
+    <app-docker-options-form [ngModel]="options"
+                             (ngModelChange)="onOptionsChange($event)"
+                             (cancel)="onOptionsCancelled()"
+    ></app-docker-options-form>
+  </p-panel>
+
+
+  <button type="text" pButton
+          label="Info"
+          [disabled]="!(running | async)"
+          (click)="onInfo()"
+  ></button>
+
+  info: {{ info | json }}
+</div>

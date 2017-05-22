@@ -20,11 +20,6 @@ export class DockerClient {
   }
 
   info(): Observable<any> {
-    // let requestOptions = this.createOptions({
-    //   method: 'get',
-    //   path: 'info',
-    // });
-    // return this.request(requestOptions);
     let docker = new Dockerode(this.getDockerOptions());
     return this.dockerRequest(cb => docker.info(cb));
   }

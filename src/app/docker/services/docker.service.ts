@@ -1,6 +1,8 @@
 import {DockerClient} from '../../client/docker.client';
 import {Injectable} from '@angular/core';
-import {Observable, ReplaySubject, Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import * as moment from 'moment';
 
 /**
  * Created by cghislai on 11/02/17.
@@ -9,10 +11,14 @@ import {Observable, ReplaySubject, Subscription} from 'rxjs';
 @Injectable()
 export class DockerService {
 
-  private clientReachable = new ReplaySubject<boolean>(1);
-  private clientStarted = new ReplaySubject<boolean>(1);
+  private clientReachable = new BehaviorSubject<boolean>(false);
+  private clientStarted = new BehaviorSubject<boolean>(false);
   private subscription: Subscription;
 
+
+  private pingBackOffMs: number = 100;
+  private firstPingFailure: moment.Moment;
+  private lastPingFailure: moment.Moment;
 
   constructor(private client: DockerClient) {
   }
@@ -28,17 +34,20 @@ export class DockerService {
     if (this.subscription != null) {
       this.subscription.unsubscribe();
     }
-
+    this.pingBackOffMs = 0;
     this.clientStarted.next(false);
   }
 
   isStarted() {
+    return this.clientStarted.value;
+  }
+
+  getStartedObservable() {
     return this.clientStarted;
   }
 
-  isReachable(): Observable<boolean> {
-    return this.clientReachable
-      .distinctUntilChanged();
+  getPingResultObservable(): Observable<boolean> {
+    return this.clientReachable;
   }
 
   info() {
@@ -46,19 +55,38 @@ export class DockerService {
   }
 
   private initClientPing() {
-    let timerSubscription = Observable.timer(0, 1000)
-      .mergeMap(t => this.client.ping()
-        .do(s => console.log('y:' + s))
-        .map(s => true)
-        .catch(e => {
-          console.error(e);
-          return Observable.of(false)
-        }),
-      )
-      .do(s => console.log(s))
+    let timerSubscription = Observable.timer(0, 3000)
+      .mergeMap(t => this.doTryPing())
       .subscribe(reachable => this.clientReachable.next(reachable));
 
     this.subscription.add(timerSubscription);
   }
 
+  private doTryPing(): Observable<boolean> {
+    console.log('ping ' + this.pingBackOffMs);
+    return Observable.timer(this.pingBackOffMs)
+      .first()
+      .mergeMap(s => this.client.ping())
+      .map(s => true)
+      .do(s => this.onClientReachable())
+      .catch(e => {
+        this.onClientUnreachable();
+        return Observable.of(false);
+      });
+  }
+
+  private onClientReachable() {
+    this.pingBackOffMs = 0;
+    this.lastPingFailure = null;
+    this.firstPingFailure = null;
+  }
+
+  private onClientUnreachable() {
+    let backoff = Math.max(100, this.pingBackOffMs);
+    this.pingBackOffMs = Math.min(backoff * 2, 3 * 60000);
+    this.lastPingFailure = moment().utc();
+    if (this.firstPingFailure == null) {
+      this.firstPingFailure = moment().utc();
+    }
+  }
 }

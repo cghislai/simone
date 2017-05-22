@@ -1,0 +1,44 @@
+
+form:not([hidden]) {
+  display: inline-block;
+  width: 30em;
+
+  .row:not([hidden]) {
+    display: flex;
+    align-items: flex-start;
+    margin: .5em 0;
+
+    > * {
+      flex: 1 1 auto;
+    }
+    > label:first-child:not([hidden]) {
+      flex: 0 0 10em;
+      margin: .5em;
+    }
+
+    &.center {
+      align-items: center;
+    }
+    &.stretch {
+      align-items: stretch;
+    }
+    &.wrap {
+      flex-wrap: wrap;
+    }
+    &.spacing {
+      > * {
+        margin: .3em;
+      }
+    }
+  }
+  .action-row:not([hidden]) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    > * {
+      flex: 0 0 auto;
+      margin: .3em;
+    }
+  }
+}
