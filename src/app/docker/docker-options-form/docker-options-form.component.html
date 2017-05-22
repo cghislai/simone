@@ -1,0 +1,57 @@
+<form>
+  <div class="row">
+    <label>SocketPath</label>
+    <input type="text"
+           [(ngModel)]="options.socketPath"
+           name="socket">
+  </div>
+  <div class="row">
+    <label>Host</label>
+    <input type="text"
+           [(ngModel)]="options.host"
+           name="host">
+  </div>
+  <div class="row">
+    <label>Port</label>
+    <input type="text"
+           [(ngModel)]="options.port"
+           name="port">
+  </div>
+  <div class="row">
+    <label>protocol</label>
+    <input type="text"
+           [(ngModel)]="options.protocol"
+           name="protocol">
+  </div>
+  <div class="row">
+    <label>Timeout</label>
+    <input type="text"
+           [(ngModel)]="options.timeout"
+           name="timeout">
+  </div>
+  <div class="row">
+    <label>Ca</label>
+    <input type="file" name="ca"
+           (change)="onCaChange($event)">
+  </div>
+  <div class="row">
+    <label>Cert</label>
+    <input type="file"  name="cert"
+           (change)="onCertChange($event)">
+  </div>
+  <div class="row">
+    <label>Key</label>
+    <input type="file"  name="key"
+           (change)="onKeyChange($event)">
+  </div>
+
+  <button type="text" pButton
+          label="Save"
+          (click)="onSubmit()"
+  ></button>
+
+  <button type="text" pButton
+          label="Cancel"
+          (click)="onCancel()"
+  ></button>
+</form>

@@ -1,0 +1,21 @@
+<h1>Options</h1>
+
+<app-docker-options-form [ngModel]="options"
+                         (ngModelChange)="onOptionsChange($event)"
+></app-docker-options-form>
+
+<button type="text" pButton
+        label="Stop"
+        [disabled]="!(running | async)"
+        (click)="onStop()"
+></button>
+
+<button type="text" pButton
+        label="Info"
+        [disabled]="!(running | async)"
+        (click)="onInfo()"
+></button>
+
+running: {{ running | async }}
+reachable: {{ reachable | async }}
+info: {{ info | json }}
