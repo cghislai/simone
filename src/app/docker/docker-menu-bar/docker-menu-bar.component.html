@@ -1,0 +1,14 @@
+<div class="menubar">
+  <span class="group-right">
+    <span class="icon-link options-icon"
+          [class.active]="optionsOverlay.visible"
+          (click)="optionsOverlay.toggle($event)">
+      <i class="fa fa-gear"></i>
+    </span>
+      <app-docker-ping-status></app-docker-ping-status>
+  </span>
+</div>
+
+<p-overlayPanel #optionsOverlay>
+  <app-docker-options-page></app-docker-options-page>
+</p-overlayPanel>

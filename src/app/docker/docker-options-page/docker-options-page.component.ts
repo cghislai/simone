@@ -18,7 +18,6 @@ export class DockerOptionsPageComponent implements OnInit {
   clientStated: Observable<boolean>;
   options: DockerOptions;
 
-  private info: any;
 
   constructor(private dockerService: DockerService,
               private optionsService: DockerOptionsService) {
@@ -56,10 +55,6 @@ export class DockerOptionsPageComponent implements OnInit {
     this.stopClient();
   }
 
-  onInfo() {
-    this.dockerService.info()
-      .subscribe(info => this.info = info);
-  }
 
   private startClient() {
     this.dockerService.startClient();

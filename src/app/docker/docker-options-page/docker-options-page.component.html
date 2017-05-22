@@ -26,12 +26,4 @@
     ></app-docker-options-form>
   </p-panel>
 
-
-  <button type="text" pButton
-          label="Info"
-          [disabled]="!(running | async)"
-          (click)="onInfo()"
-  ></button>
-
-  info: {{ info | json }}
 </div>

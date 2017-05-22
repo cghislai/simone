@@ -10,13 +10,15 @@ import {DockerOptionsService} from './services/docker-options.service';
 import {
   GrowlModule,
   InputTextareaModule,
-  InputTextModule, PanelModule,
+  InputTextModule, OverlayPanelModule, PanelModule,
   SelectButtonModule,
   SharedModule,
   SpinnerModule,
   ToggleButtonModule,
 } from 'primeng/primeng';
 import {DockerPingStatusComponent} from './docker-ping-status/docker-ping-status.component';
+import { DockerMenuBarComponent } from './docker-menu-bar/docker-menu-bar.component';
+import { DockerDashboardComponent } from './docker-dashboard/docker-dashboard.component';
 
 @NgModule({
   imports: [
@@ -32,14 +34,17 @@ import {DockerPingStatusComponent} from './docker-ping-status/docker-ping-status
     SpinnerModule,
     GrowlModule,
     PanelModule,
+    OverlayPanelModule,
   ],
   declarations: [
     DockerOptionsFormComponent,
     DockerOptionsPageComponent,
     DockerPingStatusComponent,
+    DockerMenuBarComponent,
+    DockerDashboardComponent,
   ],
   exports: [
-    DockerOptionsPageComponent,
+    DockerDashboardComponent,
     DockerPingStatusComponent,
   ],
   providers: [

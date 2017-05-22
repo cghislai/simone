@@ -1,0 +1,33 @@
+.menubar {
+  width: 100%;
+  display: flex;
+  background-color: black;
+  color: yellow;
+  font-size: 1.2em;
+
+  > * {
+    flex: 1 1 auto;
+  }
+  > .group-right {
+    display: flex;
+    align-content: flex-end;
+    align-items: center;
+
+    > * {
+      flex: 0 0 auto;
+      margin: .2em;
+      padding: .2em;
+    }
+  }
+
+  .icon-link:not([hidden]) {
+    font-size: 1.1em;
+    &:hover {
+      background-color: rgba(255, 255, 255, .4);
+      cursor: pointer;
+    }
+    &.active {
+      background-color: white;
+    }
+  }
+}

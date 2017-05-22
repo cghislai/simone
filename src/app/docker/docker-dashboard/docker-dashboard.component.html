@@ -1,0 +1,16 @@
+<div class="dashboard">
+  <app-docker-menu-bar></app-docker-menu-bar>
+  <div class="content">
+    ye
+
+
+
+    <button type="text" pButton
+            label="Info"
+            [disabled]="!(running | async)"
+            (click)="onInfo()"
+    ></button>
+
+    info: {{ info | json }}
+  </div>
+</div>

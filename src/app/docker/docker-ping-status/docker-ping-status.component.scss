@@ -1,0 +1,9 @@
+.container {
+  display: inline-block;
+  > .led {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border-radius: .5em;
+  }
+}
