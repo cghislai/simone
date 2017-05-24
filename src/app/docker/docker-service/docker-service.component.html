@@ -1,0 +1,28 @@
+<div class="service ui-widget">
+  <div class="header">
+    <span class="name">{{service.spec.name}}</span>
+    <span class="id">{{service.id}}</span>
+  </div>
+  <div class="status">
+    <span class="created">
+      <label>Created:</label>
+      <span class="since">{{getCreatedSinceLabel()}}</span>
+    </span>
+    <span class="updated">
+      <label>Updated:</label>
+      <span class="since">{{getUpdatedSinceLabel()}}</span>
+    </span>
+    <span class="mode">
+      <label>ServiceMode:</label>
+      <span>{{service.spec.mode.isReplicated() ? 'Replicated' : 'global'}}</span>
+    </span>
+    <span class="replicas" [hidden]="!service.spec.mode.isReplicated()">
+      <label>Repicas:</label>
+      <span>{{service.spec.mode.replicas}}</span>
+    </span>
+    <span class="image">
+      <label>Image:</label>
+      <app-docker-image-label [label]="service.spec.taskTemplate.ContainerSpec.Image"></app-docker-image-label>
+    </span>
+  </div>
+</div>

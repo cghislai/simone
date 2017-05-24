@@ -1,0 +1,23 @@
+.image-label {
+  display: inline-block;
+  font-size: .9em;
+  > *:not([hidden]) {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+  }
+
+  > .host:not([hidden]) {
+  }
+  > .label:not([hidden]) {
+    font-weight: bold;
+  }
+  > .tag:not([hidden]) {
+  }
+  > .checksum:not([hidden]) {
+    max-width: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}

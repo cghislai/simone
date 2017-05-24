@@ -1,0 +1,5 @@
+<div class="task-list">
+  <div *ngFor="let task of (tasks | async)" class="task-row">
+    <app-docker-task [task]="task"></app-docker-task>
+  </div>
+</div>

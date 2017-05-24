@@ -1,0 +1,24 @@
+<span class="column" [ngSwitch]="column" *ngIf="service != null">
+  <span class="id" *ngSwitchCase="serviceColumn.ID">
+    {{service.id}}
+  </span>
+  <span class="name" *ngSwitchCase="serviceColumn.NAME">
+    {{service.spec.name}}
+  </span>
+  <span class="mode" *ngSwitchCase="serviceColumn.MODE">
+    <app-service-mode [mode]="service.spec.mode.mode"></app-service-mode>
+  </span>
+  <span class="replicas" *ngSwitchCase="serviceColumn.REPLCICAS">
+    {{service.spec.mode.replicas}}
+  </span>
+  <span class="image" *ngSwitchCase="serviceColumn.IMAGE">
+    <app-docker-image-label [label]="service.spec.taskTemplate.ContainerSpec.Image"></app-docker-image-label>
+  </span>
+  <span class="created date" *ngSwitchCase="serviceColumn.CREATED_AT">
+    {{service.createdAt | date:medium }}
+  </span>
+  <span class="updated date" *ngSwitchCase="serviceColumn.UPDATED_AT">
+    {{service.updatedAt | date:medium }}
+  </span>
+
+</span>

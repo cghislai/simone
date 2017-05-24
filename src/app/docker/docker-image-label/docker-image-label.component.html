@@ -1,0 +1,14 @@
+<span class="image-label">
+  <span class="host" [hidden]="hostPart == null">
+    {{hostPart}}/
+  </span>
+  <span class="label" [hidden]="labelPart == null">
+    {{labelPart}}
+  </span>
+  <span class="tag" [hidden]="tagPart == null">
+    :{{tagPart}}
+  </span>
+  <span class="checksum" [hidden]="checksumPart == null" [title]="checksumPart">
+    @{{checksumPart}}
+  </span>
+</span>

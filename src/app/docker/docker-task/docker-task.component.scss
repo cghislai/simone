@@ -1,0 +1,25 @@
+@import '../res/style/common';
+
+.task:not([hidden]) {
+  display: block;
+  margin: .3em;
+  padding: .2em;
+
+
+  >.header {
+    display: flex;
+    align-items: center;
+    margin: .2em;
+
+    >* {
+      flex: 1 1 auto;
+    }
+    .service-id {
+      font-family: monospace;
+      text-align: right;
+    }
+  }
+  >.status:not([hidden]) {
+    @extend .status-labels-table
+  }
+}
