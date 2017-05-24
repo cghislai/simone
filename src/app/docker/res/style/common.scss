@@ -1,0 +1,22 @@
+.status-labels-table {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: .9em;
+
+  > *:not([hidden]) {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: baseline;
+    margin: .3em;
+
+    > * {
+      flex: 1 1 auto;
+    }
+    > label {
+      flex: 0 0 auto;
+      font-size: .8em;
+      margin-right: .5em;
+    }
+  }
+}

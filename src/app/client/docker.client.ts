@@ -5,6 +5,9 @@ import {DockerOptionsService} from '../docker/services/docker-options.service';
 import {RequestOptions} from './request-options';
 import * as Dockerode from 'dockerode';
 import {DockerOptions} from 'dockerode';
+import {ServiceJson} from './domain/service';
+import {TaskJson} from './domain/task';
+import {TaskFilterJson} from './domain/task-filter';
 
 /**
  * Created by cghislai on 11/02/17.
@@ -17,6 +20,17 @@ export class DockerClient {
 
   constructor(private optionsService: DockerOptionsService,
               private http: Http) {
+  }
+
+
+  listTasks(filterJson?: any): Observable<TaskJson[]> {
+    let docker = new Dockerode(this.getDockerOptions());
+    return this.dockerRequest(cb => docker.listTasks(filterJson, cb));
+  }
+
+  listServices(): Observable<ServiceJson[]> {
+    let docker = new Dockerode(this.getDockerOptions());
+    return this.dockerRequest(cb => docker.listServices(cb));
   }
 
   info(): Observable<any> {

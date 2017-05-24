@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {DockerService} from '../services/docker.service';
+import {DockerServicesService} from '../services/docker-services.service';
 
 @Component({
   selector: 'app-docker-dashboard',
@@ -8,15 +9,14 @@ import {DockerService} from '../services/docker.service';
 })
 export class DockerDashboardComponent implements OnInit {
   private info: any;
+  private services: any;
 
-  constructor(private dockerService: DockerService) {
+  constructor(private dockerService: DockerService,
+              private servicesService: DockerServicesService) {
   }
 
   ngOnInit() {
+    this.dockerService.startClient();
   }
 
-  onInfo() {
-    this.dockerService.info()
-      .subscribe(info => this.info = info);
-  }
 }

@@ -8,9 +8,10 @@ import {FormsModule} from '@angular/forms';
 import {DockerClient} from '../client/docker.client';
 import {DockerOptionsService} from './services/docker-options.service';
 import {
+  DataTableModule,
   GrowlModule,
   InputTextareaModule,
-  InputTextModule, OverlayPanelModule, PanelModule,
+  InputTextModule, MultiSelectModule, OverlayPanelModule, PanelModule, PrimeTemplate,
   SelectButtonModule,
   SharedModule,
   SpinnerModule,
@@ -19,9 +20,20 @@ import {
 import {DockerPingStatusComponent} from './docker-ping-status/docker-ping-status.component';
 import { DockerMenuBarComponent } from './docker-menu-bar/docker-menu-bar.component';
 import { DockerDashboardComponent } from './docker-dashboard/docker-dashboard.component';
+import {DockerServicesService} from './services/docker-services.service';
+import { DockerServiceComponent } from './docker-service/docker-service.component';
+import { DockerServiceListComponent } from './docker-service-list/docker-service-list.component';
+import { DockerImageLabelComponent } from './docker-image-label/docker-image-label.component';
+import { DockerTaskComponent } from './docker-task/docker-task.component';
+import { DockerTaskListComponent } from './docker-task-list/docker-task-list.component';
+import {DockerTasksService} from './services/docker-tasks.service';
+import { DockerServiceColumnComponent } from './docker-service-list/docker-service-column/docker-service-column.component';
+import { ServiceModeComponent } from './docker-service/service-mode/service-mode.component';
+import {BrowserModule} from '@angular/platform-browser';
 
 @NgModule({
   imports: [
+    BrowserModule,
     CommonModule,
     FormsModule,
 
@@ -35,6 +47,8 @@ import { DockerDashboardComponent } from './docker-dashboard/docker-dashboard.co
     GrowlModule,
     PanelModule,
     OverlayPanelModule,
+    DataTableModule,
+    MultiSelectModule,
   ],
   declarations: [
     DockerOptionsFormComponent,
@@ -42,6 +56,13 @@ import { DockerDashboardComponent } from './docker-dashboard/docker-dashboard.co
     DockerPingStatusComponent,
     DockerMenuBarComponent,
     DockerDashboardComponent,
+    DockerServiceComponent,
+    DockerServiceListComponent,
+    DockerImageLabelComponent,
+    DockerTaskComponent,
+    DockerTaskListComponent,
+    DockerServiceColumnComponent,
+    ServiceModeComponent,
   ],
   exports: [
     DockerDashboardComponent,
@@ -51,6 +72,8 @@ import { DockerDashboardComponent } from './docker-dashboard/docker-dashboard.co
     DockerClient,
     DockerOptionsService,
     DockerService,
+    DockerServicesService,
+    DockerTasksService,
   ],
 })
 export class DockerModule {

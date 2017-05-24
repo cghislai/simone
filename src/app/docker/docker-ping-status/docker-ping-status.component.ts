@@ -23,7 +23,7 @@ import {Observable} from 'rxjs/Observable';
         transform: '*',
       })),
       state('blink', style({
-        transform: 'scale(1.1)',
+        transform: 'scale(1.2)',
       })),
       transition('blink => noblink', animate('100ms ease-out')),
     ]),
@@ -59,17 +59,17 @@ export class DockerPingStatusComponent implements OnInit {
         let isStarted = results[1];
         return isStarted ? (isReachable ? 'online' : 'unreachable') : 'offline';
       })
+      .do(c => this.cd.detectChanges())
       .share();
     this.blink = this.service.getPingResultObservable()
+      .do(c => this.cd.detectChanges())
       .map(s => Observable.timer(0, 100)
         .take(2)
         .map(r => r === 0))
       .mergeMap(r => r)
       .map(r => r ? 'noblink' : 'blink')
       .distinctUntilChanged()
-      .do(r => {
-        this.cd.detectChanges();
-      })
+      .do(c => this.cd.detectChanges())
       .share();
   }
 
