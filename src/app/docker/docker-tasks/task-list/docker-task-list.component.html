@@ -8,8 +8,8 @@
     <p-multiSelect [options]="columnOptions"
                    [(ngModel)]="columns">
     </p-multiSelect>
-    <span class="float: right" *ngIf="(tasks | async) != null">
-      {{ (tasks|async)?.length }} Tasks returned
+    <span style="float: right" [hidden]="(tasks | async) == null">
+      {{ (tasks|async)?.length }} tasks returned
     </span>
   </div>
 

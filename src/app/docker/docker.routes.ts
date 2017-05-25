@@ -1,8 +1,9 @@
 import {Route} from '@angular/router';
 import {DockerDashboardComponent} from './docker-dashboard/docker-dashboard.component';
-import {DockerRouteComponent} from './docker-route/docker-route.component';
+import {DockerRouteComponent} from './docker-routes/docker-route.component';
 import {DockerTaskListComponent} from './docker-tasks/task-list/docker-task-list.component';
 import {DockerServiceListComponent} from './docker-services/service-list/docker-service-list.component';
+import {ContainerListComponent} from './docker-containers/container-list/container-list.component';
 
 export const DOCKER_ROUTES: Route[] = [
   {
@@ -37,6 +38,14 @@ export const DOCKER_ROUTES: Route[] = [
               path: '',
               pathMatch: 'full',
               component: DockerTaskListComponent,
+            }],
+          },
+          {
+            path: 'containers',
+            children: [{
+              path: '',
+              pathMatch: 'full',
+              component: ContainerListComponent,
             }],
           },
         ],

@@ -1,0 +1,44 @@
+<span class="column" [ngSwitch]="column" *ngIf="container != null">
+   <span *ngSwitchDefault>
+    {{container[columnData.field]}}
+  </span>
+  <span *ngSwitchCase="containerColumn.IMAGE_ID">
+    <app-unique-id [id]="container.imageId"
+                   [routerLink]="['/images', container.imageId]"></app-unique-id>
+  </span>
+   <span *ngSwitchCase="containerColumn.ID">
+    <app-unique-id [id]="container.id"
+                   [routerLink]="['/containers', container.id]"></app-unique-id>
+  </span>
+  <span *ngSwitchCase="containerColumn.PORTS">
+    <span class="port-mapping" *ngFor="let port of container.ports">
+      <span class="type">
+        {{port?.Type}}
+      </span>
+      <span class="private">
+        {{ port?.PrivatePort}}
+      </span>
+      <span class="public" [hidden]="port?.PublicPort == null">
+        :{{port?.PublicPort}}
+      </span>
+    </span>
+  </span>
+
+  <span class="labels" *ngSwitchCase="containerColumn.LABELS">
+    <app-labels [labels]="container.labels" [tooltip]="true"></app-labels>
+  </span>
+
+  <span *ngSwitchCase="containerColumn.MOUNTS">
+    <span class="mount" *ngFor="let mount of container.mounts">
+      <span class="src">
+        {{mount.name == null ? mount.source : mount.name }}
+      </span>
+      <span class="dest">
+        :{{ mount.destination}}
+      </span>
+      <span class="mode" [hidden]="mount.mode == null">
+        :{{mount.mode}}
+      </span>
+    </span>
+  </span>
+</span>

@@ -1,22 +1,27 @@
 .image-label {
-  display: inline-block;
+  display: flex;
   font-size: .9em;
+
   > *:not([hidden]) {
-    display: inline-block;
-    vertical-align: middle;
     margin: 0;
     padding: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   > .host:not([hidden]) {
+    flex: 0 .6 auto;
   }
   > .label:not([hidden]) {
+    flex: 0 0 auto;
     font-weight: bold;
   }
   > .tag:not([hidden]) {
+    flex: 0 .3  auto;
   }
   > .checksum:not([hidden]) {
-    max-width: 1em;
+    flex: 0 1 3em;
     overflow: hidden;
     white-space: nowrap;
   }

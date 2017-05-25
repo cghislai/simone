@@ -1,9 +1,22 @@
 .container {
   display: inline-block;
-  > .led {
-    display: inline-block;
+  position: relative;
+  width: 1em;
+  height: 1em;
+
+  > * {
+    position: absolute;
     width: 1em;
     height: 1em;
+  }
+  > .led:not([hidden]) {
+    display: inline-block;
     border-radius: .5em;
   }
+  > .busy:not([hidden]) {
+    display: inline-block;
+    z-index: 1;
+    border-radius: .5em;
+  }
+
 }

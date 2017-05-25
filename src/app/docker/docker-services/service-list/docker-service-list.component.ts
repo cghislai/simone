@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Service} from '../../domain/services/service';
 import {Observable} from 'rxjs/Observable';
 import {SERVICE_COLUMNS, ServiceColumn, SERVICES_COLUMN_DATA} from './service-column';
@@ -7,19 +7,22 @@ import {DockerService} from '../../services/docker.service';
 import {DockerServicesService} from '../../services/docker-services.service';
 import {ServiceFilter} from '../../domain/services/service-filter';
 import {ActivatedRoute, Params, Router} from '@angular/router';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-docker-service-list',
   templateUrl: './docker-service-list.component.html',
   styleUrls: ['./docker-service-list.component.scss'],
 })
-export class DockerServiceListComponent implements OnInit {
+export class DockerServiceListComponent implements OnInit, OnDestroy {
 
 
   services: Observable<Service[]>;
   columns: ServiceColumn[];
   columnOptions: SelectItem[];
   filter: ServiceFilter;
+
+  private subscription: Subscription;
 
   constructor(private dockerService: DockerService,
               private activatedRoute: ActivatedRoute,
@@ -29,9 +32,10 @@ export class DockerServiceListComponent implements OnInit {
 
   ngOnInit() {
     this.dockerService.ping();
-    this.services = this.dockerService.getPingResultObservable()
+    this.services = this.dockerService.getReachableObservable()
       .filter(rechable => rechable)
-      .mergeMap(r => this.onHeartbeat());
+      .mergeMap(r => this.fetchServices())
+      .share();
     this.columns = [...SERVICE_COLUMNS];
     this.columnOptions = SERVICE_COLUMNS
       .map(col => <SelectItem>{
@@ -39,8 +43,12 @@ export class DockerServiceListComponent implements OnInit {
         label: this.getColumnLabel(col),
       });
     this.filter = {id: [], label: [], name: []};
-    this.activatedRoute.params
+    this.subscription = this.activatedRoute.params
       .subscribe(params => this.onRouteParamsChange(params));
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   onFilterChange(filter: ServiceFilter) {
@@ -72,17 +80,17 @@ export class DockerServiceListComponent implements OnInit {
 
   private onRouteParamsChange(params: Params) {
     let filter = Object.assign({}, this.filter);
-    var touched = false;
-    filter.id = this.extractRouteParam(params['id']);
-    filter.name = this.extractRouteParam(params['name']);
-    filter.label = this.extractRouteParam(params['label']);
+    filter.id = this.extractRouteParamArray(params['id']);
+    filter.name = this.extractRouteParamArray(params['name']);
+    filter.label = this.extractRouteParamArray(params['label']);
 
     this.filter = filter;
     this.dockerService.ping();
   }
 
-  private onHeartbeat() {
-    return this.serviceService.list(this.filter);
+  private fetchServices() {
+    return this.serviceService.list(this.filter)
+      .catch(e=>Observable.of([]));
   }
 
   private reduceToRouteParam(array: string[]): string {
@@ -91,7 +99,7 @@ export class DockerServiceListComponent implements OnInit {
     }, null);
   }
 
-  private extractRouteParam(param: string): string[] {
+  private extractRouteParamArray(param: string): string[] {
     if (param == null) {
       return [];
     }

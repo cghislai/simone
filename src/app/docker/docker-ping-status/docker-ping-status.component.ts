@@ -16,7 +16,7 @@ import {Observable} from 'rxjs/Observable';
   selector: 'app-docker-ping-status',
   templateUrl: './docker-ping-status.component.html',
   styleUrls: ['./docker-ping-status.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   animations: [
     trigger('blink', [
       state('noblink', style({
@@ -45,32 +45,29 @@ export class DockerPingStatusComponent implements OnInit {
 
   blink: Observable<string>;
   active: Observable<string>;
+  busy: Observable<boolean>;
 
   constructor(private service: DockerService,
               private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {
-    let pingResult = this.service.getPingResultObservable();
+    let pingResult = this.service.getReachableObservable();
     let started = this.service.getStartedObservable();
     this.active = Observable.combineLatest(pingResult, started)
       .map(results => {
         let isReachable = results[0];
         let isStarted = results[1];
         return isStarted ? (isReachable ? 'online' : 'unreachable') : 'offline';
-      })
-      .do(c => this.cd.detectChanges())
-      .share();
-    this.blink = this.service.getPingResultObservable()
-      .do(c => this.cd.detectChanges())
-      .map(s => Observable.timer(0, 100)
+      });
+    this.blink = this.service.getReachableObservable()
+      // .do(c => this.cd.detectChanges())
+      .mergeMap(s => Observable.timer(0, 100)
         .take(2)
         .map(r => r === 0))
-      .mergeMap(r => r)
-      .map(r => r ? 'noblink' : 'blink')
-      .distinctUntilChanged()
-      .do(c => this.cd.detectChanges())
+      .map(r => r ? 'blink' : 'noblink')
       .share();
+    this.busy = this.service.getBusyObservable();
   }
 
 }

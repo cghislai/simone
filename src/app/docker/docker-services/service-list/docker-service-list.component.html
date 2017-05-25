@@ -9,6 +9,9 @@
     <p-multiSelect [options]="columnOptions" name="columns"
                    [(ngModel)]="columns">
     </p-multiSelect>
+    <span style="float: right"[hidden]="(services | async) == null">
+      {{ (services|async)?.length }} services returned
+    </span>
   </div>
 
   <p-dataTable [value]="services | async">

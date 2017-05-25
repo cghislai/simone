@@ -26,7 +26,6 @@ import {DockerMenuBarComponent} from './docker-menu-bar/docker-menu-bar.componen
 import {DockerDashboardComponent} from './docker-dashboard/docker-dashboard.component';
 import {DockerServicesService} from './services/docker-services.service';
 import {DockerImageLabelComponent} from './docker-image-label/docker-image-label.component';
-import {DockerTaskComponent} from './docker-tasks/docker-task.component';
 import {DockerTaskListComponent} from './docker-tasks/task-list/docker-task-list.component';
 import {DockerTasksService} from './services/docker-tasks.service';
 import {ServiceModeComponent} from './docker-services/service-mode/service-mode.component';
@@ -34,11 +33,17 @@ import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {DOCKER_ROUTES} from './docker.routes';
 import {DockerTaskColumnComponent} from './docker-tasks/task-list/task-column/docker-task-column.component';
-import {DockerRouteComponent} from './docker-route/docker-route.component';
+import {DockerRouteComponent} from './docker-routes/docker-route.component';
 import {ServiceFilterComponent} from './docker-services/service-list/service-filter/service-filter.component';
 import {DockerServiceListComponent} from './docker-services/service-list/docker-service-list.component';
 import {DockerServiceColumnComponent} from './docker-services/service-list/service-column/docker-service-column.component';
 import {TaskFilterComponent} from './docker-tasks/task-list/task-filter/task-filter.component';
+import { ContainerListComponent } from './docker-containers/container-list/container-list.component';
+import { ContainerColumnComponent } from './docker-containers/container-list/container-column/container-column.component';
+import { ContainerFilterComponent } from './docker-containers/container-list/container-filter/container-filter.component';
+import {DockerContainersService} from './services/docker-containers.service';
+import { UniqueIdComponent } from './unique-id/unique-id.component';
+import { LabelsComponent } from './labels/labels.component';
 
 @NgModule({
   imports: [
@@ -69,7 +74,6 @@ import {TaskFilterComponent} from './docker-tasks/task-list/task-filter/task-fil
     DockerDashboardComponent,
     DockerServiceListComponent,
     DockerImageLabelComponent,
-    DockerTaskComponent,
     DockerTaskListComponent,
     DockerServiceColumnComponent,
     ServiceModeComponent,
@@ -77,6 +81,11 @@ import {TaskFilterComponent} from './docker-tasks/task-list/task-filter/task-fil
     DockerRouteComponent,
     ServiceFilterComponent,
     TaskFilterComponent,
+    ContainerListComponent,
+    ContainerColumnComponent,
+    ContainerFilterComponent,
+    UniqueIdComponent,
+    LabelsComponent,
   ],
   exports: [
     RouterModule,
@@ -89,6 +98,7 @@ import {TaskFilterComponent} from './docker-tasks/task-list/task-filter/task-fil
     DockerService,
     DockerServicesService,
     DockerTasksService,
+    DockerContainersService,
   ],
 })
 export class DockerModule {

@@ -1,0 +1,29 @@
+<div class="container-list ui-widget">
+  <app-container-filter name="filter"
+                        [ngModel]="filter"
+                        (ngModelChange)="onFilterChange($event)"
+  ></app-container-filter>
+
+  <div class="columns-filter">
+    Columns:
+    <p-multiSelect [options]="columnOptions" name="columns"
+                   [(ngModel)]="columns">
+    </p-multiSelect>
+    <span style="float: right" [hidden]="(containers | async) == null">
+      {{ (containers|async)?.length }} containers returned
+    </span>
+  </div>
+
+  <p-dataTable [value]="containers | async">
+    <p-column *ngFor="let column of columns"
+              [sortable]="true"
+              [sortField]="getColumnField(column)"
+              [header]="getColumnLabel(column)">
+      <template let-col let-container="rowData" let-rowIndex="rowIndex" pTemplate="body">
+        <app-container-column [column]="column"
+                              [container]="container"
+        ></app-container-column>
+      </template>
+    </p-column>
+  </p-dataTable>
+</div>

@@ -1,0 +1,40 @@
+<form class="filter ui-wdiget">
+  <span>
+    <label>Id</label>
+    <p-chips name="id"
+             [ngModel]="ids"
+             (ngModelChange)="onIdChange($event)">
+    </p-chips>
+  </span>
+
+  <span>
+    <label>Name</label>
+    <p-chips name="name"
+             [ngModel]="names"
+             (ngModelChange)="onNamesChange($event)">
+    </p-chips>
+  </span>
+
+  <span>
+    <label>Labels</label>
+    <p-chips name="labels"
+             [ngModel]="labels"
+             (ngModelChange)="onLabelsChange($event)">
+    </p-chips>
+  </span>
+  <span>
+    <label>Include stopped</label>
+    <p-toggleButton name="stopped"
+                    [ngModel]="includeStopped"
+                    (ngModelChange)="onInludeStoppedChange($event)"
+    ></p-toggleButton>
+  </span>
+  <span>
+    <label>Include tasks</label>
+    <p-selectButton name="stopped"
+                    [ngModel]="isTask"
+                    (ngModelChange)="onIsTaskChange($event)"
+                    [options]="isTaskOptions"
+    ></p-selectButton>
+  </span>
+</form>

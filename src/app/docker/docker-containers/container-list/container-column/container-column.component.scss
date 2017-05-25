@@ -1,0 +1,14 @@
+.column {
+  .port-mapping {
+    margin: .3em;
+    display: inline-block;
+
+    .type {
+      font-size: .8em;
+      font-weight: 300;
+    }
+  }
+  .labels {
+    white-space: nowrap;
+  }
+}

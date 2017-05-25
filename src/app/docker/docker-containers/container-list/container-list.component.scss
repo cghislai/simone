@@ -1,0 +1,20 @@
+.container-list {
+  .filter {
+    margin: 1em;
+
+    >* {
+      display: inline-block;
+      margin: .5em;
+    }
+  }
+
+  .columns-filter {
+    display: flex;
+    align-items: center;
+
+    >* {
+      flex: 0 0 auto;
+      margin: .3em;
+    }
+  }
+}

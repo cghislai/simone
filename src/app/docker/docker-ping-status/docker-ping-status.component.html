@@ -3,4 +3,8 @@
         [@active]="active | async"
         [@blink]="blink | async">
   </span>
+  <span class="busy"
+        [hidden]="!(busy | async)">
+    <i class="fa fa-refresh"></i>
+  </span>
 </div>

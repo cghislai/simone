@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {DockerTasksService} from '../../services/docker-tasks.service';
 import {DockerService} from '../../services/docker.service';
@@ -7,19 +7,21 @@ import {SelectItem} from 'primeng/primeng';
 import {Task} from '../../domain/tasks/task';
 import {TaskFilter} from '../../domain/tasks/task-filter';
 import {ActivatedRoute, Params, Router} from '@angular/router';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-docker-task-list',
   templateUrl: './docker-task-list.component.html',
   styleUrls: ['./docker-task-list.component.scss'],
 })
-export class DockerTaskListComponent implements OnInit {
-
+export class DockerTaskListComponent implements OnInit, OnDestroy {
 
   tasks: Observable<Task[]>;
   columns: TaskColumn[];
   columnOptions: SelectItem[];
   filter: TaskFilter;
+
+  private subscription: Subscription;
 
   constructor(private dockerService: DockerService,
               private activatedRoute: ActivatedRoute,
@@ -29,9 +31,10 @@ export class DockerTaskListComponent implements OnInit {
 
   ngOnInit() {
     this.dockerService.ping();
-    this.tasks = this.dockerService.getPingResultObservable()
+    this.tasks = this.dockerService.getReachableObservable()
       .filter(rechable => rechable)
-      .mergeMap(r => this.onHeartbeat());
+      .mergeMap(r => this.fetchTasks())
+      .share();
     this.columns = [...TASK_COLUMNS];
     this.columnOptions = TASK_COLUMNS
       .map(col => <SelectItem>{
@@ -39,8 +42,12 @@ export class DockerTaskListComponent implements OnInit {
         label: this.getColumnLabel(col),
       });
     this.filter = {id: [], label: [], name: [], node: [], service: [], desiredState: []};
-    this.activatedRoute.params
+    this.subscription = this.activatedRoute.params
       .subscribe(params => this.onRouteParamsChange(params));
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   onFilterChange(filter: TaskFilter) {
@@ -92,8 +99,9 @@ export class DockerTaskListComponent implements OnInit {
     this.dockerService.ping();
   }
 
-  private onHeartbeat() {
-    return this.tasksService.list(this.filter);
+  private fetchTasks() {
+    return this.tasksService.list(this.filter)
+      .catch(e=>Observable.of([]));
   }
 
   private reduceToRouteParam(array: string[]): string {

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DockerTaskComponent } from './docker-task.component';
+import { LabelsComponent } from './labels.component';
 
-describe('DockerTaskComponent', () => {
-  let component: DockerTaskComponent;
-  let fixture: ComponentFixture<DockerTaskComponent>;
+describe('LabelsComponent', () => {
+  let component: LabelsComponent;
+  let fixture: ComponentFixture<LabelsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DockerTaskComponent ]
+      declarations: [ LabelsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DockerTaskComponent);
+    fixture = TestBed.createComponent(LabelsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
