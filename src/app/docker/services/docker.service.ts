@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable, Subscription} from 'rxjs';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import * as moment from 'moment';
+import {DockerOptionsService} from './docker-options.service';
 
 /**
  * Created by cghislai on 11/02/17.
@@ -16,11 +17,18 @@ export class DockerService {
   private subscription: Subscription;
 
 
+  private pingDelay: number = 6000;
   private pingBackOffMs: number = 100;
   private firstPingFailure: moment.Moment;
   private lastPingFailure: moment.Moment;
 
-  constructor(private client: DockerClient) {
+  constructor(private client: DockerClient,
+              private optionsService: DockerOptionsService) {
+    this.optionsService.getOptions()
+      .subscribe(options => {
+        this.pingDelay = options.heartbeatDelay;
+        this.startClient();
+      });
   }
 
   startClient() {
@@ -50,12 +58,16 @@ export class DockerService {
     return this.clientReachable;
   }
 
-  info() {
-    return this.client.info();
+  ping() {
+    this.doTryPing()
+      .subscribe(reachable => this.clientReachable.next(reachable));
   }
 
   private initClientPing() {
-    let timerSubscription = Observable.timer(0, 3000)
+    if (this.pingDelay <= 0) {
+      return;
+    }
+    let timerSubscription = Observable.timer(0, this.pingDelay*1000)
       .mergeMap(t => this.doTryPing())
       .subscribe(reachable => this.clientReachable.next(reachable));
 
@@ -82,7 +94,7 @@ export class DockerService {
   }
 
   private onClientUnreachable() {
-    let backoff = Math.max(100, this.pingBackOffMs);
+    let backoff = Math.max(500, this.pingBackOffMs);
     this.pingBackOffMs = Math.min(backoff * 2, 3 * 60000);
     this.lastPingFailure = moment().utc();
     if (this.firstPingFailure == null) {

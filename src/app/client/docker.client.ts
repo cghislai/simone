@@ -4,60 +4,43 @@ import {Injectable} from '@angular/core';
 import {DockerOptionsService} from '../docker/services/docker-options.service';
 import {RequestOptions} from './request-options';
 import * as Dockerode from 'dockerode';
-import {DockerOptions} from 'dockerode';
 import {ServiceJson} from './domain/service';
 import {TaskJson} from './domain/task';
-import {TaskFilterJson} from './domain/task-filter';
-
-/**
- * Created by cghislai on 11/02/17.
- */
+import {FilterJson} from './domain/filter';
+import {SimoneDockerOptions} from '../docker/domain/docker-options';
 
 
 @Injectable()
 export class DockerClient {
 
+  private dockerode: Dockerode;
 
   constructor(private optionsService: DockerOptionsService,
               private http: Http) {
+    this.dockerode = new Dockerode();
+    this.optionsService.getOptions()
+      .subscribe(options => this.onOptionsChanged(options));
   }
-
 
   listTasks(filterJson?: any): Observable<TaskJson[]> {
-    let docker = new Dockerode(this.getDockerOptions());
-    return this.dockerRequest(cb => docker.listTasks(filterJson, cb));
+    return this.dockerRequest(cb => this.dockerode.listTasks(filterJson, cb));
   }
 
-  listServices(): Observable<ServiceJson[]> {
-    let docker = new Dockerode(this.getDockerOptions());
-    return this.dockerRequest(cb => docker.listServices(cb));
+  listServices(filter?: FilterJson): Observable<ServiceJson[]> {
+    return this.dockerRequest(cb => this.dockerode.listServices(filter, cb));
   }
 
   info(): Observable<any> {
-    let docker = new Dockerode(this.getDockerOptions());
-    return this.dockerRequest(cb => docker.info(cb));
+    return this.dockerRequest(cb => this.dockerode.info(cb));
   }
 
 
   ping(): Observable<any> {
-    let docker = new Dockerode(this.getDockerOptions());
-    return this.dockerRequest(cb => docker.ping(cb));
+    return this.dockerRequest(cb => this.dockerode.ping(cb));
   }
 
-  private getDockerOptions() {
-    return <DockerOptions>this.optionsService.getOptions();
-  }
-
-  private createOptions(arg: any): RequestOptions {
-    let dockerOptions = Object.assign({}, this.optionsService.getOptions());
-    return {
-      method: arg.method,
-      path: arg.path,
-      host: dockerOptions.host,
-      protocol: dockerOptions.protocol,
-      port: dockerOptions.port,
-      version: dockerOptions.version,
-    };
+  private onOptionsChanged(options: SimoneDockerOptions) {
+    this.dockerode = new Dockerode(options);
   }
 
   private request(options: RequestOptions): Observable<Response> {

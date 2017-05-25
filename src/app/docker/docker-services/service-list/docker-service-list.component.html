@@ -1,0 +1,26 @@
+<div class="service-list ui-widget">
+  <app-service-filter name="filter"
+                      [ngModel]="filter"
+                      (ngModelChange)="onFilterChange($event)"
+  ></app-service-filter>
+
+  <div class="columns-filter">
+    Columns:
+    <p-multiSelect [options]="columnOptions" name="columns"
+                   [(ngModel)]="columns">
+    </p-multiSelect>
+  </div>
+
+  <p-dataTable [value]="services | async">
+    <p-column *ngFor="let column of columns"
+              [sortable]="true"
+              [sortField]="getColumnField(column)"
+              [header]="getColumnLabel(column)">
+      <template let-col let-service="rowData" let-rowIndex="rowIndex" pTemplate="body">
+        <app-docker-service-column [service]="service"
+                                   [column]="column"
+        ></app-docker-service-column>
+      </template>
+    </p-column>
+  </p-dataTable>
+</div>

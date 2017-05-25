@@ -16,7 +16,6 @@ export class DockerDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dockerService.startClient();
   }
 
 }

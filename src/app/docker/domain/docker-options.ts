@@ -11,5 +11,6 @@ export interface SimoneDockerOptions {
   version?: string,
   protocol?: 'http' | 'https',
   timeout?: number,
+  heartbeatDelay: number,
   socketPath?: string,
 }

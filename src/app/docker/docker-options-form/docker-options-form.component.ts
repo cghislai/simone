@@ -1,9 +1,9 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {SimoneDockerOptions} from '../../domain/docker-options';
 import {DockerOptionsService} from '../services/docker-options.service';
 import {OptionMode} from './option-mode.';
 import {SelectItem} from 'primeng/primeng';
+import {SimoneDockerOptions} from '../domain/docker-options';
 
 @Component({
   selector: 'app-docker-options-form',
@@ -103,7 +103,7 @@ export class DockerOptionsFormComponent implements OnInit, ControlValueAccessor 
   }
 
   private createDefaultOptions() {
-    let options = this.optionsService.getOptions();
+    let options = this.optionsService.getLastOptions();
     this.options = Object.assign({}, options);
     this.optionsMode = OptionMode.REMOTE_HTTP;
     this.tlsEnabled = false;

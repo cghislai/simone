@@ -20,7 +20,7 @@
   </p-panel>
 
   <p-panel header="Options" styleClass="options-panel">
-    <app-docker-options-form [ngModel]="options"
+    <app-docker-options-form [ngModel]="dockerOptions | async"
                              (ngModelChange)="onOptionsChange($event)"
                              (cancel)="onOptionsCancelled()"
     ></app-docker-options-form>

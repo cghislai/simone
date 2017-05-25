@@ -8,7 +8,7 @@
   <span class="mode" *ngSwitchCase="serviceColumn.MODE">
     <app-service-mode [mode]="service.spec.mode.mode"></app-service-mode>
   </span>
-  <span class="replicas" *ngSwitchCase="serviceColumn.REPLCICAS">
+  <span class="replicas" *ngSwitchCase="serviceColumn.REPLICAS">
     {{service.spec.mode.replicas}}
   </span>
   <span class="image" *ngSwitchCase="serviceColumn.IMAGE">

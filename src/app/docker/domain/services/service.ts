@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import {ServiceSpec} from './service-spec';
-import {EndPointJson} from '../../client/domain/endpoint';
+import {EndPointJson} from '../../../client/domain/endpoint';
 
 /**
  * Created by cghislai on 5/22/17.

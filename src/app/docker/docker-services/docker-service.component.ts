@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Service} from '../../domain/services/service';
 import * as moment from 'moment';
+import {Service} from '../domain/services/service';
 
 @Component({
   selector: 'app-docker-service',

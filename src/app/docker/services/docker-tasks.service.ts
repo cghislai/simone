@@ -2,9 +2,9 @@ import {DockerClient} from '../../client/docker.client';
 import {Injectable} from '@angular/core';
 import * as moment from 'moment';
 import {Observable} from 'rxjs/Observable';
-import {Task} from '../../domain/tasks/task';
 import {TaskJson} from '../../client/domain/task';
-import {TaskFilter} from '../../client/domain/task-filter';
+import {FilterJson} from '../../client/domain/filter';
+import {Task} from '../domain/tasks/task';
 
 /**
  * Created by cghislai on 11/02/17.
@@ -16,13 +16,7 @@ export class DockerTasksService {
   constructor(private client: DockerClient) {
   }
 
-  list(filter?: TaskFilter): Observable<Task[]> {
-    let filterJson = null;
-    if (filter != null) {
-      filterJson = {
-        filters: JSON.stringify(filter.filters)
-      };
-    }
+  list(filter?: FilterJson): Observable<Task[]> {
     return this.client.listTasks(filter)
       .map(tasks => tasks.map(s => this.mapTaskJson(s)));
   }

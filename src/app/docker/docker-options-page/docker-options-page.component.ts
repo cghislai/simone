@@ -1,10 +1,10 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {DockerService} from '../services/docker.service';
-import {SimoneDockerOptions} from '../../domain/docker-options';
 import {DockerOptionsService} from '../services/docker-options.service';
 import {Message} from 'primeng/primeng';
 import {Observable} from 'rxjs/Observable';
-import {DockerOptions} from 'dockerode';
+import {SimoneDockerOptions} from '../domain/docker-options';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-docker-options-page',
@@ -16,8 +16,8 @@ export class DockerOptionsPageComponent implements OnInit {
 
   messages: Message[] = [];
   clientStated: Observable<boolean>;
-  options: DockerOptions;
-
+  dockerOptions: Observable<SimoneDockerOptions>;
+  subscription: Subscription;
 
   constructor(private dockerService: DockerService,
               private optionsService: DockerOptionsService) {
@@ -25,12 +25,13 @@ export class DockerOptionsPageComponent implements OnInit {
 
   ngOnInit() {
     this.clientStated = this.dockerService.getStartedObservable();
-    this.options = this.optionsService.getOptions();
+    this.dockerOptions = this.optionsService.getOptions()
+      .map(options => Object.assign({}, options));
+    this.subscription = new Subscription();
   }
 
   onOptionsChange(options: SimoneDockerOptions) {
     this.optionsService.setOptions(options);
-    this.options = options;
     this.messages.push({
       severity: 'success',
       summary: 'Saved',
@@ -39,7 +40,8 @@ export class DockerOptionsPageComponent implements OnInit {
   }
 
   onOptionsCancelled() {
-    this.options = this.optionsService.getOptions();
+    let options = this.optionsService.getLastOptions();
+    this.optionsService.setOptions(options);
     this.messages.push({
       severity: 'info',
       summary: 'Restored',

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Task} from '../../domain/tasks/task';
 import * as moment from 'moment';
+import {Task} from '../domain/tasks/task';
 
 @Component({
   selector: 'app-docker-task',

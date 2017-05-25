@@ -35,10 +35,19 @@
   </div>
   <div class="row">
     <label>Timeout</label>
-    <input type="text" pInputText
+    <input type="number" pInputText min="5"
            [(ngModel)]="options.timeout"
-           name="timeout">
+           name="timeout"> second
   </div>
+  <div class="row">
+    <label>Heartbeat</label>
+    <div [hidden]="options.heartbeatDelay > 0">(Inacive)</div>
+    <input type="number" pInputText min="0"
+           [(ngModel)]="options.heartbeatDelay"
+           name="timeout"> second
+  </div>
+
+
   <div class="row" [hidden]="!tlsEnabled">
     <label>Ca</label>
     <div class="row  wrap spacing">

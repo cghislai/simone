@@ -1,11 +1,24 @@
 <div class="menubar">
+  <span class="group-left">
+    <a [routerLink]="['/docker/services']"
+       class="action"
+       routerLinkActive="active">
+      <i class="fa fa-anchor"></i>
+      Services
+    </a>
+     <a routerLink="/docker/tasks" class="action"
+        routerLinkActive="active">
+      <i class="fa fa-anchor"></i>
+      Tasks
+    </a>
+  </span>
   <span class="group-right">
-    <span class="icon-link options-icon"
+    <span class="icon-link options-icon action"
           [class.active]="optionsOverlay.visible"
           (click)="optionsOverlay.toggle($event)">
       <i class="fa fa-gear"></i>
     </span>
-      <app-docker-ping-status></app-docker-ping-status>
+    <app-docker-ping-status></app-docker-ping-status>
   </span>
 </div>
 

@@ -1,5 +1,20 @@
 <div class="task-list">
-  <div *ngFor="let task of (tasks | async)" class="task-row">
-    <app-docker-task [task]="task"></app-docker-task>
-  </div>
+
+  <p-multiSelect [options]="columnOptions"
+                 [(ngModel)]="columns">
+  </p-multiSelect>
+
+  <p-dataTable [value]="tasks | async">
+    <p-column *ngFor="let column of columns"
+              [sortable]="true"
+              [field]="getColumnField(column)"
+              [sortField]="getColumnField(column)"
+              [header]="getColumnLabel(column)">
+      <template let-col let-task="rowData" let-rowIndex="rowIndex" pTemplate="body">
+        <app-docker-task-column [task]="task"
+                                [column]="column"
+        ></app-docker-task-column>
+      </template>
+    </p-column>
+  </p-dataTable>
 </div>

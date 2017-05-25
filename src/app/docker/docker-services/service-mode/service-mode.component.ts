@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ServiceMode} from '../../../domain/services/service-mode';
+import {ServiceMode} from '../../domain/services/service-mode';
 
 @Component({
   selector: 'app-service-mode',

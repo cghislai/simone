@@ -5,6 +5,8 @@ import {HttpModule} from '@angular/http';
 
 import {AppComponent} from './app.component';
 import {DockerModule} from './docker/docker.module';
+import {RouterModule} from '@angular/router';
+import {APP_ROUTES} from './app.routes';
 
 @NgModule({
   declarations: [
@@ -14,6 +16,7 @@ import {DockerModule} from './docker/docker.module';
     BrowserModule,
     FormsModule,
     HttpModule,
+    RouterModule.forRoot(APP_ROUTES),
 
     DockerModule,
   ],

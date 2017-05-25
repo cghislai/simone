@@ -8,9 +8,8 @@
   > * {
     flex: 1 1 auto;
   }
-  > .group-right {
+  > .group-right, > .group-left {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
 
     > * {
@@ -19,15 +18,31 @@
       padding: .2em;
     }
   }
+  > .group-left {
+    justify-content: flex-start;
+  }
+  > .group-right {
+    justify-content: flex-end;
+  }
 
-  .icon-link:not([hidden]) {
-    font-size: 1.1em;
+  .action:not([hidden]) {
     &:hover {
       background-color: rgba(255, 255, 255, .4);
       cursor: pointer;
+      transform: scale(1.2);
     }
     &.active {
-      background-color: white;
+      background-color: yellow;
+      color: black;
     }
+  }
+  .icon-link:not([hidden]) {
+    font-size: 1.1em;
+
+  }
+
+  a:not([hiden]) {
+    color: yellow;
+    text-decoration: none;
   }
 }
