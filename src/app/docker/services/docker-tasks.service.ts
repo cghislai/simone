@@ -5,6 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {TaskJson} from '../../client/domain/task';
 import {FilterJson} from '../../client/domain/filter';
 import {Task} from '../domain/tasks/task';
+import {TaskFilter} from '../domain/tasks/task-filter';
 
 /**
  * Created by cghislai on 11/02/17.
@@ -16,8 +17,9 @@ export class DockerTasksService {
   constructor(private client: DockerClient) {
   }
 
-  list(filter?: FilterJson): Observable<Task[]> {
-    return this.client.listTasks(filter)
+  list(filter?: TaskFilter): Observable<Task[]> {
+    let filterJson = this.mapTaskFilterJson(filter);
+    return this.client.listTasks(filterJson)
       .map(tasks => tasks.map(s => this.mapTaskJson(s)));
   }
 
@@ -37,4 +39,14 @@ export class DockerTasksService {
     };
   }
 
+  private mapTaskFilterJson(filter: TaskFilter): FilterJson {
+    let json: FilterJson = {filters: {}};
+    json.filters['id'] = filter.id;
+    json.filters['name'] = filter.name;
+    json.filters['label'] = filter.label;
+    json.filters['desired-state'] = filter.desiredState;
+    json.filters['service'] = filter.service;
+    json.filters['node'] = filter.node;
+    return json;
+  }
 }

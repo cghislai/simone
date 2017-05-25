@@ -19,6 +19,7 @@ export interface Task {
     Timestamp: string;
     State: string;
     Message: string;
+    Err?: string;
     ContainerStatus: {
       ContainerID: string;
       PID: number;

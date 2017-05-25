@@ -25,20 +25,20 @@ import {DockerPingStatusComponent} from './docker-ping-status/docker-ping-status
 import {DockerMenuBarComponent} from './docker-menu-bar/docker-menu-bar.component';
 import {DockerDashboardComponent} from './docker-dashboard/docker-dashboard.component';
 import {DockerServicesService} from './services/docker-services.service';
-import {DockerServiceComponent} from './docker-services/docker-service.component';
 import {DockerImageLabelComponent} from './docker-image-label/docker-image-label.component';
-import {DockerTaskComponent} from './docker-task/docker-task.component';
-import {DockerTaskListComponent} from './docker-task-list/docker-task-list.component';
+import {DockerTaskComponent} from './docker-tasks/docker-task.component';
+import {DockerTaskListComponent} from './docker-tasks/task-list/docker-task-list.component';
 import {DockerTasksService} from './services/docker-tasks.service';
 import {ServiceModeComponent} from './docker-services/service-mode/service-mode.component';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {DOCKER_ROUTES} from './docker.routes';
-import {DockerTaskColumnComponent} from './docker-task-list/docker-task-column/docker-task-column.component';
+import {DockerTaskColumnComponent} from './docker-tasks/task-list/task-column/docker-task-column.component';
 import {DockerRouteComponent} from './docker-route/docker-route.component';
 import {ServiceFilterComponent} from './docker-services/service-list/service-filter/service-filter.component';
 import {DockerServiceListComponent} from './docker-services/service-list/docker-service-list.component';
 import {DockerServiceColumnComponent} from './docker-services/service-list/service-column/docker-service-column.component';
+import {TaskFilterComponent} from './docker-tasks/task-list/task-filter/task-filter.component';
 
 @NgModule({
   imports: [
@@ -67,7 +67,6 @@ import {DockerServiceColumnComponent} from './docker-services/service-list/servi
     DockerPingStatusComponent,
     DockerMenuBarComponent,
     DockerDashboardComponent,
-    DockerServiceComponent,
     DockerServiceListComponent,
     DockerImageLabelComponent,
     DockerTaskComponent,
@@ -77,6 +76,7 @@ import {DockerServiceColumnComponent} from './docker-services/service-list/servi
     DockerTaskColumnComponent,
     DockerRouteComponent,
     ServiceFilterComponent,
+    TaskFilterComponent,
   ],
   exports: [
     RouterModule,

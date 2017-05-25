@@ -1,4 +1,4 @@
-import {ColumnData} from '../domain/column-data';
+import {ColumnData} from '../../domain/column-data';
 
 export enum TaskColumn {
   ID,

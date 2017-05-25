@@ -1,7 +1,7 @@
 import {Route} from '@angular/router';
 import {DockerDashboardComponent} from './docker-dashboard/docker-dashboard.component';
 import {DockerRouteComponent} from './docker-route/docker-route.component';
-import {DockerTaskListComponent} from './docker-task-list/docker-task-list.component';
+import {DockerTaskListComponent} from './docker-tasks/task-list/docker-task-list.component';
 import {DockerServiceListComponent} from './docker-services/service-list/docker-service-list.component';
 
 export const DOCKER_ROUTES: Route[] = [

@@ -1,0 +1,24 @@
+<span class="column" [ngSwitch]="column" *ngIf="task != null">
+
+  <span class="created date" *ngSwitchCase="taskColumn.CREATED_AT">
+    {{task.createdAt | date:medium }}
+  </span>
+  <span class="updated date" *ngSwitchCase="taskColumn.UPDATED_AT">
+    {{task.updatedAt | date:medium }}
+  </span>
+   <span class="state" *ngSwitchCase="taskColumn.STATE">
+    {{task.status.State}}
+  </span>
+   <span class="message" *ngSwitchCase="taskColumn.MESSAGE">
+    {{task.status.Message }} {{ task.status.Err}}
+  </span>
+  <span class="image" *ngSwitchCase="taskColumn.IMAGE">
+    <app-docker-image-label [label]="task.spec.ContainerSpec.Image"></app-docker-image-label>
+  </span>
+  <span class="container" *ngSwitchCase="taskColumn.CONTAINER">
+    {{ task.status.ContainerStatus.ContainerID }}
+  </span>
+  <span *ngSwitchDefault>
+      {{task[columnData.field]}}
+  </span>
+</span>

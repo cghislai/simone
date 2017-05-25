@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ServiceColumn} from '../service-column';
+import {ServiceColumn, SERVICES_COLUMN_DATA} from '../service-column';
 import {Service} from '../../../domain/services/service';
+import {ColumnData} from '../../../domain/column-data';
 
 @Component({
   selector: 'app-docker-service-column',
@@ -15,11 +16,13 @@ export class DockerServiceColumnComponent implements OnInit {
   service: Service;
 
   serviceColumn = ServiceColumn;
+  columnData: ColumnData;
 
   constructor() {
   }
 
   ngOnInit() {
+    this.columnData = SERVICES_COLUMN_DATA[this.column];
   }
 
 }

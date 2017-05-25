@@ -1,0 +1,46 @@
+<form class="filter ui-wdiget">
+  <span>
+    <label>Id</label>
+    <p-chips name="id"
+             [ngModel]="ids"
+             (ngModelChange)="onIdChange($event)">
+    </p-chips>
+  </span>
+
+  <span>
+    <label>Name</label>
+    <p-chips name="name"
+             [ngModel]="names"
+             (ngModelChange)="onNamesChange($event)">
+    </p-chips>
+  </span>
+
+  <span>
+    <label>Labels</label>
+    <p-chips name="labels"
+             [ngModel]="labels"
+             (ngModelChange)="onLabelsChange($event)">
+    </p-chips>
+  </span>
+  <span>
+    <label>Desired state</label>
+    <p-chips name="desiredStates"
+             [ngModel]="desiredStates"
+             (ngModelChange)="onStatesChanged($event)">
+    </p-chips>
+  </span>
+  <span>
+    <label>Node</label>
+    <p-chips name="nodes"
+             [ngModel]="nodes"
+             (ngModelChange)="onNodesChange($event)">
+    </p-chips>
+  </span>
+  <span>
+    <label>Service</label>
+    <p-chips name="services"
+             [ngModel]="services"
+             (ngModelChange)="onServicesChange($event)">
+    </p-chips>
+  </span>
+</form>

@@ -1,13 +1,21 @@
-<div class="task-list">
+<div class="task-list ui-widget">
 
-  <p-multiSelect [options]="columnOptions"
-                 [(ngModel)]="columns">
-  </p-multiSelect>
+  <app-task-filter [ngModel]="filter" name="filter"
+                   (ngModelChange)="onFilterChange($event)"></app-task-filter>
+
+  <div class="columns-filter">
+    Columns:
+    <p-multiSelect [options]="columnOptions"
+                   [(ngModel)]="columns">
+    </p-multiSelect>
+    <span class="float: right" *ngIf="(tasks | async) != null">
+      {{ (tasks|async)?.length }} Tasks returned
+    </span>
+  </div>
 
   <p-dataTable [value]="tasks | async">
     <p-column *ngFor="let column of columns"
               [sortable]="true"
-              [field]="getColumnField(column)"
               [sortField]="getColumnField(column)"
               [header]="getColumnLabel(column)">
       <template let-col let-task="rowData" let-rowIndex="rowIndex" pTemplate="body">

@@ -22,7 +22,7 @@ export class DockerClient {
       .subscribe(options => this.onOptionsChanged(options));
   }
 
-  listTasks(filterJson?: any): Observable<TaskJson[]> {
+  listTasks(filterJson?: FilterJson): Observable<TaskJson[]> {
     return this.dockerRequest(cb => this.dockerode.listTasks(filterJson, cb));
   }
 

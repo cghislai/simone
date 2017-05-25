@@ -15,6 +15,7 @@
     <p-column *ngFor="let column of columns"
               [sortable]="true"
               [sortField]="getColumnField(column)"
+              [field]="getColumnField(column)"
               [header]="getColumnLabel(column)">
       <template let-col let-service="rowData" let-rowIndex="rowIndex" pTemplate="body">
         <app-docker-service-column [service]="service"

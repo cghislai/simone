@@ -1,4 +1,7 @@
 <span class="column" [ngSwitch]="column" *ngIf="service != null">
+   <span *ngSwitchDefault>
+    {{service[columnData.field]}}
+  </span>
   <span class="id" *ngSwitchCase="serviceColumn.ID">
     {{service.id}}
   </span>
