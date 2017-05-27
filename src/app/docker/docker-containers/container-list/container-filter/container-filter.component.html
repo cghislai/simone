@@ -23,15 +23,16 @@
     </p-chips>
   </span>
   <span>
-    <label>Include stopped</label>
-    <p-toggleButton name="stopped"
-                    [ngModel]="includeStopped"
-                    (ngModelChange)="onInludeStoppedChange($event)"
-    ></p-toggleButton>
+    <label>State</label>
+     <p-selectButton name="stopped1"
+                     [ngModel]="includeStopped"
+                     (ngModelChange)="onIncludeStoppedChange($event)"
+                     [options]="includeStoppedOptions"
+     ></p-selectButton>
   </span>
   <span>
-    <label>Include tasks</label>
-    <p-selectButton name="stopped"
+    <label>Tasks</label>
+    <p-selectButton name="is-task"
                     [ngModel]="isTask"
                     (ngModelChange)="onIsTaskChange($event)"
                     [options]="isTaskOptions"

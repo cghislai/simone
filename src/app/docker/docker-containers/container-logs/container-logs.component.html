@@ -1,0 +1,65 @@
+<div class="log">
+  <p-blockUI [blocked]="connecting || !(connected | async)"
+             [target]="logs"
+  >
+  </p-blockUI>
+
+  <p-panel #logs>
+    <div class="blocked-reason ui-widget" [hidden]="!connecting || (connected | async)">
+      <div *ngIf="connecting">Connecting...</div>
+      <!--<a *ngIf="connecting" (click)="cancelConnection()">Cancel</a>-->
+      <span *ngIf="!connecting">Disconnected</span>
+    </div>
+
+    <div class="filter label-table">
+      <span class="row">
+        <label>Streams</label>
+        <span>
+          <p-toggleButton [ngModel]="filter.stdIn"
+                          (ngModelChange)="onFilterStdInChange($event)"
+                          name="stdIn" onLabel="std in" offLabel="std in"
+          ></p-toggleButton>
+           <p-toggleButton [ngModel]="filter.stdOut"
+                           (ngModelChange)="onFilterStdOutChange($event)"
+                           name="stdOut" onLabel="std out" offLabel="std out"
+           ></p-toggleButton>
+           <p-toggleButton [ngModel]="filter.stdErr"
+                           (ngModelChange)="onFilterStdErrChange($event)"
+                           name="stdErr" onLabel="std Err" offLabel="std err"
+           ></p-toggleButton>
+        </span>
+      </span>
+      <span class="row">
+      <label>Lines buffer</label>
+      <span>
+        <p-spinner name="buffer"
+                   [(ngModel)]="linesBuffer"
+                   (change)="onLinesBufferChange($event)"
+                   [min]="1"></p-spinner>
+      </span>
+    </span>
+      <span class="row">
+      <button pButton type="button" label="Follow"
+              (click)="goto('last-log-line')" [hidden]="isFollowing()"></button>
+      <button pButton type="button" label="Unfollow"
+              (click)="goto('')" [hidden]="!isFollowing()"></button>
+    </span>
+      <span class="row">
+      <button pButton label="Clear" type="button"
+              (click)="clear()"></button>
+    </span>
+    </div>
+    <div class="console">
+      <div *ngFor="let row of (data | async)"
+           [class.err]="row.stream == streams.ERR">
+        {{ row.data }}
+      </div>
+    </div>
+    <a (click)="goto('')" class="bottom-link"
+       *ngIf="(data | async)?.length >  0">
+      Top
+    </a>
+    <span id="last-log-line" class="anchor"></span>
+  </p-panel>
+
+</div>

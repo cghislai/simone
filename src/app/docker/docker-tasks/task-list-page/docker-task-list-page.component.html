@@ -3,11 +3,12 @@
   <app-task-filter [ngModel]="filter" name="filter"
                    (ngModelChange)="onFilterChange($event)"></app-task-filter>
 
-  <div class="columns-filter">
+  <div class="columns-filter ui-widget">
     Columns:
     <p-multiSelect [options]="columnOptions"
                    [(ngModel)]="columns">
     </p-multiSelect>
+
   </div>
 
 

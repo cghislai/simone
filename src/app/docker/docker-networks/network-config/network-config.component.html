@@ -1,0 +1,59 @@
+<div class="config label-table vertical">
+
+  <span class="row">
+    <label>MacAddress</label>
+    <span>{{config.MacAddress}}</span>
+  </span>
+  <span class="row">
+    <label>IPAddress</label>
+    <span>{{config.IPAddress}}</span>
+  </span>
+  <span class="row">
+    <label>IPPrefixLen</label>
+    <span>{{config.IPPrefixLen}}</span>
+  </span>
+  <span class="row">
+    <label>Gateway</label>
+    <span>{{config.Gateway}}</span>
+  </span>
+  <span class="row">
+    <label>Aliases</label>
+    <span>{{config.Aliases}}</span>
+  </span>
+  <span class="row">
+    <label>EndpointID</label>
+    <span>
+      <app-unique-id [id]="config.EndpointID"
+      ></app-unique-id>
+    </span>
+  </span>
+  <span class="row">
+    <label>GlobalIPv6Address</label>
+    <span>{{config.GlobalIPv6Address}}</span>
+  </span>
+  <span class="row">
+    <label>GlobalIPv6PrefixLen</label>
+    <span>{{config.GlobalIPv6PrefixLen}}</span>
+  </span>
+
+  <span class="row">
+    <label>IPv6Gateway</label>
+    <span>{{config.IPv6Gateway}}</span>
+  </span>
+  <span class="row">
+    <label>IPAMConfig</label>
+    <span>{{config.IPAMConfig | json}}</span>
+  </span>
+  <span class="row">
+    <label>Links</label>
+    <span>{{config.Links}}</span>
+  </span>
+  <span class="row">
+    <label>NetworkID</label>
+    <span>
+      <app-unique-id [id]="config.NetworkID"
+      [routerLink]="['/docker/networks', config.NetworkID]"></app-unique-id>
+    </span>
+  </span>
+
+</div>

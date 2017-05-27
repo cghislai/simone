@@ -35,16 +35,19 @@
   </div>
   <div class="row">
     <label>Timeout</label>
-    <input type="number" pInputText min="5"
-           [(ngModel)]="options.timeout"
-           name="timeout"> second
+    <p-spinner [(ngModel)]="options.timeout"
+               name="timeout"
+               [min]="5"
+    ></p-spinner>
   </div>
   <div class="row">
-    <label>Heartbeat</label>
-    <div [hidden]="options.heartbeatDelay > 0">(Inacive)</div>
-    <input type="number" pInputText min="0"
-           [(ngModel)]="options.heartbeatDelay"
-           name="timeout"> second
+    <label>Heartbeat
+      <div [hidden]="options.heartbeatDelay > 0">(Inactive)</div>
+    </label>
+    <p-spinner [(ngModel)]="options.heartbeatDelay"
+               name="heartbeat"
+               [min]="0"
+    ></p-spinner>
   </div>
 
 

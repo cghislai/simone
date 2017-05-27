@@ -3,6 +3,7 @@ import {Http} from '@angular/http';
 import {Injectable, NgZone} from '@angular/core';
 import {DockerOptionsService} from '../docker/services/docker-options.service';
 import * as Dockerode from 'dockerode';
+import {ContainerInspectInfo, ContainerLogsOptions} from 'dockerode';
 import {ServiceJson} from './domain/service';
 import {TaskJson} from './domain/task';
 import {FilterJson} from './domain/filter';
@@ -47,6 +48,14 @@ export class DockerClient {
 
   inspectTask(id: string): Observable<TaskJson> {
     return this.dockerRequest(cb => this.dockerode.getTask(id).inspect(cb));
+  }
+
+  inspectContainer(id: string): Observable<ContainerInspectInfo> {
+    return this.dockerRequest(cb => this.dockerode.getContainer(id).inspect(cb));
+  }
+
+  getContainerLogs(id: string, options: ContainerLogsOptions): Observable<NodeJS.ReadableStream> {
+    return this.dockerRequest(cb => this.dockerode.getContainer(id).logs(options, cb));
   }
 
   info(): Observable<any> {

@@ -9,7 +9,7 @@ export class ContainerSpecJson {
   Args: string[];
   Env: string[];
   Image: string;
-  Labels: { [key: string]: string }
+  Labels: { [key: string]: string };
   Mounts: { Type: string, Source: string, Target: string }[];
   Secrets: SecretSpecJson[];
 }

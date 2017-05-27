@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {ContainerFilter, EMPTY_CONTAINER_FILTER} from '../../domain/containers/container-filter';
 import {SelectItem} from 'primeng/primeng';
 import {CONTAINER_COLUMN_DATA, CONTAINER_COLUMNS, ContainerColumn} from './container-column';
@@ -28,6 +28,7 @@ export class ContainerListComponent implements OnInit, OnDestroy {
   constructor(private dockerService: DockerService,
               private activatedRoute: ActivatedRoute,
               private router: Router,
+              private zone: NgZone,
               private containerService: DockerContainersService) {
   }
 
@@ -59,7 +60,7 @@ export class ContainerListComponent implements OnInit, OnDestroy {
   onFilterChange(filter: ContainerFilter) {
     if (this.activatedRoute != null) {
       let params = {};
-      params['include-stopped'] = filter.includeStopped;
+      params['include-stopped'] = ''+filter.includeStopped;
       if (filter.filters.id.length > 0) {
         params['id'] = this.reduceToRouteParam(filter.filters.id);
       }
@@ -69,10 +70,12 @@ export class ContainerListComponent implements OnInit, OnDestroy {
       if (filter.filters.label.length > 0) {
         params['label'] = this.reduceToRouteParam(filter.filters.label);
       }
-      if (filter.filters.isTask.length > 0) {
+      if (filter.filters.isTask != null && filter.filters.isTask.length > 0) {
         params['is-task'] = this.reduceToRouteParam(filter.filters.isTask
           .map(p => p ? 'true' : 'false'));
       }
+      console.log("filter changed: ");
+      console.log(params);
       this.router.navigate(['../', params], {
         relativeTo: this.activatedRoute,
         replaceUrl: true,
@@ -83,15 +86,17 @@ export class ContainerListComponent implements OnInit, OnDestroy {
 
   private onRouteParamsChange(params: Params) {
     let filter = Object.assign({}, this.filter);
-    filter.includeStopped = params['include-stopped'] === true;
+    filter.includeStopped = params['include-stopped'] === 'true';
+    console.log(params['include-stopped']+" => "+filter.includeStopped);
     filter.filters.id = this.extractRouteParamArray(params['id']);
     filter.filters.name = this.extractRouteParamArray(params['name']);
     filter.filters.label = this.extractRouteParamArray(params['label']);
-    filter.filters.isTask = this.extractRouteParamArray(params['is-task'])
-      .map(p => p === 'true');
+    filter.filters.isTask = this.extractIsTaskParmArray(params['is-task']);
 
-    this.filter = filter;
-    this.dockerService.ping();
+    this.zone.runGuarded(()=>{
+      this.filter = filter;
+      this.dockerService.ping();
+    });
   }
 
   fetchContainers() {
@@ -100,7 +105,7 @@ export class ContainerListComponent implements OnInit, OnDestroy {
   }
 
   private reduceToRouteParam(array: string[]): string {
-    return array == null ? null : array.reduce((cur, next) => {
+    return array == null ? 'true' : array.reduce((cur, next) => {
       return cur == null ? next : cur + ',' + next
     }, null);
   }
@@ -110,6 +115,13 @@ export class ContainerListComponent implements OnInit, OnDestroy {
       return [];
     }
     return param.split(',');
+  }
+  private extractIsTaskParmArray(param: string): boolean[] {
+    if (param == null) {
+      return [true];
+    }
+    return param.split(',')
+      .map(val=>val === 'true');
   }
 
   getColumnLabel(column: ContainerColumn): string {

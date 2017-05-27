@@ -16,7 +16,6 @@ import {Observable} from 'rxjs/Observable';
   selector: 'app-docker-ping-status',
   templateUrl: './docker-ping-status.component.html',
   styleUrls: ['./docker-ping-status.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default,
   animations: [
     trigger('blink', [
       state('noblink', style({

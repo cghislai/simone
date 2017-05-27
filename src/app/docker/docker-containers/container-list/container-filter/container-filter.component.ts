@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectorRef, Component, NgZone, OnInit, ViewEncapsulation} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {ContainerFilter} from '../../../domain/containers/container-filter';
 import {SelectItem} from 'primeng/primeng';
@@ -16,35 +16,41 @@ import {SelectItem} from 'primeng/primeng';
 })
 export class ContainerFilterComponent implements OnInit, ControlValueAccessor {
 
-  includeStopped: boolean;
-  isTask: boolean;
+  includeStopped: boolean = false;
+  isTask: boolean = true;
   ids: string[] = [];
   names: string[] = [];
   labels: string[] = [];
   isTaskOptions: SelectItem[];
+  includeStoppedOptions: SelectItem[];
 
   private onChangeFunction: Function;
   private onTouchedFunction: Function;
 
-  constructor() {
+  constructor(private zone: NgZone,
+              private changeDetector: ChangeDetectorRef) {
   }
 
   ngOnInit() {
     this.isTaskOptions = [{
-      value: null,
-      label: 'All',
-    }, {
       value: true,
       label: 'Tasks only',
     }, {
       value: false,
       label: 'No task',
     }];
+    this.includeStoppedOptions = [{
+      value: true,
+      label: 'All',
+    }, {
+      value: false,
+      label: 'Running',
+    }];
   }
 
 
   writeValue(obj: any): void {
-    this.setFilter(obj);
+      this.setFilter(obj);
   }
 
   registerOnChange(fn: any): void {
@@ -74,7 +80,8 @@ export class ContainerFilterComponent implements OnInit, ControlValueAccessor {
   }
 
 
-  onInludeStoppedChange(value: boolean) {
+  onIncludeStoppedChange(value: boolean) {
+    console.log(' filter changed: ' + value);
     this.includeStopped = value;
     this.onTouchedFunction();
     this.fireFilter();
@@ -91,7 +98,7 @@ export class ContainerFilterComponent implements OnInit, ControlValueAccessor {
       this.ids = [];
       this.names = [];
       this.labels = [];
-      this.isTask = null;
+      this.isTask = false;
       this.includeStopped = false;
       return;
     }
@@ -100,17 +107,20 @@ export class ContainerFilterComponent implements OnInit, ControlValueAccessor {
     this.names = filter.filters.name;
     this.labels = filter.filters.label;
     this.includeStopped = filter.includeStopped;
-    this.isTask = filter.filters.isTask.length === 0 ? null : filter.filters.isTask.find(t => t === true) != null;
+    console.log(' filter include : ' + this.includeStopped);
+    this.isTask = filter.filters.isTask == null ? true
+      : filter.filters.isTask.length === 0 ? true
+        : filter.filters.isTask.find(t => t === true) != null;
   }
 
   private fireFilter() {
     let filter: ContainerFilter = {
-      includeStopped: this.includeStopped,
+      includeStopped: this.includeStopped == true,
       filters: {
         id: this.ids,
         name: this.names,
         label: this.labels,
-        isTask: this.isTask == null ? [] : [this.isTask],
+        isTask: this.isTask == null ? null : [this.isTask],
       },
     };
     this.onChangeFunction(filter);

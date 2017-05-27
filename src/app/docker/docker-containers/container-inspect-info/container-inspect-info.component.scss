@@ -1,0 +1,26 @@
+.container-info {
+  .flags {
+    >*:not([hidden]) {
+      display: inline-block;
+      font-size: .9em;
+      margin: 0 .5em;
+      &:not(.active) {
+        opacity: .3;
+      }
+    }
+  }
+
+  .netoworks {
+    .config {
+      font-size: .9em;
+    }
+  }
+  .long.path {
+    display: inline-block;
+    max-width: 12em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    direction: rtl;
+  }
+}

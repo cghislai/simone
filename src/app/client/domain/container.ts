@@ -1,5 +1,5 @@
-import {NetworkSettingsJson} from './network-settings';
 import {MountSettingsJson} from './mount-settings';
+import {NetworkInfo} from 'dockerode';
 
 export interface ContainerJson {
   'Id': string,
@@ -16,7 +16,7 @@ export interface ContainerJson {
   'SizeRootFs': number,
   'HostConfig': { 'NetworkMode': string },
   'NetworkSettings': {
-    'Networks': { [key: string]: NetworkSettingsJson }
+    'Networks': { [key: string]: NetworkInfo }
   };
   'Mounts': MountSettingsJson[];
 }

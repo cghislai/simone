@@ -1,0 +1,14 @@
+<div class="box">
+  <div class="content" #content
+       [class.trimmed]="!expanded"
+       [style.max-height]="maxHeight+'px'"
+  >
+    <ng-content></ng-content>
+  </div>
+  <div class="expand-button"
+       (click)="expand()"
+       *ngIf="expandRequired"
+       [hidden]="expanded">
+    Expand
+  </div>
+</div>

@@ -1,5 +1,5 @@
-import {NetworkSettings} from './network-settings';
 import {MountSettings} from './mount-settings';
+import {NetworkInfo} from 'dockerode';
 
 export interface Container {
   id: string;
@@ -16,7 +16,7 @@ export interface Container {
   sizeRootFs: number;
   hostConfig: { 'NetworkMode': string };
   networkSettings: {
-    'networks': { [key: string]: NetworkSettings }
+    'networks': { [key: string]: NetworkInfo }
   };
   'mounts': MountSettings[];
 }

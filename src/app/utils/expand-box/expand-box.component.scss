@@ -1,0 +1,15 @@
+.box {
+  display: inline-block;
+  .content {
+
+    &.trimmed {
+      overflow: hidden;
+    }
+  }
+  .expand-button {
+    padding: .3em;
+    font-size: .8em;
+    font-weight: bold;
+    cursor: pointer;
+  }
+}

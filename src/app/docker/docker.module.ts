@@ -8,6 +8,7 @@ import {FormsModule} from '@angular/forms';
 import {DockerClient} from '../client/docker.client';
 import {DockerOptionsService} from './services/docker-options.service';
 import {
+  BlockUIModule, CheckboxModule,
   ChipsModule,
   DataTableModule,
   GrowlModule,
@@ -52,6 +53,12 @@ import { TaskDetailsComponent } from './docker-tasks/task-details/task-details.c
 import { TaskDetailsPageComponent } from './docker-tasks/task-details-page/task-details-page.component';
 import { ContainerSpecComponent } from './docker-containers/container-spec/container-spec.component';
 import { TaskTemplateComponent } from './docker-tasks/task-template/task-template.component';
+import { ContainerDetailsComponent } from './docker-containers/container-details/container-details.component';
+import { ContainerDetailsPageComponent } from './docker-containers/container-details-page/container-details-page.component';
+import {UtilsModule} from '../utils/utils.module';
+import { NetworkConfigComponent } from './docker-networks/network-config/network-config.component';
+import { ContainerInspectInfoComponent } from './docker-containers/container-inspect-info/container-inspect-info.component';
+import { ContainerLogsComponent } from './docker-containers/container-logs/container-logs.component';
 
 @NgModule({
   imports: [
@@ -73,7 +80,11 @@ import { TaskTemplateComponent } from './docker-tasks/task-template/task-templat
     DataTableModule,
     MultiSelectModule,
     ChipsModule,
-    TabViewModule
+    TabViewModule,
+    BlockUIModule,
+    CheckboxModule,
+
+    UtilsModule,
   ],
   declarations: [
     DockerOptionsFormComponent,
@@ -103,6 +114,11 @@ import { TaskTemplateComponent } from './docker-tasks/task-template/task-templat
     TaskDetailsPageComponent,
     ContainerSpecComponent,
     TaskTemplateComponent,
+    ContainerDetailsComponent,
+    ContainerDetailsPageComponent,
+    NetworkConfigComponent,
+    ContainerInspectInfoComponent,
+    ContainerLogsComponent,
   ],
   exports: [
     RouterModule,

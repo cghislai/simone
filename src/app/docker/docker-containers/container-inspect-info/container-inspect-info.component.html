@@ -1,0 +1,442 @@
+<div class="container-info">
+  <div class="label-table">
+    <div class="table-bloc">
+      <div class="title">State</div>
+
+      <span class="row">
+            <label>Started</label>
+            <span>
+              {{ container.State.StartedAt  | date:'dd/MM/yy HH:mm'}}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>Status</label>
+            <span>
+              {{ container.State.Status }}
+            </span>
+          </span>
+      <span class="row">
+            <label>PID</label>
+            <span>
+              {{ container.State.Pid }}
+            </span>
+          </span>
+
+
+      <span class="row" [hidden]="container.State.ExitCode == null">
+            <label>ExitCode</label>
+            <span>
+              {{ container.State.ExitCode }}
+            </span>
+          </span>
+
+      <span class="row" [hidden]="container.State.Error == null">
+            <label>Error</label>
+            <span>
+              {{ container.State.Error }}
+            </span>
+          </span>
+
+      <span class="row" [hidden]="container.State.Running">
+            <label>Finished</label>
+            <span>
+              {{ container.State.FinishedAt  | date:'dd/MM/yy HH:mm'}}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>Status</label>
+            <span class="flags">
+              <label [class.active]="container.State.Running">Running</label>
+              <label [class.active]="container.State.Dead">Dead</label>
+              <label [class.active]="container.State.OOMKilled">OOMKilled</label>
+              <label [class.active]="container.State.Paused">Paused</label>
+              <label [class.active]="container.State.Restarting">Restarting</label>
+            </span>
+          </span>
+
+      <span class="row">
+            <label>Restart count</label>
+            <span>
+              {{ container.RestartCount }}
+            </span>
+          </span>
+
+    </div>
+
+    <div class="table-bloc">
+
+          <span class="row">
+            <label>Path</label>
+            <span>
+              {{ container.Path}}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>Args</label>
+            <span>
+              {{ container.Args}}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>ResolvConfPath</label>
+            <span class="long path">
+              {{ container.ResolvConfPath}}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>HostnamePath</label>
+            <span class="long path">
+              {{ container.HostnamePath}}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>HostsPath</label>
+            <span class="long path">
+              {{ container.HostsPath}}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>LogPath</label>
+            <span class="long path">
+              {{ container.LogPath}}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>Name</label>
+            <span>
+              {{ container.Name}}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>RestartCount</label>
+            <span>
+              {{ container.RestartCount}}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>Driver</label>
+            <span>
+              {{ container.Driver}}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>MountLabel</label>
+            <span>
+              {{ container.MountLabel}}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>ProcessLabel</label>
+            <span>
+              {{ container.ProcessLabel}}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>AppArmorProfile</label>
+            <span>
+              {{ container.AppArmorProfile}}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>ExecIDs</label>
+            <span>
+              {{ container.ExecIDs}}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>GraphDriver</label>
+            <span>
+              {{ container.GraphDriver | json }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>Mounts</label>
+            <span>
+              <div *ngFor="let mount of container.Mounts">
+                {{mount.Mode}} {{ mount.Source}} : {{ mount.Destination }}  {{ mount.RW ? 'RW' : ''}} {{mount.Propagation}}
+              </div>
+            </span>
+          </span>
+    </div>
+
+    <div class="table-bloc">
+      <div class="title">Config</div>
+      <span class="row">
+            <label>Hostname</label>
+            <span>
+              {{ container.Config.Hostname }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>Domainname</label>
+            <span>
+              {{ container.Config.Domainname }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>User</label>
+            <span>
+              {{ container.Config.User }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>Attached io streams</label>
+            <span class="flags">
+              <label [class.active]="container.Config.AttachStdin">in</label>
+              <label [class.active]="container.Config.AttachStdout">out</label>
+              <label [class.active]="container.Config.AttachStderr">err</label>
+            </span>
+          </span>
+
+      <span class="row" [hidden]="container.Config.ExposedPorts == null">
+            <label>Exposed ports</label>
+            <span class="ports">
+              <label *ngFor="let port of container.Config.ExposedPorts | keysArray">{{port}}</label>
+            </span>
+          </span>
+
+      <span class="row">
+            <label>Input flags</label>
+            <span class="flags">
+              <label [class.active]="container.Config.Tty">tty</label>
+              <label [class.active]="container.Config.OpenStdin">open</label>
+              <label [class.active]="container.Config.StdinOnce">used once</label>
+            </span>
+          </span>
+
+      <span class="row">
+            <label>Env</label>
+            <span class="env">
+              <app-expand-box>
+                <div *ngFor="let env of container.Config.Env">{{ env }}</div>
+              </app-expand-box>
+            </span>
+          </span>
+
+      <span class="row">
+            <label>Image</label>
+            <span>
+              <app-docker-image-label [label]="container.Config.Image"
+              ></app-docker-image-label>
+            </span>
+          </span>
+
+      <span class="row">
+            <label>Entrypoint</label>
+            <span>
+              {{ container.Config.Entrypoint }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>Command</label>
+            <span>
+              {{ container.Config.Cmd | json }}
+            </span>
+          </span>
+
+
+      <span class="row">
+            <label>Volumes</label>
+            <span class="volumes">
+              <div *ngFor="let volume of container.Config.Volumes | keysArray">{{ volume }}</div>
+            </span>
+          </span>
+
+      <span class="row">
+            <label>Working Directory</label>
+            <span>
+              {{ container.Config.WorkingDir }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>Labels</label>
+            <span>
+              <app-expand-box>
+                <app-labels [labels]="container.Config.Labels"
+                ></app-labels>
+              </app-expand-box>
+            </span>
+          </span>
+
+    </div>
+
+
+    <div class="table-bloc">
+      <div class="title">Network settings</div>
+
+      <span class="row">
+            <label>Bridge</label>
+            <span>
+              {{ container.NetworkSettings.Bridge }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>SandboxID</label>
+            <span>
+              <app-unique-id [id]="container.NetworkSettings.SandboxID"
+              ></app-unique-id>
+            </span>
+          </span>
+
+      <span class="row">
+            <label>HairpinMode</label>
+            <span>
+              {{ container.NetworkSettings.HairpinMode }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>LinkLocalIPv6Address</label>
+            <span>
+              {{ container.NetworkSettings.LinkLocalIPv6Address }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>LinkLocalIPv6PrefixLen</label>
+            <span>
+              {{ container.NetworkSettings.LinkLocalIPv6PrefixLen }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>Ports</label>
+            <span class="ports label-table vertical">
+              <span class="row"
+                    *ngFor="let port of container.NetworkSettings.Ports | keysArray">
+                <label>port</label>
+                <span>
+                  {{ container.NetworkSettings.Ports[port]?.HostIp }}:{{ container.NetworkSettings.Ports[port]?.HostPort }}
+                </span>
+              </span>
+            </span>
+          </span>
+
+      <span class="row">
+            <label>SandboxKey</label>
+            <span>
+              {{ container.NetworkSettings.SandboxKey }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>SecondaryIPAddresses</label>
+            <span>
+              {{ container.NetworkSettings.SecondaryIPAddresses }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>SecondaryIPv6Addresses</label>
+            <span>
+              {{ container.NetworkSettings.SecondaryIPv6Addresses }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>EndpointID</label>
+            <span>
+              {{ container.NetworkSettings.EndpointID }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>Gateway</label>
+            <span>
+              {{ container.NetworkSettings.Gateway }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>GlobalIPv6Address</label>
+            <span>
+              {{ container.NetworkSettings.GlobalIPv6Address }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>GlobalIPv6PrefixLen</label>
+            <span>
+              {{ container.NetworkSettings.GlobalIPv6PrefixLen }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>IPAddress</label>
+            <span>
+              {{ container.NetworkSettings.IPAddress }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>IPPrefixLen</label>
+            <span>
+              {{ container.NetworkSettings.IPPrefixLen }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>IPv6Gateway</label>
+            <span>
+              {{ container.NetworkSettings.IPv6Gateway }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>MacAddress</label>
+            <span>
+              {{ container.NetworkSettings.MacAddress }}
+            </span>
+          </span>
+
+      <span class="row">
+            <label>Networks</label>
+            <span class="netoworks label-table vertical">
+              <span class="row"
+                    *ngFor="let type of container.NetworkSettings.Networks | keysArray">
+                <label>{{type}}</label>
+                <span class="config">
+                  <app-network-config [config]="container.NetworkSettings.Networks[type]"
+                  ></app-network-config>
+                </span>
+              </span>
+            </span>
+
+          </span>
+    </div>
+
+    <div class="table-bloc host-config">
+
+      <div class="title">Host config</div>
+      <app-expand-box>
+            <span class="row" *ngFor="let key of container.HostConfig | keysArray">
+              <label>{{key}}</label>
+              <span>{{container.HostConfig[key] | json }}</span>
+            </span>
+      </app-expand-box>
+    </div>
+
+  </div>
+</div>

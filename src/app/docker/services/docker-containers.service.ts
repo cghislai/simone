@@ -4,12 +4,11 @@ import {Observable} from 'rxjs/Observable';
 import {DockerOptionsService} from './docker-options.service';
 import {ContainerFilter} from '../domain/containers/container-filter';
 import {Container} from '../domain/containers/container';
-import {ContainerJson} from '../../client/domain/container';
-import {NetworkSettings} from '../domain/containers/network-settings';
 import {MountSettings} from '../domain/containers/mount-settings';
-import {NetworkSettingsJson} from '../../client/domain/network-settings';
 import {MountSettingsJson} from '../../client/domain/mount-settings';
 import {ContainerFilterJson} from '../../client/domain/container-filter';
+import {ContainerInspectInfo, ContainerLogsOptions, NetworkInfo} from 'dockerode';
+import {ContainerJson} from '../../client/domain/container';
 
 /**
  * Created by cghislai on 11/02/17.
@@ -28,8 +27,17 @@ export class DockerContainersService {
       .map(services => services.map(s => this.mapContainerJson(s)));
   }
 
+  inspect(id: string): Observable<ContainerInspectInfo> {
+    return this.client.inspectContainer(id);
+  }
+
+  logs(id: string, options: ContainerLogsOptions): Observable<NodeJS.ReadableStream> {
+    return this.client.getContainerLogs(id, options);
+
+  }
+
   private mapContainerJson(json: ContainerJson): Container {
-    let networks: { [key: string]: NetworkSettings } = this.mapNetworkSetting(json.NetworkSettings.Networks)
+    let networks = <{ [key: string]: NetworkInfo }> json.NetworkSettings.Networks;
     let mounts: MountSettings[] = json.Mounts.map(
       mount => this.mapMount(mount),
     );
@@ -51,27 +59,6 @@ export class DockerContainersService {
       mounts: mounts,
     };
   }
-
-  private mapNetworkSetting(network: { [key: string]: NetworkSettingsJson }): { [key: string]: NetworkSettings } {
-    let settings = {};
-    for (var key in network) {
-      let json: NetworkSettingsJson = network[key];
-      let netSettings: NetworkSettings = {
-        networkID: json.NetworkID,
-        endPointID: json.EndpointID,
-        gateway: json.Gateway,
-        ipAddress: json.IPAddress,
-        ipPrefixLength: json.IPPrefixLen,
-        ipv6Gateway: json.IPv6Gateway,
-        globalIpv6Address: json.GlobalIPv6Address,
-        globalIpv6PrefixLength: json.GlobalIPv6PrefixLen,
-        macAddress: json.MacAddress,
-      };
-      settings[key] = netSettings;
-    }
-    return settings;
-  }
-
 
   private mapMount(mount: MountSettingsJson): MountSettings {
     return {

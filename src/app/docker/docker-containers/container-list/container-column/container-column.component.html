@@ -9,11 +9,11 @@
 
   <span *ngSwitchCase="containerColumn.IMAGE_ID">
     <app-unique-id [id]="container.imageId"
-                   [routerLink]="['/images', container.imageId]"></app-unique-id>
+                   [routerLink]="['/docker/images', container.imageId]"></app-unique-id>
   </span>
    <span *ngSwitchCase="containerColumn.ID">
     <app-unique-id [id]="container.id"
-                   [routerLink]="['/containers', container.id]"></app-unique-id>
+                   [routerLink]="['/docker/containers', container.id]"></app-unique-id>
   </span>
   <span *ngSwitchCase="containerColumn.PORTS">
     <span class="port-mapping" *ngFor="let port of container.ports">

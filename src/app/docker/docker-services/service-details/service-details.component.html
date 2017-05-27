@@ -22,31 +22,30 @@
         <label>Updated</label>
         <span>{{service.updatedAt | date:'dd/MM/yyyy hh:mm'}}</span>
       </span>
-      <span class="col row">
-        <label>Update status</label>
-        <span class="label-table vertical">
-          <span class="row">
-            <label>Started at</label>
-            <span>{{service.updateStatus.StartedAt | date:'dd/MM/yyyy hh:mm'}}</span>
-          </span>
-          <span class="row" [hidden]="service.updateStatus.CompletedAt == null">
-            <label>Completed at</label>
-            <span>{{service.updateStatus.CompletedAt | date:'dd/MM/yyyy hh:mm'}}</span>
-          </span>
-          <span class="row" [hidden]="service.updateStatus.State == null">
-            <label>State</label>
-            <span>{{service.updateStatus.State}}</span>
-          </span>
-          <span class="row" [hidden]="service.updateStatus.Message == null">
-            <label>Message</label>
-            <span>{{service.updateStatus.Message}}</span>
-          </span>
-        </span>
-      </span>
-
     </div>
   </header>
 
+  <div class="label-table vertical">
+    <div class="table-bloc">
+      <div class="title">Update status</div>
+        <span class="row">
+          <label>Started at</label>
+          <span>{{service.updateStatus.StartedAt | date:'dd/MM/yyyy hh:mm'}}</span>
+        </span>
+          <span class="row" [hidden]="service.updateStatus.CompletedAt == null">
+          <label>Completed at</label>
+          <span>{{service.updateStatus.CompletedAt | date:'dd/MM/yyyy hh:mm'}}</span>
+        </span>
+          <span class="row" [hidden]="service.updateStatus.State == null">
+          <label>State</label>
+          <span>{{service.updateStatus.State}}</span>
+        </span>
+          <span class="row" [hidden]="service.updateStatus.Message == null">
+          <label>Message</label>
+          <span>{{service.updateStatus.Message}}</span>
+        </span>
+    </div>
+  </div>
 
   <p-tabView>
     <p-tabPanel header="Current spec">

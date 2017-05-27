@@ -41,6 +41,8 @@
       font-size: .8em;
       font-weight: 500;
       margin-top: .1em;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }
