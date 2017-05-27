@@ -1,0 +1,49 @@
+<div class="container-spec label-table vertical">
+  <div class="row">
+    <label>args</label>
+    <span>{{spec.Args}}</span>
+  </div>
+  <div class="row">
+    <label>env</label>
+    <span>
+          <div *ngFor="let env of spec.Env" class="env">
+            {{env}}
+          </div>
+        </span>
+  </div>
+  <div class="row">
+    <label>Image</label>
+    <span>
+          <app-docker-image-label [label]="spec.Image"></app-docker-image-label>
+        </span>
+  </div>
+  <div class="row">
+    <label>Labels</label>
+    <app-labels [labels]="spec.Labels"></app-labels>
+  </div>
+  <div class="row">
+    <label>Mounts</label>
+    <span class="mounts">
+          <div *ngFor="let mount of spec.Mounts" class="mount">
+            <span class="type" [hidden]="mount.Type == null">
+              {{mount.Type}}
+            </span>
+            <span class="src">
+              {{mount.Source}}
+            </span>
+            <span> : </span>
+            <span class="dest">
+              {{ mount.Target}}
+            </span>
+          </div>
+        </span>
+  </div>
+  <div class="row">
+    <label>Secrets</label>
+    <span class="secrets">
+          <div *ngFor="let secret of spec.Secrets">
+            <span>{{secret.SecretName}}</span>
+          </div>
+        </span>
+  </div>
+</div>

@@ -1,0 +1,58 @@
+<div class=" task-template label-table">
+  <div class="table-bloc">
+    <div class="row">
+      <label>Force update</label>
+      <span>
+          {{ template.ForceUpdate ? 'yes' : 'no'}}
+        </span>
+    </div>
+    <div class="row">
+      <label>Placement constraints</label>
+      <span class="constraints">
+           <div *ngFor="let constraint of template.Placement.Constraints" class="constraint">
+              {{ constraint }}
+           </div>
+        </span>
+    </div>
+
+    <div class="row">
+      <label>Resources limits</label>
+      <span class="limits label-table vertical">
+          <span class="memory row">
+            <label>Memory</label>
+            <span class="value">
+              {{ template.Resources.Limits.MemoryBytes / 1024 / 1024 }} Mb
+            </span>
+          </span>
+           <span class="cpu row">
+            <label>CPU</label>
+            <span class="value">
+              {{ template.Resources.Limits.NanoCPUs / 1000000000 | number:'1.1-4' }}
+            </span>
+          </span>
+        </span>
+    </div>
+
+    <div class="row">
+      <label>Restart policy</label>
+      <span class="restart-policy label-table vertical">
+          <span class="policy row">
+            <label>Condition</label>
+            <span class="value"> {{ template.RestartPolicy.Condition}} </span>
+          </span>
+           <span class="policy row">
+            <label>Max attempts</label>
+            <span class="value">  {{ template.RestartPolicy.MaxAttempts}} </span>
+          </span>
+      </span>
+    </div>
+  </div>
+
+  <div class="table-bloc">
+    <div class="title">
+      Container spec
+    </div>
+    <app-container-spec [spec]="template.ContainerSpec"
+    ></app-container-spec>
+  </div>
+</div>

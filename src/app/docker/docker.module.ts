@@ -47,7 +47,11 @@ import { LabelsComponent } from './labels/labels.component';
 import { ServiceDetailsComponent } from './docker-services/service-details/service-details.component';
 import { ServiceSpecComponent } from './docker-services/service-spec/service-spec.component';
 import { ServiceDetailsPageComponent } from './docker-services/service-details-page/service-details-page.component';
-import { DockerTaskListPageComponent } from './docker-tasks/docker-task-list-page/docker-task-list-page.component';
+import { DockerTaskListPageComponent } from './docker-tasks/task-list-page/docker-task-list-page.component';
+import { TaskDetailsComponent } from './docker-tasks/task-details/task-details.component';
+import { TaskDetailsPageComponent } from './docker-tasks/task-details-page/task-details-page.component';
+import { ContainerSpecComponent } from './docker-containers/container-spec/container-spec.component';
+import { TaskTemplateComponent } from './docker-tasks/task-template/task-template.component';
 
 @NgModule({
   imports: [
@@ -95,6 +99,10 @@ import { DockerTaskListPageComponent } from './docker-tasks/docker-task-list-pag
     ServiceSpecComponent,
     ServiceDetailsPageComponent,
     DockerTaskListPageComponent,
+    TaskDetailsComponent,
+    TaskDetailsPageComponent,
+    ContainerSpecComponent,
+    TaskTemplateComponent,
   ],
   exports: [
     RouterModule,

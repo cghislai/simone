@@ -1,0 +1,84 @@
+<div class="task-details ui-widget" *ngIf="task != null">
+  <header>
+    <h1>
+      {{ task.id }}
+    </h1>
+    <div class="info label-table">
+      <span class="col row">
+        <label>Id</label>
+        <span>
+          <app-unique-id [id]="task.id"
+                         [routerLink]="['/docker/tasks', task.id]"
+                         [noTrim]="true"
+          ></app-unique-id>
+        </span>
+      </span>
+      <span class="col row">
+        <label>Service id</label>
+        <span>
+          <app-unique-id [id]="task.serviceID"
+                         [routerLink]="['/docker/services', task.serviceID]"
+          ></app-unique-id>
+        </span>
+      </span>
+      <span class="col row">
+        <label>Service slot</label>
+        <span>{{task.slot}}</span>
+      </span>
+      <span class="col row">
+        <label>Node id</label>
+        <span>
+          <app-unique-id [id]="task.nodeID"
+                         [routerLink]="['/docker/nodes', task.nodeID]"
+          ></app-unique-id>
+        </span>
+      </span>
+      <span class="col row">
+        <label>Created</label>
+        <span>{{task.createdAt | date:'dd/MM/yyyy hh:mm' }}</span>
+      </span>
+      <span class="col row">
+        <label>Updated</label>
+        <span>{{task.updatedAt | date:'dd/MM/yyyy hh:mm'}}</span>
+      </span>
+      <span class="col row">
+        <label>Desired state</label>
+        <span>{{task.desiredState}}</span>
+      </span>
+      <span class="col row">
+        <label>Status</label>
+        <span>
+          <div class="status label-table vertical">
+            <span class="col row">
+              <label>State</label>
+              <span>{{task.status.State}}</span>
+            </span>
+            <span class="col row">
+              <label>Message</label>
+              <span>{{task.status.Message}}</span>
+            </span>
+            <span class="col row">
+              <label>Error</label>
+              <span>{{task.status.Err}}</span>
+            </span>
+            <span class="col row" *ngIf="task.status.ContainerStatus != null">
+              <label>Container</label>
+              <span>
+                <app-unique-id [id]="task.status.ContainerStatus.ContainerID"
+                               [routerLink]="['/docker/containers', task.status.ContainerStatus.ContainerID]"
+                ></app-unique-id>
+              </span>
+            </span>
+          </div>
+        </span>
+      </span>
+    </div>
+
+  </header>
+
+  <p-tabView>
+    <p-tabPanel header="Spec">
+      <app-task-template [template]="task.spec"></app-task-template>
+    </p-tabPanel>
+  </p-tabView>
+</div>

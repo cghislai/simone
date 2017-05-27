@@ -45,6 +45,10 @@ export class DockerClient {
     return this.dockerRequest(cb => this.dockerode.getService(id).inspect(cb));
   }
 
+  inspectTask(id: string): Observable<TaskJson> {
+    return this.dockerRequest(cb => this.dockerode.getTask(id).inspect(cb));
+  }
+
   info(): Observable<any> {
     return this.dockerRequest(cb => this.dockerode.info(cb));
   }

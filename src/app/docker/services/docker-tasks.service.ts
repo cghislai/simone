@@ -23,6 +23,12 @@ export class DockerTasksService {
       .map(tasks => tasks.map(s => this.mapTaskJson(s)));
   }
 
+
+  inspect(id: string): Observable<Task> {
+    return this.client.inspectTask(id)
+      .map(task => this.mapTaskJson(task));
+  }
+
   private mapTaskJson(json: TaskJson): Task {
     return {
       id: json.ID,

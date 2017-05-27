@@ -3,10 +3,20 @@
   header {
     text-align: center;
 
-    >.info {
+    > .info {
       text-align: left;
 
     }
+
+    .status {
+      .row {
+        margin: 0;
+        > span {
+          font-size: .9em;
+        }
+      }
+    }
+
   }
 
 }
