@@ -1,9 +1,11 @@
 <div>
-  <div class="labels" (click)="onTooltip($event, tooltipPanel)">
-    <span class="label" *ngFor="let key of getKeys()">
-      <span class="key" [title]="key">{{ key }}</span>
+  <div class="labels label-table">
+    <span class="label col row" *ngFor="let key of getKeys()">
+      <label class="key" [title]="key">{{ key }}</label>
       <span class="value" [title]="getValue(key)">{{ getValue(key) }}</span>
     </span>
+  </div>
+  <div class="labels" (click)="onTooltip($event, tooltipPanel)">
   </div>
   <p-overlayPanel [dismissable]="true" #tooltipPanel [hidden]="!tooltip">
     <app-labels [labels]="labels" [tooltip]="false"

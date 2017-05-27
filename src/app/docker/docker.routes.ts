@@ -4,6 +4,9 @@ import {DockerRouteComponent} from './docker-routes/docker-route.component';
 import {DockerTaskListComponent} from './docker-tasks/task-list/docker-task-list.component';
 import {DockerServiceListComponent} from './docker-services/service-list/docker-service-list.component';
 import {ContainerListComponent} from './docker-containers/container-list/container-list.component';
+import {ServiceDetailsComponent} from './docker-services/service-details/service-details.component';
+import {ServiceDetailsPageComponent} from './docker-services/service-details-page/service-details-page.component';
+import {DockerTaskListPageComponent} from './docker-tasks/docker-task-list-page/docker-task-list-page.component';
 
 export const DOCKER_ROUTES: Route[] = [
   {
@@ -30,6 +33,10 @@ export const DOCKER_ROUTES: Route[] = [
                 pathMatch: 'full',
                 component: DockerServiceListComponent,
               },
+              {
+                path: ':id',
+                component: ServiceDetailsPageComponent,
+              },
             ],
           },
           {
@@ -37,7 +44,7 @@ export const DOCKER_ROUTES: Route[] = [
             children: [{
               path: '',
               pathMatch: 'full',
-              component: DockerTaskListComponent,
+              component: DockerTaskListPageComponent,
             }],
           },
           {

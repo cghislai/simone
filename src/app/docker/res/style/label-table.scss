@@ -1,0 +1,46 @@
+.label-table {
+  display: flex;
+  flex-wrap: wrap;
+
+  > .col {
+    flex: 1 1 auto;
+    margin: 0 2em;
+  }
+
+  &.vertical {
+    display: block;
+    >* {
+      display: block;
+      margin: 0;
+    }
+  }
+
+  .table-bloc {
+    margin: 1em;
+    > .title {
+      font-size: .9em;
+      font-weight: bold;
+      margin: .5em;
+    }
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: .5em 0;
+    align-items: flex-start;
+    align-content: flex-start;
+
+    > * {
+      flex: 1 1 auto;
+      margin: 0 .3em;
+    }
+
+    > label {
+      flex: 0 0 8em;
+      font-size: .8em;
+      font-weight: 500;
+      margin-top: .1em;
+    }
+  }
+}

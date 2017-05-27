@@ -39,7 +39,7 @@ export class ContainerListComponent implements OnInit, OnDestroy {
       })
       .mergeMap(r => this.fetchContainers())
       .share();
-    this.columns = [...CONTAINER_COLUMNS];
+    this.columns = this.initColumns();
     this.columnOptions = CONTAINER_COLUMNS
       .map(col => <SelectItem>{
         value: col,
@@ -73,7 +73,6 @@ export class ContainerListComponent implements OnInit, OnDestroy {
         params['is-task'] = this.reduceToRouteParam(filter.filters.isTask
           .map(p => p ? 'true' : 'false'));
       }
-      console.log('navigatoin');
       this.router.navigate(['../', params], {
         relativeTo: this.activatedRoute,
         replaceUrl: true,
@@ -121,4 +120,14 @@ export class ContainerListComponent implements OnInit, OnDestroy {
     return CONTAINER_COLUMN_DATA[column].field;
   }
 
+  private initColumns() {
+    return  [
+      ContainerColumn.ID,
+      ContainerColumn.NAMES,
+      ContainerColumn.IMAGE,
+      ContainerColumn.COMMAND,
+      ContainerColumn.STATE,
+      ContainerColumn.STATUS
+    ]
+  }
 }

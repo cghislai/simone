@@ -40,9 +40,9 @@ export class DockerService {
   startClient() {
     this.stopClient();
     this.subscription = new Subscription();
-    this.clientStarted.next(true);
     this.doTryPing();
     this.initClientPing();
+    this.clientStarted.next(true);
   }
 
   stopClient() {
@@ -58,12 +58,12 @@ export class DockerService {
     this.pingSource.next(true);
   }
 
-  getStartedObservable() {
-    return this.clientStarted.share();
+  getStartedObservable(): Observable<boolean> {
+    return this.clientStarted.asObservable().share();
   }
 
   getReachableObservable(): Observable<boolean> {
-    return this.clientReachable.share();
+    return this.clientReachable.asObservable().share();
   }
 
   getBusyObservable(): Observable<boolean> {
@@ -84,7 +84,6 @@ export class DockerService {
       .map(results => results[1].length > 0 ? null : results[0])
       .filter(r => r != null)
       .mergeMap(t => this.doTryPing())
-      .do(o=>console.log('po '+o))
       .subscribe(reachable => {
         this.setReachable(reachable);
       });
@@ -93,7 +92,6 @@ export class DockerService {
   }
 
   private doTryPing(): Observable<boolean> {
-    console.log('ping ' + this.pingBackOffMs);
     return Observable.timer(this.pingBackOffMs)
       .first()
       .mergeMap(s => this.pingBackOffMs === 0 ? Observable.of(true) : this.client.ping())
@@ -120,7 +118,6 @@ export class DockerService {
 
 
   private onClientUnreachable() {
-    console.log('unreachable');
     let backoff = Math.max(500, this.pingBackOffMs);
     this.pingBackOffMs = Math.min(backoff * 2, 3 * 60000);
     this.lastPingFailure = moment().utc();

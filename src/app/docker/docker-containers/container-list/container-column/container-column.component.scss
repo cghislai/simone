@@ -11,4 +11,10 @@
   .labels {
     white-space: nowrap;
   }
+  .mounts {
+    white-space: nowrap;
+    >* {
+      display: inline-block;
+    }
+  }
 }

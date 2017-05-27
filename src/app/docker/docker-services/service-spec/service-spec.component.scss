@@ -1,0 +1,46 @@
+.spec {
+  .networks {
+    .row {
+      margin: 0;
+    }
+    .aliases {
+      font-size: .9em;
+      >div  {
+        display: inline-block;
+        width: 5em;
+      }
+    }
+  }
+  .constraint {
+    font-size: .9em;
+  }
+
+  .limits {
+    .row {
+      margin: 0;
+    }
+    .value {
+      font-size: .9em;
+    }
+  }
+
+  .restart-policy {
+    .row {
+      margin: 0;
+    }
+    .value {
+      font-size: .9em;
+    }
+  }
+
+  .env {
+    font-size: .9em;
+  }
+
+  .mounts {
+    .mount .type {
+      font-size: .8em;
+      margin-right: 1em;
+    }
+  }
+}

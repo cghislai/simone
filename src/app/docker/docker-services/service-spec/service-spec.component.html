@@ -1,0 +1,144 @@
+<div class="spec label-table" *ngIf="spec != null">
+  <div class="col">
+    <div class="table-bloc">
+      <div class="row">
+        <label>Name</label>
+        <span>{{spec.name}}</span>
+      </div>
+      <div class="row">
+        <label>Mode</label>
+        <span>
+      <app-service-mode [mode]="spec.mode.mode"></app-service-mode>
+      <span [hidden]="spec.mode.replicas==null">{{spec.mode.replicas}} replicas</span>
+    </span>
+      </div>
+      <div class="row">
+        <label>Labels</label>
+        <app-labels [labels]="spec.labels"></app-labels>
+      </div>
+
+      <div class="row">
+        <label>Networks</label>
+        <span class="networks label-table vertical">
+
+          <span *ngFor="let network of spec.networks" class="network row">
+            <label class="target">
+              <app-unique-id [id]="network.Target"
+                             [routerLink]="['/docker/networks', network.Target]"
+              ></app-unique-id>
+            </label>
+            <span class="aliases">
+              <div>
+                <span *ngFor="let alias of network.Aliases" class="alias">
+                  {{alias}}
+                </span>
+              </div>
+            </span>
+          </span>
+
+        </span>
+      </div>
+    </div>
+
+    <div class="table-bloc">
+      <div class="row">
+        <label>Force update</label>
+        <span>
+          {{ spec.taskTemplate.ForceUpdate ? 'yes' : 'no'}}
+        </span>
+      </div>
+      <div class="row">
+        <label>Placement constraints</label>
+        <span class="constraints">
+           <div *ngFor="let constraint of spec.taskTemplate.Placement.Constraints" class="constraint">
+              {{ constraint }}
+           </div>
+        </span>
+      </div>
+
+      <div class="row">
+        <label>Resources limits</label>
+        <span class="limits label-table vertical">
+          <span class="memory row">
+            <label>Memory</label>
+            <span class="value">
+              {{ spec.taskTemplate.Resources.Limits.MemoryBytes / 1024 / 1024 }} Mb
+            </span>
+          </span>
+           <span class="cpu row">
+            <label>CPU</label>
+            <span class="value">
+              {{ spec.taskTemplate.Resources.Limits.NanoCPUs / 1000000000 | number:'1.1-4' }}
+            </span>
+          </span>
+        </span>
+      </div>
+
+      <div class="row">
+        <label>Restart policy</label>
+        <span class="restart-policy label-table vertical">
+          <span class="policy row">
+            <label>Condition</label>
+            <span class="value"> {{ spec.taskTemplate.RestartPolicy.Condition}} </span>
+          </span>
+           <span class="policy row">
+            <label>Max attempts</label>
+            <span class="value">  {{ spec.taskTemplate.RestartPolicy.MaxAttempts}} </span>
+          </span>
+      </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="col ">
+    <div class="table-bloc">
+      <div class="row">
+        <label>args</label>
+        <span>{{spec.taskTemplate.ContainerSpec.Args}}</span>
+      </div>
+      <div class="row">
+        <label>env</label>
+        <span>
+          <div *ngFor="let env of spec.taskTemplate.ContainerSpec.Env" class="env">
+            {{env}}
+          </div>
+        </span>
+      </div>
+      <div class="row">
+        <label>Image</label>
+        <span>
+          <app-docker-image-label [label]="spec.taskTemplate.ContainerSpec.Image"></app-docker-image-label>
+        </span>
+      </div>
+      <div class="row">
+        <label>Labels</label>
+        <app-labels [labels]="spec.taskTemplate.ContainerSpec.Labels"></app-labels>
+      </div>
+      <div class="row">
+        <label>Mounts</label>
+        <span class="mounts">
+          <div *ngFor="let mount of spec.taskTemplate.ContainerSpec.Mounts" class="mount">
+            <span class="type" [hidden]="mount.Type == null">
+              {{mount.Type}}
+            </span>
+            <span class="src">
+              {{mount.Source}}
+            </span>
+            <span> : </span>
+            <span class="dest">
+              {{ mount.Target}}
+            </span>
+          </div>
+        </span>
+      </div>
+      <div class="row">
+        <label>Secrets</label>
+        <span class="secrets">
+        <div *ngFor="let secret of spec.taskTemplate.ContainerSpec.Secrets">
+          <span>{{secret.SecretName}}</span>
+        </div>
+      </span>
+      </div>
+    </div>
+  </div>
+</div>

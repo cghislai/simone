@@ -4,17 +4,16 @@
   <p-panel header="Client">
     <div class="client-panel">
       <label>Client {{ (clientStated | async) ? 'started' : 'stopped'}}</label>
-
       <button type="text" pButton
               label="Stop"
               (click)="onStopClicked()"
-              *ngIf="(clientStated | async)"
+              [hidden]="!(clientStated | async)"
       ></button>
 
       <button type="text" pButton
               label="Start"
               (click)="onStartClicked()"
-              *ngIf="!(clientStated | async)"
+              [hidden]="(clientStated | async)"
       ></button>
     </div>
   </p-panel>

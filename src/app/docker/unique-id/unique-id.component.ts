@@ -11,6 +11,8 @@ export class UniqueIdComponent implements OnInit {
   id: string;
   @Input()
   routerLink: any[];
+  @Input()
+  noTrim: boolean
 
   constructor() {
   }

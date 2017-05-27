@@ -1,8 +1,11 @@
 a.id:not([hidden]){
   font-size: .9em;
-  max-width: 6em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  display: inline-block;
+  display: table-cell;
+
+  &:not(.no-trim) {
+    max-width: 6em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }

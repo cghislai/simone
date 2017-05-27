@@ -28,6 +28,12 @@ export class DockerServicesService {
       .map(services => services.map(s => this.mapServiceJson(s)));
   }
 
+
+  inspect(id: string): Observable<Service> {
+    return this.client.inspectService(id)
+      .map(service => this.mapServiceJson(service));
+  }
+
   private mapServiceJson(json: ServiceJson): Service {
     let spec: ServiceSpec = this.mapServiceSpecJson(json.Spec);
     let previousSpec: ServiceSpec = this.mapServiceSpecJson(json.PreviousSpec);

@@ -22,6 +22,6 @@
     {{service.updatedAt | date:medium }}
   </span>
   <span *ngSwitchCase="serviceColumn.ID">
-    <app-unique-id [id]="service.id" [routerLink]="['/services', service.id]"></app-unique-id>
+    <app-unique-id [id]="service.id" [routerLink]="['/docker/services', service.id]"></app-unique-id>
   </span>
 </span>

@@ -24,7 +24,8 @@ export class DockerOptionsPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.clientStated = this.dockerService.getStartedObservable();
+    this.clientStated = this.dockerService.getStartedObservable()
+      .share();
     this.dockerOptions = this.optionsService.getOptions()
       .map(options => Object.assign({}, options));
     this.subscription = new Subscription();

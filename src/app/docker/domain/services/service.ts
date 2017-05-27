@@ -12,7 +12,7 @@ export interface Service {
   id: string;
   spec: ServiceSpec;
   previousSpec: ServiceSpec;
-  updateStatus: { State: string, StartedAt: string };
+  updateStatus: { StartedAt: string , CompletedAt?:string, State?: string, Message?:string};
   updatedAt: moment.Moment;
   version: any;
 }

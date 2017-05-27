@@ -90,7 +90,7 @@ export class DockerServiceListComponent implements OnInit, OnDestroy {
 
   private fetchServices() {
     return this.serviceService.list(this.filter)
-      .catch(e=>Observable.of([]));
+      .catch(e => Observable.of([]));
   }
 
   private reduceToRouteParam(array: string[]): string {

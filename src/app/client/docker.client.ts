@@ -41,6 +41,10 @@ export class DockerClient {
     return this.dockerRequest(cb => this.dockerode.listServices(filter, cb));
   }
 
+  inspectService(id: string): Observable<ServiceJson> {
+    return this.dockerRequest(cb => this.dockerode.getService(id).inspect(cb));
+  }
+
   info(): Observable<any> {
     return this.dockerRequest(cb => this.dockerode.info(cb));
   }
@@ -102,14 +106,12 @@ export class DockerClient {
               let newRequests = requests.filter(id => id !== requestId);
               this.runningRequests.next(newRequests);
               delete this.requestsCancellations[requestId];
-              console.log('unsubscribed ' + requestId + ' rem ' + newRequests.length);
             });
         });
       };
       let cancelation: AnonymousSubscription = {
         unsubscribe() {
           this.zone.run(() => {
-            console.log('cancelled ' + requestId)
             subscriber.complete();
           });
         },
@@ -118,7 +120,6 @@ export class DockerClient {
       this.runningRequests.take(1)
         .subscribe(requests => {
           this.requestsCancellations[requestId] = cancelation;
-          console.log('start ' + requestId + ' rem: ' + requests.length);
           this.runningRequests.next([...requests, requestId]);
 
           this.zone.runGuarded(() => {

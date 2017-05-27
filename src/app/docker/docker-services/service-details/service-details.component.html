@@ -1,0 +1,69 @@
+<div class="service-details ui-widget" *ngIf="service != null">
+
+  <header>
+    <h1>
+      {{ service.spec.name }}
+    </h1>
+    <div class="info label-table">
+      <span class="row">
+        <label>Id</label>
+        <span>
+          <app-unique-id [id]="service.id"
+                         [noTrim]="true"
+                         [routerLink]="['/docker/services', service.id]"
+          ></app-unique-id>
+        </span>
+      </span>
+      <span class="col row">
+        <label>Created</label>
+        <span>{{service.createdAt | date:'dd/MM/yyyy hh:mm' }}</span>
+      </span>
+      <span class="col row">
+        <label>Updated</label>
+        <span>{{service.updatedAt | date:'dd/MM/yyyy hh:mm'}}</span>
+      </span>
+      <span class="col row">
+        <label>Update status</label>
+        <span class="label-table vertical">
+          <span class="row">
+            <label>Started at</label>
+            <span>{{service.updateStatus.StartedAt | date:'dd/MM/yyyy hh:mm'}}</span>
+          </span>
+          <span class="row" [hidden]="service.updateStatus.CompletedAt == null">
+            <label>Completed at</label>
+            <span>{{service.updateStatus.CompletedAt | date:'dd/MM/yyyy hh:mm'}}</span>
+          </span>
+          <span class="row" [hidden]="service.updateStatus.State == null">
+            <label>State</label>
+            <span>{{service.updateStatus.State}}</span>
+          </span>
+          <span class="row" [hidden]="service.updateStatus.Message == null">
+            <label>Message</label>
+            <span>{{service.updateStatus.Message}}</span>
+          </span>
+        </span>
+      </span>
+
+    </div>
+  </header>
+
+
+  <p-tabView>
+    <p-tabPanel header="Current spec">
+      <app-service-spec [ngModel]="service.spec" name="spec"
+      ></app-service-spec>
+    </p-tabPanel>
+
+    <p-tabPanel header="Previous spec">
+      <app-service-spec [ngModel]="service.previousSpec" name="spec"
+      ></app-service-spec>
+    </p-tabPanel>
+
+    <p-tabPanel header="Tasks">
+      <app-docker-task-list [filter]="taskFilter"
+                            [columns]="taskColumns"
+      ></app-docker-task-list>
+    </p-tabPanel>
+  </p-tabView>
+
+</div>

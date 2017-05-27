@@ -1,0 +1,17 @@
+<div>
+
+  <app-task-filter [ngModel]="filter" name="filter"
+                   (ngModelChange)="onFilterChange($event)"></app-task-filter>
+
+  <div class="columns-filter">
+    Columns:
+    <p-multiSelect [options]="columnOptions"
+                   [(ngModel)]="columns">
+    </p-multiSelect>
+  </div>
+
+
+  <app-docker-task-list [filter]="filter"
+                        [columns]="columns"
+  ></app-docker-task-list>
+</div>

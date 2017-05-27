@@ -18,7 +18,7 @@ import {
   PanelModule,
   SelectButtonModule,
   SharedModule,
-  SpinnerModule,
+  SpinnerModule, TabViewModule,
   ToggleButtonModule,
 } from 'primeng/primeng';
 import {DockerPingStatusComponent} from './docker-ping-status/docker-ping-status.component';
@@ -44,6 +44,10 @@ import { ContainerFilterComponent } from './docker-containers/container-list/con
 import {DockerContainersService} from './services/docker-containers.service';
 import { UniqueIdComponent } from './unique-id/unique-id.component';
 import { LabelsComponent } from './labels/labels.component';
+import { ServiceDetailsComponent } from './docker-services/service-details/service-details.component';
+import { ServiceSpecComponent } from './docker-services/service-spec/service-spec.component';
+import { ServiceDetailsPageComponent } from './docker-services/service-details-page/service-details-page.component';
+import { DockerTaskListPageComponent } from './docker-tasks/docker-task-list-page/docker-task-list-page.component';
 
 @NgModule({
   imports: [
@@ -65,6 +69,7 @@ import { LabelsComponent } from './labels/labels.component';
     DataTableModule,
     MultiSelectModule,
     ChipsModule,
+    TabViewModule
   ],
   declarations: [
     DockerOptionsFormComponent,
@@ -86,6 +91,10 @@ import { LabelsComponent } from './labels/labels.component';
     ContainerFilterComponent,
     UniqueIdComponent,
     LabelsComponent,
+    ServiceDetailsComponent,
+    ServiceSpecComponent,
+    ServiceDetailsPageComponent,
+    DockerTaskListPageComponent,
   ],
   exports: [
     RouterModule,

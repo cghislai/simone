@@ -1,18 +1,8 @@
 .labels {
-  display: inline-block;
-
-  .label {
-    display: inline-block;
-    margin: .3em;
-  position: relative;
-
-    .key {
-      font-size: .8em;
-      font-weight: 300;
-    }
+  .row {
+    margin: 0;
   }
-
-  .tooltip {
-    max-width: 10em;
+  .value {
+    font-size: .9em;
   }
 }
