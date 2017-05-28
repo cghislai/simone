@@ -1,5 +1,13 @@
 # Simone
 
+A frontend for the docker daemon. Demo there: https://dev.charlyghislain.com/simone
+To connect to a daemon over tcp, you need to bind the docker daemon to a tcp port and proxify requests to add the CORS headers.
+The api-cors-headers option provided by the docker daemon does not seem to handle credentials.
+  
+  Header set Access-Control-Allow-Origin your-origin
+  Header set Access-Control-Allow-Headers Authorization
+  Header set Access-Control-Allow-Credentials true
+
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.29.
 
 ## Development server
