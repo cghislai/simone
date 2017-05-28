@@ -23,15 +23,16 @@ pipeline {
                 }
                 sh "rm -rf dist"
                 nodejs(nodeJSInstallationName: 'node 7', configId: '') {
+                    sh "sed -i 's@^#.*\$@@' node_modules/JSONStream/index.js"
                     sh "npm install"
-                    sh "ng build"
+                    sh "ng build --base-href /simone/"
                 }
                 dir("dist") {
                     sh '''
                         export VERSION=`cat ../version.json | python -c "import sys, json; print(json.load(sys.stdin)['version'])"`
                         export COMMIT="$(git rev-parse --short HEAD)"
                         echo "$VERSION" | grep '\\(alpha\\|beta\\)' && export VERSION="${VERSION}-${COMMIT}"
-                        zip -rv simone-$VERSION.zip *
+                        tar -cvzf simone-$VERSION-$BUILD_ENV.tgz *
                         '''
                 }
             }
@@ -44,11 +45,11 @@ pipeline {
                        export COMMIT="$(git rev-parse --short HEAD)"
                        echo "$VERSION" | grep '\\(alpha\\|beta\\)' && export VERSION="${VERSION}-${COMMIT}"
 
-                       export SIMONE_ARCHIVE="simone-$VERSION-$BUILD_ENV.zip"
-                       echo "SIMONE_ARCHIVE" > ${BRANCH_NAME}.latest
+                       export SIMONE_ARCHIVE="simone-$VERSION-$BUILD_ENV.tgz"
+                       echo "$SIMONE_ARCHIVE" > ${BRANCH_NAME}.latest
 
-                       curl -v --user $NEXUS_BASIC_AUTH --upload-file dist/SIMONE_ARCHIVE $DEPLOY_URL/$DEPLOY_REPO/charlyghislain/simone/$SIMONE_ARCHIVE
-                       curl -v --user $NEXUS_BASIC_AUTH --upload-file ${BRANCH_NAME}.latest.gestemps $DEPLOY_URL/$DEPLOY_REPO/charlyghislain/simone/${BRANCH_NAME}.latest
+                       curl -v --user $NEXUS_BASIC_AUTH --upload-file dist/$SIMONE_ARCHIVE $DEPLOY_URL/$DEPLOY_REPO/charlyghislain/simone/$SIMONE_ARCHIVE
+                       curl -v --user $NEXUS_BASIC_AUTH --upload-file ${BRANCH_NAME}.latest $DEPLOY_URL/$DEPLOY_REPO/charlyghislain/simone/${BRANCH_NAME}.latest
                        '''
                 }
             }
