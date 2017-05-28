@@ -11,6 +11,7 @@ import {SimoneDockerOptions} from '../docker/domain/docker-options';
 import {ContainerJson} from './domain/container';
 import {AnonymousSubscription, TeardownLogic} from 'rxjs/Subscription';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
+import {ContainerStatsOptions} from './domain/container-stats-options';
 
 
 @Injectable()
@@ -56,6 +57,10 @@ export class DockerClient {
 
   getContainerLogs(id: string, options: ContainerLogsOptions): Observable<NodeJS.ReadableStream> {
     return this.dockerRequest(cb => this.dockerode.getContainer(id).logs(options, cb));
+  }
+
+  getContainerStats(id: string, options: ContainerStatsOptions): Observable<NodeJS.ReadableStream> {
+    return this.dockerRequest(cb => this.dockerode.getContainer(id).stats(options, cb));
   }
 
   info(): Observable<any> {

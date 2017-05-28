@@ -59,6 +59,7 @@ import {UtilsModule} from '../utils/utils.module';
 import { NetworkConfigComponent } from './docker-networks/network-config/network-config.component';
 import { ContainerInspectInfoComponent } from './docker-containers/container-inspect-info/container-inspect-info.component';
 import { ContainerLogsComponent } from './docker-containers/container-logs/container-logs.component';
+import { ContainerStatsComponent } from './docker-containers/container-stats/container-stats.component';
 
 @NgModule({
   imports: [
@@ -119,6 +120,7 @@ import { ContainerLogsComponent } from './docker-containers/container-logs/conta
     NetworkConfigComponent,
     ContainerInspectInfoComponent,
     ContainerLogsComponent,
+    ContainerStatsComponent,
   ],
   exports: [
     RouterModule,

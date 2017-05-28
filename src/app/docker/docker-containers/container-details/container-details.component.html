@@ -46,5 +46,10 @@
                           [tty]="container.Config.Tty"
       ></app-container-logs>
     </p-tabPanel>
+
+    <p-tabPanel header="Stats" [selected]="activeTab == 2">
+      <app-container-stats [containerId]="container.Id"
+      ></app-container-stats>
+    </p-tabPanel>
   </p-tabView>
 </div>

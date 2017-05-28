@@ -9,6 +9,7 @@ import {MountSettingsJson} from '../../client/domain/mount-settings';
 import {ContainerFilterJson} from '../../client/domain/container-filter';
 import {ContainerInspectInfo, ContainerLogsOptions, NetworkInfo} from 'dockerode';
 import {ContainerJson} from '../../client/domain/container';
+import {ContainerStatsOptions} from '../../client/domain/container-stats-options';
 
 /**
  * Created by cghislai on 11/02/17.
@@ -33,7 +34,10 @@ export class DockerContainersService {
 
   logs(id: string, options: ContainerLogsOptions): Observable<NodeJS.ReadableStream> {
     return this.client.getContainerLogs(id, options);
+  }
 
+  stats(id: string, options: ContainerStatsOptions): Observable<NodeJS.ReadableStream> {
+    return this.client.getContainerStats(id, options);
   }
 
   private mapContainerJson(json: ContainerJson): Container {

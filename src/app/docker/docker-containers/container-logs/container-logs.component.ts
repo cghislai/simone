@@ -26,6 +26,7 @@ export class ContainerLogsComponent implements OnInit, OnDestroy {
   private source = new BehaviorSubject<LogLine[]>([]);
   private lineBufferLength: number = 1000;
   private connectionSubscription: Subscription;
+  private  unHandledBytes: Uint8Array;
 
   connected = new BehaviorSubject<boolean>(false);
   connecting: boolean;
@@ -33,7 +34,6 @@ export class ContainerLogsComponent implements OnInit, OnDestroy {
   data: Observable<LogLine[]>;
   streams = Stream;
   linesBuffer: number = 1000;
-  unHandledBytes: Uint8Array;
 
   constructor(private containerService: DockerContainersService,
               private zone: NgZone) {

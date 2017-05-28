@@ -1,0 +1,84 @@
+<div class="log">
+  <p-blockUI [blocked]="connecting || !(connected | async)"
+             [target]="statsPanel"
+  >
+  </p-blockUI>
+
+  <p-panel #statsPanel>
+    <div class="blocked-reason ui-widget" [hidden]="!connecting || (connected | async)">
+      <div *ngIf="connecting">Connecting...</div>
+      <!--<a *ngIf="connecting" (click)="cancelConnection()">Cancel</a>-->
+      <span *ngIf="!connecting">Disconnected</span>
+    </div>
+
+    <div class="filter label-table">
+
+    </div>
+    <div class="stats label-table">
+      <div class="table-bloc">
+
+        <div class="title">Memory</div>
+
+        <span class="row">
+          <label></label>
+          <span>{{(data | async)?.memory_stats | json }}</span>
+        </span>
+      </div>
+
+      <div class="table-bloc">
+
+        <div class="title">CPU</div>
+
+        <span class="row">
+          <label>Total</label>
+          <span>{{(data | async)?.precpu_stats?.cpu_usage?.total_usage}}</span>
+        </span>
+        <span class="row">
+          <label>Kernel</label>
+          <span>{{(data | async)?.precpu_stats?.cpu_usage?.usage_in_kernelmode}}</span>
+        </span>
+        <span class="row">
+          <label>User</label>
+          <span>{{(data | async)?.precpu_stats?.cpu_usage?.usage_in_usermode}}</span>
+        </span>
+      </div>
+
+      <div class="table-bloc">
+
+        <div class="title">Network</div>
+
+        <span class="row" *ngFor="let network of (data | async)?.networks | keysArray">
+          <label>{{ network }}</label>
+          <span class="network label-table">
+            <span class="row">
+              <label>Rx bytes</label>
+              <span>{{ (data | async)?.networks[network].rx_bytes }}</span>
+            </span>
+            <span class="row">
+              <label>Rx error/dropped</label>
+              <span>{{ (data | async)?.networks[network].rx_errors }} / {{ (data | async)?.networks[network].rx_dropped }}</span>
+            </span>
+            <span class="row">
+              <label>Rx packets</label>
+              <span>{{ (data | async)?.networks[network].rx_packets}} </span>
+            </span>
+            <span class="row">
+              <label>Tx bytes</label>
+              <span>{{ (data | async)?.networks[network].tx_bytes }}</span>
+            </span>
+            <span class="row">
+              <label>Tx error/dropped</label>
+              <span>{{ (data | async)?.networks[network].tx_errors }} / {{ (data | async)?.networks[network].tx_dropped }}</span>
+            </span>
+             <span class="row">
+              <label>Tx packets</label>
+              <span>{{ (data | async)?.networks[network].tx_packets}}</span>
+            </span>
+          </span>
+        </span>
+
+      </div>
+    </div>
+  </p-panel>
+
+</div>
