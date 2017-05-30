@@ -1,0 +1,21 @@
+.error-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  text-align: center;
+  z-index: 3001;
+
+  .messages-container {
+    display: inline-block;
+    text-align: left;
+    max-width: 60%;
+
+    .ui-messagfes
+    ul {
+      display: inline-block;
+      li {
+      }
+    }
+  }
+}

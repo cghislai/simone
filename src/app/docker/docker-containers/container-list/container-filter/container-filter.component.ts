@@ -50,7 +50,7 @@ export class ContainerFilterComponent implements OnInit, ControlValueAccessor {
 
 
   writeValue(obj: any): void {
-      this.setFilter(obj);
+    this.setFilter(obj);
   }
 
   registerOnChange(fn: any): void {
@@ -81,7 +81,6 @@ export class ContainerFilterComponent implements OnInit, ControlValueAccessor {
 
 
   onIncludeStoppedChange(value: boolean) {
-    console.log(' filter changed: ' + value);
     this.includeStopped = value;
     this.onTouchedFunction();
     this.fireFilter();
@@ -107,7 +106,6 @@ export class ContainerFilterComponent implements OnInit, ControlValueAccessor {
     this.names = filter.filters.name;
     this.labels = filter.filters.label;
     this.includeStopped = filter.includeStopped;
-    console.log(' filter include : ' + this.includeStopped);
     this.isTask = filter.filters.isTask == null ? true
       : filter.filters.isTask.length === 0 ? true
         : filter.filters.isTask.find(t => t === true) != null;

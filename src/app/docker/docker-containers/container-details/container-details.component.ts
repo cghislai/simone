@@ -1,7 +1,8 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {ContainerInspectInfo} from 'dockerode';
 import {Subscription} from 'rxjs/Subscription';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-container-details',
@@ -12,6 +13,9 @@ export class ContainerDetailsComponent implements OnInit, OnDestroy {
 
   @Input()
   container: ContainerInspectInfo;
+  @Output()
+  containerChanged = new EventEmitter<boolean>();
+
   activeTab: number;
 
   private subscription: Subscription;
@@ -22,8 +26,9 @@ export class ContainerDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     let tabSubcription = this.activatedRoute.params
-      .map(params => params['activeTab'])
-      .subscribe(tab => this.activeTab = tab);
+      .map(params => params['activeTab'] == null ? 0 : params['activeTab'])
+      .subscribe(tab => this.loadTab(tab));
+
     this.subscription = new Subscription();
     this.subscription.add(tabSubcription);
   }
@@ -38,5 +43,13 @@ export class ContainerDetailsComponent implements OnInit, OnDestroy {
       relativeTo: this.activatedRoute,
       replaceUrl: true,
     });
+  }
+
+  onContainerChange() {
+    this.containerChanged.next(true);
+  }
+
+  private loadTab(tabIndex: number) {
+    this.activeTab = tabIndex;
   }
 }

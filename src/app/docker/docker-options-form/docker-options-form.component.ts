@@ -46,6 +46,8 @@ export class DockerOptionsFormComponent implements OnInit, ControlValueAccessor 
     this.options = obj;
     if (this.options == null) {
       this.createDefaultOptions();
+    } else {
+      this.optionsMode = this.options.mode === 'tcp' ? OptionMode.REMOTE_HTTP : OptionMode.LOCAL_SOCKET_FILE;
     }
   }
 
@@ -61,6 +63,7 @@ export class DockerOptionsFormComponent implements OnInit, ControlValueAccessor 
     this.optionsMode = mode;
     this.isModeHttp = this.optionsMode == OptionMode.REMOTE_HTTP;
     this.isModeSocket = this.optionsMode == OptionMode.LOCAL_SOCKET_FILE;
+    this.options.mode = mode === OptionMode.REMOTE_HTTP ? 'tcp' : 'socket';
   }
 
 
@@ -103,7 +106,7 @@ export class DockerOptionsFormComponent implements OnInit, ControlValueAccessor 
   }
 
   private createDefaultOptions() {
-    let options = this.optionsService.getLastOptions();
+    let options = this.optionsService.getCurrentOptions();
     this.options = Object.assign({}, options);
     this.optionsMode = OptionMode.REMOTE_HTTP;
     this.tlsEnabled = false;

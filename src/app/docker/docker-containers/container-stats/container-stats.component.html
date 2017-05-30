@@ -1,15 +1,5 @@
 <div class="log">
-  <p-blockUI [blocked]="connecting || !(connected | async)"
-             [target]="statsPanel"
-  >
-  </p-blockUI>
-
   <p-panel #statsPanel>
-    <div class="blocked-reason ui-widget" [hidden]="!connecting || (connected | async)">
-      <div *ngIf="connecting">Connecting...</div>
-      <!--<a *ngIf="connecting" (click)="cancelConnection()">Cancel</a>-->
-      <span *ngIf="!connecting">Disconnected</span>
-    </div>
 
     <div class="filter label-table">
 

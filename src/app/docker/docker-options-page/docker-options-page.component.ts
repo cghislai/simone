@@ -15,7 +15,6 @@ import {Subscription} from 'rxjs/Subscription';
 export class DockerOptionsPageComponent implements OnInit {
 
   messages: Message[] = [];
-  clientStated: Observable<boolean>;
   dockerOptions: Observable<SimoneDockerOptions>;
   subscription: Subscription;
 
@@ -24,8 +23,6 @@ export class DockerOptionsPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.clientStated = this.dockerService.getStartedObservable()
-      .share();
     this.dockerOptions = this.optionsService.getOptions()
       .map(options => Object.assign({}, options));
     this.subscription = new Subscription();
@@ -41,7 +38,7 @@ export class DockerOptionsPageComponent implements OnInit {
   }
 
   onOptionsCancelled() {
-    let options = this.optionsService.getLastOptions();
+    let options = this.optionsService.getCurrentOptions();
     this.optionsService.setOptions(options);
     this.messages.push({
       severity: 'info',
@@ -58,6 +55,9 @@ export class DockerOptionsPageComponent implements OnInit {
     this.stopClient();
   }
 
+  isClientStarted() {
+    return this.dockerService.isClientStarted();
+  }
 
   private startClient() {
     this.dockerService.startClient();

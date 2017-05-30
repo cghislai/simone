@@ -1,0 +1,14 @@
+.button {
+  button[hidden] {
+    display: none;
+  }
+  .start {
+    background-color: darkgreen;
+  }
+  .stop {
+    background-color: darkred;
+  }
+  .busy {
+    background-color: gray;
+  }
+}

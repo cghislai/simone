@@ -15,6 +15,9 @@ export enum ContainerColumn {
   LABELS,
   NETWORKS,
   MOUNTS,
+
+  STATUS_ICON,
+  ACTIONS
 }
 
 
@@ -67,6 +70,14 @@ CONTAINER_COLUMN_DATA[ContainerColumn.MOUNTS] = {
   label: {'en': 'Mounts'},
   field: 'mounts',
 };
+CONTAINER_COLUMN_DATA[ContainerColumn.STATUS_ICON] = {
+  label: {'en': 'Status'},
+  field: 'status',
+};
+CONTAINER_COLUMN_DATA[ContainerColumn.ACTIONS] = {
+  label: {'en': 'Actions'},
+  field: '',
+};
 
 
 export const CONTAINER_COLUMNS = [
@@ -82,4 +93,6 @@ export const CONTAINER_COLUMNS = [
   ContainerColumn.LABELS,
   ContainerColumn.NETWORKS,
   ContainerColumn.MOUNTS,
+  ContainerColumn.STATUS_ICON,
+  ContainerColumn.ACTIONS,
 ];

@@ -1,9 +1,25 @@
 <div class="container-details ui-widget" *ngIf="container != null">
 
   <header>
-    <h1>
-      {{ container.Name }}
-    </h1>
+    <div class="row">
+      <h1>
+        {{ container.Name }}
+      </h1>
+      <div class="actions">
+        <app-container-pause-button [containerId]="container.Id"
+                                    [paused]="container.State.Paused"
+                                    (pausedChanged)="onContainerChange()"
+        ></app-container-pause-button>
+        <app-container-restart-button [containerId]="container.Id"
+                                      [running]="container.State.Running"
+                                      (restarted)="onContainerChange()"
+        ></app-container-restart-button>
+        <app-container-stop-button [containerId]="container.Id"
+                                   [running]="container.State.Running"
+                                   (runningChange)="onContainerChange()"
+        ></app-container-stop-button>
+      </div>
+    </div>
     <div class="info label-table">
       <span class="row">
             <label>Id</label>
@@ -34,21 +50,23 @@
     </div>
   </header>
 
-  <p-tabView [lazy]="true"
+  <p-tabView [lazy]="false"
              (onChange)="onTabChange($event)">
-    <p-tabPanel header="Inspect" [selected]="activeTab == 0">
-      <app-container-inspect-info [container]="container"
+    <p-tabPanel header="Inspect" [selected]="activeTab === 0">
+      <app-container-inspect-info [container]="container" *ngIf="activeTab === 0"
       ></app-container-inspect-info>
     </p-tabPanel>
 
-    <p-tabPanel header="Logs" [selected]="activeTab == 1">
+    <p-tabPanel header="Logs" [selected]="activeTab === 1">
       <app-container-logs [containerId]="container.Id"
                           [tty]="container.Config.Tty"
+                          *ngIf="activeTab === 1"
       ></app-container-logs>
     </p-tabPanel>
 
-    <p-tabPanel header="Stats" [selected]="activeTab == 2">
+    <p-tabPanel header="Stats" [selected]="activeTab === 2">
       <app-container-stats [containerId]="container.Id"
+                           *ngIf="activeTab === 2"
       ></app-container-stats>
     </p-tabPanel>
   </p-tabView>

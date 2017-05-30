@@ -29,15 +29,20 @@ export class ContainerDetailsPageComponent implements OnInit, OnDestroy {
       .map(params => params['id'])
       .filter(param => param != null)
       .distinctUntilChanged();
-    let ping = this.dockerService.getReachableObservable();
 
-    this.subscription = Observable.combineLatest(id, ping)
-      .map(results => results[0])
-      .subscribe(id => this.fetchContainer(id));
+    let heartbeats = Observable.of(true)
+      .concat(this.dockerService.getHeartBeatObservable());
+
+    this.subscription = id.combineLatest(heartbeats)
+      .subscribe(results => this.fetchContainer(results[0]));
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  onContainerChange() {
+    this.dockerService.beat();
   }
 
   private fetchContainer(id: string) {

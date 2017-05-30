@@ -1,9 +1,9 @@
-import {DockerClient} from '../../client/docker.client';
+import {DockerClient} from '../client/docker.client';
 import {Injectable} from '@angular/core';
 import * as moment from 'moment';
 import {Observable} from 'rxjs/Observable';
-import {TaskJson} from '../../client/domain/task';
-import {FilterJson} from '../../client/domain/filter';
+import {TaskJson} from '../client/domain/task';
+import {FilterJson} from '../client/domain/filter';
 import {Task} from '../domain/tasks/task';
 import {TaskFilter} from '../domain/tasks/task-filter';
 

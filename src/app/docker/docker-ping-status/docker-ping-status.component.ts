@@ -1,14 +1,4 @@
-import {
-  animate,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/core';
+import {animate, ChangeDetectorRef, Component, OnInit, state, style, transition, trigger} from '@angular/core';
 import {DockerService} from '../services/docker.service';
 import {Observable} from 'rxjs/Observable';
 
@@ -51,16 +41,12 @@ export class DockerPingStatusComponent implements OnInit {
   }
 
   ngOnInit() {
-    let pingResult = this.service.getReachableObservable();
-    let started = this.service.getStartedObservable();
-    this.active = Observable.combineLatest(pingResult, started)
-      .map(results => {
-        let isReachable = results[0];
-        let isStarted = results[1];
-        return isStarted ? (isReachable ? 'online' : 'unreachable') : 'offline';
+    this.active = this.service.getReachableObservable()
+      .map(reachable => {
+        let started = this.service.isClientStarted();
+        return started ? (reachable ? 'online' : 'unreachable') : 'offline';
       });
-    this.blink = this.service.getReachableObservable()
-      // .do(c => this.cd.detectChanges())
+    this.blink = this.service.getHeartBeatObservable()
       .mergeMap(s => Observable.timer(0, 100)
         .take(2)
         .map(r => r === 0))

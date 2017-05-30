@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TaskTemplateJson} from '../../../client/domain/task-template';
+import {TaskTemplateJson} from '../../client/domain/task-template';
 
 @Component({
   selector: 'app-task-template',

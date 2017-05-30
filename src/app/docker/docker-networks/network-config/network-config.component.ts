@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NetworkConfig} from '../../../client/domain/network-config';
+import {NetworkConfig} from '../../client/domain/network-config';
 
 @Component({
   selector: 'app-network-config',

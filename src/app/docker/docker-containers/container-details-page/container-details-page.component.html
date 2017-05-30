@@ -1,2 +1,4 @@
-<app-container-details [container]="container" *ngIf="container != null"
+<app-container-details *ngIf="container != null"
+                       [container]="container"
+                       (containerChanged)="onContainerChange()"
 ></app-container-details>

@@ -21,7 +21,7 @@ export class DockerOptionsService {
     return this.options;
   }
 
-  getLastOptions(): SimoneDockerOptions {
+  getCurrentOptions(): SimoneDockerOptions {
     return this.options.getValue();
   }
 
@@ -53,11 +53,10 @@ export class DockerOptionsService {
 
   private createDefaultOptions() {
     let options: SimoneDockerOptions = {
-      host: 'hosta',
-      port: 4242,
-      protocol: 'http',
+      mode: 'tcp',
+      url: 'http://hosta:4242',
       timeout: 6,
-      heartbeatDelay: 6,
+      heartbeatDelay: 0,
       socketPath: '',
       ca: '',
       cert: '',

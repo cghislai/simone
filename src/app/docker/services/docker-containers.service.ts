@@ -1,15 +1,18 @@
-import {DockerClient} from '../../client/docker.client';
+import {DockerClient} from '../client/docker.client';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {DockerOptionsService} from './docker-options.service';
 import {ContainerFilter} from '../domain/containers/container-filter';
 import {Container} from '../domain/containers/container';
 import {MountSettings} from '../domain/containers/mount-settings';
-import {MountSettingsJson} from '../../client/domain/mount-settings';
-import {ContainerFilterJson} from '../../client/domain/container-filter';
-import {ContainerInspectInfo, ContainerLogsOptions, NetworkInfo} from 'dockerode';
-import {ContainerJson} from '../../client/domain/container';
-import {ContainerStatsOptions} from '../../client/domain/container-stats-options';
+import {MountSettingsJson} from '../client/domain/mount-settings';
+import {ContainerFilterJson} from '../client/domain/container-filter';
+import {ContainerInspectInfo, NetworkInfo} from 'dockerode';
+import {ContainerJson} from '../client/domain/container';
+import {ContainerStatsOptions} from '../client/domain/container-stats-options';
+import {DockerService} from './docker.service';
+import {DemuxedStream} from '../client/domain/demuxedStream';
+import {ContainerAttachOptions} from '../client/domain/container-attach-options';
+import {ContainerStats} from '../client/domain/container-stats';
 
 /**
  * Created by cghislai on 11/02/17.
@@ -19,7 +22,7 @@ import {ContainerStatsOptions} from '../../client/domain/container-stats-options
 export class DockerContainersService {
 
   constructor(private client: DockerClient,
-              private optionsService: DockerOptionsService) {
+              private dockerService: DockerService) {
   }
 
   list(filter?: ContainerFilter): Observable<Container[]> {
@@ -32,12 +35,39 @@ export class DockerContainersService {
     return this.client.inspectContainer(id);
   }
 
-  logs(id: string, options: ContainerLogsOptions): Observable<NodeJS.ReadableStream> {
-    return this.client.getContainerLogs(id, options);
+  logs(id: string, options: ContainerAttachOptions): Observable<DemuxedStream> {
+    return this.client.getContainerLogsStream(id, options);
   }
 
-  stats(id: string, options: ContainerStatsOptions): Observable<NodeJS.ReadableStream> {
-    return this.client.getContainerStats(id, options);
+  stats(id: string, options: ContainerStatsOptions): Observable<ContainerStats> {
+    return this.client.getContainerStats(id, options)
+      .map(response => response.json());
+  }
+
+  pause(id: string): Observable<boolean> {
+    return this.client.pauseContainer(id)
+      .map(r => true);
+
+  }
+
+  resume(id: string): Observable<boolean> {
+    return this.client.resumeContainer(id)
+      .map(r => true);
+  }
+
+  restart(id: string): Observable<boolean> {
+    return this.client.restartContainer(id)
+      .map(r => true);
+  }
+
+  stop(id: string): Observable<boolean> {
+    return this.client.stopContainer(id)
+      .map(r => true);
+  }
+
+  start(id: string): Observable<boolean> {
+    return this.client.startContainer(id)
+      .map(r => true);
   }
 
   private mapContainerJson(json: ContainerJson): Container {

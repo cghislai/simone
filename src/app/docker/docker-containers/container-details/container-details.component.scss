@@ -1,0 +1,16 @@
+.container-details {
+  header {
+    > .row {
+      display: flex;
+      align-items: center;
+
+      > * {
+        flex: 1 1 auto;
+      }
+      > .actions {
+        text-align: right;
+        font-size: 1.3em;
+      }
+    }
+  }
+}

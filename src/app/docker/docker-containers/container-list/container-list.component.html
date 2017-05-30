@@ -22,6 +22,7 @@
       <template let-col let-container="rowData" let-rowIndex="rowIndex" pTemplate="body">
         <app-container-column [column]="column"
                               [container]="container"
+                              (containerChanged)="onContainerChange()"
         ></app-container-column>
       </template>
     </p-column>

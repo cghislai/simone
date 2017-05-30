@@ -26,16 +26,16 @@ export class DockerTaskListComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.tasks = this.dockerService.getReachableObservable()
-      .filter(rechable => rechable)
-      .mergeMap(r => this.fetchTasks())
+    let heartbeatTasks = this.dockerService.getHeartBeatObservable()
+      .mergeMap(r => this.fetchTasks());
+    this.tasks = this.fetchTasks()
+      .concat(heartbeatTasks)
       .share();
-
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['filter'] != null) {
-      this.dockerService.ping();
+      this.dockerService.beat();
     }
   }
 

@@ -1,5 +1,5 @@
 import {ServiceMode} from './service-mode';
-import {TaskTemplateJson} from '../../../client/domain/task-template';
+import {TaskTemplateJson} from '../../client/domain/task-template';
 
 /**
  * Created by cghislai on 5/22/17.

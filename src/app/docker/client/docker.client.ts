@@ -1,0 +1,262 @@
+import {Observable} from 'rxjs';
+import {Http, RequestOptionsArgs, Response, URLSearchParams} from '@angular/http';
+import {Injectable, NgZone} from '@angular/core';
+import {DockerOptionsService} from '../services/docker-options.service';
+import {ContainerInspectInfo} from 'dockerode';
+import {ServiceJson} from './domain/service';
+import {TaskJson} from './domain/task';
+import {FilterJson} from './domain/filter';
+import {ContainerJson} from './domain/container';
+import {Subscription} from 'rxjs/Subscription';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Subject} from 'rxjs/Subject';
+import {ErrorService} from '../services/error.service';
+import {DemuxedStream} from './domain/demuxedStream';
+import {HttpClient} from './http.client';
+import {ContainerAttachOptions} from './domain/container-attach-options';
+import {ContainerStatsOptions} from './domain/container-stats-options';
+
+
+@Injectable()
+export class DockerClient {
+
+  private requestIdSeq: number = 0;
+  private runningRequests: number[] = [];
+  private requestsCancellations: { [key: number]: Subscription } = {};
+  private runningRequestCountChanged = new BehaviorSubject<number>(0);
+  private requestsSuccesses = new Subject<boolean | Error>();
+
+  constructor(private optionsService: DockerOptionsService,
+              private errorService: ErrorService,
+              private httpClient: HttpClient,
+              private zone: NgZone, private http: Http) {
+    // Attempt a request directly on new options
+    this.optionsService.getOptions()
+      .subscribe(options => this.ping());
+  }
+
+  listContainers(filter?: FilterJson): Observable<ContainerJson[]> {
+    return this.request('containers/json', {
+      method: 'GET',
+      body: filter,
+    }).map(response => response.json());
+  }
+
+
+  inspectContainer(id: string): Observable<ContainerInspectInfo> {
+    return this.request(`containers/${id}/json`, {
+      method: 'GET',
+    }).map(response => response.json());
+  }
+
+  getContainerLogsStream(id: string, options: ContainerAttachOptions): Observable<DemuxedStream> {
+    let searchParams = new URLSearchParams();
+    searchParams.append('stream', options.stream ? '1' : '0');
+    searchParams.append('logs', options.logs ? '1' : '0');
+    searchParams.append('stdin', options.stdin ? '1' : '0');
+    searchParams.append('stdout', options.stdout ? '1' : '0');
+    searchParams.append('stderr', options.stderr ? '1' : '0');
+    searchParams.append('detachkeys', options.detachKeys);
+    return this.requestWsStream(`containers/${id}/attach/ws`, searchParams);
+  }
+
+  getContainerStats(id: string, options: ContainerStatsOptions): Observable<Response> {
+    let stream = options.stream;
+    let searchParams = new URLSearchParams();
+    searchParams.append('stream', '0');
+    if (!stream) {
+      return this.request(`containers/${id}/stats`, {
+        method: 'GET',
+        search: searchParams,
+      });
+    } else {
+      // Separate the requests, because using the stream returned by the docker daemon will send progress event
+      // and the browser will keep appending to the xhr response, eventually hitting a memory limit.
+      return Observable.timer(0, 3000)
+        .mergeMap(t => {
+          return this.request(`containers/${id}/stats`, {
+            method: 'GET',
+            search: searchParams,
+          });
+        });
+    }
+  }
+
+  pauseContainer(id: string): Observable<Response> {
+    return this.request(`containers/${id}/pause`, {
+      method: 'POST',
+    });
+  }
+
+  resumeContainer(id: string): Observable<Response> {
+    return this.request(`containers/${id}/unpause`, {
+      method: 'POST',
+    });
+  }
+
+  restartContainer(id: string): Observable<Response> {
+    return this.request(`containers/${id}/restart`, {
+      method: 'POST',
+    });
+  }
+
+  stopContainer(id: string): Observable<Response> {
+    return this.request(`containers/${id}/stop`, {
+      method: 'POST',
+    });
+  }
+
+  startContainer(id: string): Observable<Response> {
+    return this.request(`containers/${id}/start`, {
+      method: 'POST',
+    });
+  }
+
+
+  listTasks(filter?: FilterJson): Observable<TaskJson[]> {
+    return this.request('tasks', {
+      method: 'GET',
+      body: filter,
+    }).map(response => response.json());
+  }
+
+  inspectTask(id: string): Observable<TaskJson> {
+    return this.request(`tasks/${id}`, {
+      method: 'GET',
+    }).map(response => response.json());
+  }
+
+
+  listServices(filter?: FilterJson): Observable<ServiceJson[]> {
+    return this.request('services', {
+      method: 'GET',
+      body: filter,
+    }).map(response => response.json());
+  }
+
+  inspectService(id: string): Observable<ServiceJson> {
+    return this.request(`services/${id}`, {
+      method: 'GET',
+    }).map(response => response.json());
+  }
+
+
+  info(): Observable<any> {
+    return this.request(`info`, {
+      method: 'GET',
+    }).map(response => response.json());
+  }
+
+  ping(): Observable<Response> {
+    return this.request(`_ping`, {
+      method: 'GET',
+    });
+  }
+
+  getRunningRequestCountObservable(): Observable<number> {
+    return this.runningRequestCountChanged.asObservable();
+  }
+
+  getRequestSucessObservable(): Observable<boolean> {
+    return this.requestsSuccesses.asObservable();
+  }
+
+
+  stopAllRequests() {
+    for (var id in this.requestsCancellations) {
+      this.requestsCancellations[id].unsubscribe();
+      delete this.requestsCancellations[id];
+    }
+  }
+
+  mapSearchParams(options: any): URLSearchParams {
+    let params: URLSearchParams = new URLSearchParams();
+    let keys = Reflect.ownKeys(options);
+    for (var key of keys) {
+      if (typeof key === 'string') {
+        params.append(key, options[key]);
+      }
+    }
+    return params;
+  }
+
+  private getNextRequestId(): number {
+    let id = this.requestIdSeq;
+    this.requestIdSeq = this.requestIdSeq + 1;
+    return id;
+  }
+
+  private request(path: string, options: RequestOptionsArgs): Observable<Response> {
+    let dockerOptions = this.optionsService.getCurrentOptions();
+    if (dockerOptions.mode == 'tcp') {
+      let url = `${dockerOptions.url}/${dockerOptions.version}/${path}`;
+      // TODO: tls
+      let request = this.http.request(url, options);
+      return this.wrapRequest(request);
+    } else {
+      // todo: socket
+      throw 'Client: unsupported operation';
+    }
+  }
+
+  private requestWsStream(path: string, searchParams: URLSearchParams): Observable<DemuxedStream> {
+    let dockerOptions = this.optionsService.getCurrentOptions();
+    if (dockerOptions.mode == 'tcp') {
+      let url = `${dockerOptions.url}/${dockerOptions.version}/${path}?${searchParams.toString()}`;
+      // TODO: tls
+      let request = this.httpClient.requestWebSocketStream(url);
+      return this.wrapRequest(request);
+    } else {
+      // todo: socket
+      throw 'Client: unsupported operation';
+    }
+  }
+
+  private wrapRequest<T>(request: Observable<T>): Observable<T> {
+    let cachedRequest = request.publishReplay(1);
+    let requestId = this.getNextRequestId();
+
+    cachedRequest.subscribe(
+      response => this.onRequestSuccess(requestId),
+      error => this.onRequestError(requestId, error),
+    );
+    let mainRequestSubscription = cachedRequest.connect();
+    let unsubscribedSubscription = new Subscription(() => {
+      this.onRequestCompleted(requestId);
+    });
+    mainRequestSubscription.add(unsubscribedSubscription);
+
+    this.onRequestStarted(requestId, mainRequestSubscription);
+    return cachedRequest;
+  }
+
+  private onRequestStarted(id: number, mainSubscription: Subscription) {
+    this.runningRequests.push(id);
+    this.requestsCancellations[id] = mainSubscription;
+    this.runningRequestCountChanged.next(this.runningRequests.length);
+  }
+
+  private onRequestSuccess(id: number) {
+    this.requestsSuccesses.next(true);
+  }
+
+  private onRequestError(id: number, error: any) {
+    this.requestsSuccesses.next(error);
+    if (error.message != null) {
+      this.errorService.addError(error.message);
+    } else {
+      let title = `Request ${id} errored`;
+      this.errorService.addErrorWithTitle(title, error);
+    }
+  }
+
+  private onRequestCompleted(id: number) {
+    let subscription = this.requestsCancellations[id];
+    delete this.requestsCancellations[id];
+    this.runningRequests = this.runningRequests
+      .filter(rid => rid !== id);
+    this.runningRequestCountChanged.next(this.runningRequests.length);
+  }
+
+
+}

@@ -1,0 +1,16 @@
+.button {
+  button[hidden] {
+    display: none;
+  }
+  .resume {
+    background-color: yellow;
+    color: black;
+  }
+  .pause {
+    background-color: orange;
+  }
+
+  .busy {
+    background-color: gray;
+  }
+}

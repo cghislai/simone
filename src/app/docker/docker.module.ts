@@ -5,21 +5,24 @@ import {DockerOptionsPageComponent} from './docker-options-page/docker-options-p
 import {DockerService} from './services/docker.service';
 import {ButtonModule} from 'primeng/components/button/button';
 import {FormsModule} from '@angular/forms';
-import {DockerClient} from '../client/docker.client';
+import {DockerClient} from './client/docker.client';
 import {DockerOptionsService} from './services/docker-options.service';
 import {
-  BlockUIModule, CheckboxModule,
+  BlockUIModule,
+  CheckboxModule,
   ChipsModule,
   DataTableModule,
   GrowlModule,
   InputTextareaModule,
   InputTextModule,
+  MessagesModule,
   MultiSelectModule,
   OverlayPanelModule,
   PanelModule,
   SelectButtonModule,
   SharedModule,
-  SpinnerModule, TabViewModule,
+  SpinnerModule,
+  TabViewModule,
   ToggleButtonModule,
 } from 'primeng/primeng';
 import {DockerPingStatusComponent} from './docker-ping-status/docker-ping-status.component';
@@ -39,27 +42,33 @@ import {ServiceFilterComponent} from './docker-services/service-list/service-fil
 import {DockerServiceListComponent} from './docker-services/service-list/docker-service-list.component';
 import {DockerServiceColumnComponent} from './docker-services/service-list/service-column/docker-service-column.component';
 import {TaskFilterComponent} from './docker-tasks/task-list/task-filter/task-filter.component';
-import { ContainerListComponent } from './docker-containers/container-list/container-list.component';
-import { ContainerColumnComponent } from './docker-containers/container-list/container-column/container-column.component';
-import { ContainerFilterComponent } from './docker-containers/container-list/container-filter/container-filter.component';
+import {ContainerListComponent} from './docker-containers/container-list/container-list.component';
+import {ContainerColumnComponent} from './docker-containers/container-list/container-column/container-column.component';
+import {ContainerFilterComponent} from './docker-containers/container-list/container-filter/container-filter.component';
 import {DockerContainersService} from './services/docker-containers.service';
-import { UniqueIdComponent } from './unique-id/unique-id.component';
-import { LabelsComponent } from './labels/labels.component';
-import { ServiceDetailsComponent } from './docker-services/service-details/service-details.component';
-import { ServiceSpecComponent } from './docker-services/service-spec/service-spec.component';
-import { ServiceDetailsPageComponent } from './docker-services/service-details-page/service-details-page.component';
-import { DockerTaskListPageComponent } from './docker-tasks/task-list-page/docker-task-list-page.component';
-import { TaskDetailsComponent } from './docker-tasks/task-details/task-details.component';
-import { TaskDetailsPageComponent } from './docker-tasks/task-details-page/task-details-page.component';
-import { ContainerSpecComponent } from './docker-containers/container-spec/container-spec.component';
-import { TaskTemplateComponent } from './docker-tasks/task-template/task-template.component';
-import { ContainerDetailsComponent } from './docker-containers/container-details/container-details.component';
-import { ContainerDetailsPageComponent } from './docker-containers/container-details-page/container-details-page.component';
+import {UniqueIdComponent} from './unique-id/unique-id.component';
+import {LabelsComponent} from './labels/labels.component';
+import {ServiceDetailsComponent} from './docker-services/service-details/service-details.component';
+import {ServiceSpecComponent} from './docker-services/service-spec/service-spec.component';
+import {ServiceDetailsPageComponent} from './docker-services/service-details-page/service-details-page.component';
+import {DockerTaskListPageComponent} from './docker-tasks/task-list-page/docker-task-list-page.component';
+import {TaskDetailsComponent} from './docker-tasks/task-details/task-details.component';
+import {TaskDetailsPageComponent} from './docker-tasks/task-details-page/task-details-page.component';
+import {ContainerSpecComponent} from './docker-containers/container-spec/container-spec.component';
+import {TaskTemplateComponent} from './docker-tasks/task-template/task-template.component';
+import {ContainerDetailsComponent} from './docker-containers/container-details/container-details.component';
+import {ContainerDetailsPageComponent} from './docker-containers/container-details-page/container-details-page.component';
 import {UtilsModule} from '../utils/utils.module';
-import { NetworkConfigComponent } from './docker-networks/network-config/network-config.component';
-import { ContainerInspectInfoComponent } from './docker-containers/container-inspect-info/container-inspect-info.component';
-import { ContainerLogsComponent } from './docker-containers/container-logs/container-logs.component';
-import { ContainerStatsComponent } from './docker-containers/container-stats/container-stats.component';
+import {NetworkConfigComponent} from './docker-networks/network-config/network-config.component';
+import {ContainerInspectInfoComponent} from './docker-containers/container-inspect-info/container-inspect-info.component';
+import {ContainerStatsComponent} from './docker-containers/container-stats/container-stats.component';
+import {ContainerLogsComponent} from './docker-containers/container-logs/container-logs.component';
+import {ContainerPauseButtonComponent} from './docker-containers/container-pause-button/container-pause-button.component';
+import {ContainerRestartButtonComponent} from './docker-containers/container-restart-button/container-restart-button.component';
+import {ErrorService} from './services/error.service';
+import {ContainerStopButtonComponent} from './docker-containers/container-stop-button/container-stop-button.component';
+import {ContainerStatusIconComponent} from './docker-containers/container-status-icon/container-status-icon.component';
+import {HttpClient} from './client/http.client';
 
 @NgModule({
   imports: [
@@ -84,6 +93,7 @@ import { ContainerStatsComponent } from './docker-containers/container-stats/con
     TabViewModule,
     BlockUIModule,
     CheckboxModule,
+    MessagesModule,
 
     UtilsModule,
   ],
@@ -121,6 +131,10 @@ import { ContainerStatsComponent } from './docker-containers/container-stats/con
     ContainerInspectInfoComponent,
     ContainerLogsComponent,
     ContainerStatsComponent,
+    ContainerPauseButtonComponent,
+    ContainerRestartButtonComponent,
+    ContainerStopButtonComponent,
+    ContainerStatusIconComponent,
   ],
   exports: [
     RouterModule,
@@ -128,12 +142,14 @@ import { ContainerStatsComponent } from './docker-containers/container-stats/con
     DockerPingStatusComponent,
   ],
   providers: [
+    HttpClient,
     DockerClient,
     DockerOptionsService,
     DockerService,
     DockerServicesService,
     DockerTasksService,
     DockerContainersService,
+    ErrorService,
   ],
 })
 export class DockerModule {

@@ -3,7 +3,7 @@ import {DockerContainersService} from '../../services/docker-containers.service'
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Subscription} from 'rxjs/Subscription';
 import {Observable} from 'rxjs/Observable';
-import {ContainerStats} from '../../../client/domain/container-stats';
+import {ContainerStats} from '../../client/domain/container-stats';
 
 @Component({
   selector: 'app-container-stats',
@@ -15,14 +15,8 @@ export class ContainerStatsComponent implements OnInit, OnDestroy {
   @Input()
   private containerId: string;
 
-  private stream: NodeJS.ReadableStream;
-  private closeListener: Function;
-  private dataListener: Function;
-
   private source = new BehaviorSubject<ContainerStats>(null);
-  private connectionSubscription: Subscription;
-  connected = new BehaviorSubject<boolean>(false);
-  connecting: boolean;
+  private statsSubscription: Subscription;
   data: Observable<ContainerStats>;
 
   constructor(private containerService: DockerContainersService,
@@ -35,58 +29,17 @@ export class ContainerStatsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscribeStream();
-  }
-
-
-  cancelConnection() {
-    if (this.connectionSubscription != null) {
-      this.connectionSubscription.unsubscribe();
+    if (this.statsSubscription != null) {
+      this.statsSubscription.unsubscribe();
     }
-  }
-
-  private parseStream(data: Uint8Array) {
-    let stringData = '';
-    for (var i = 0; i < data.length; i++) {
-      stringData += String.fromCharCode(data[i]);
-    }
-    let statsData: ContainerStats = JSON.parse(stringData);
-    this.source.next(statsData);
-  }
-
-  private unsubscribeStream() {
-    this.connected.next(false);
-    if (this.stream != null && this.dataListener != null) {
-      console.log('logs unsubscribing');
-      this.stream.removeListener('data', this.dataListener);
-      this.stream = null;
-      this.dataListener = null;
-    }
-  }
-
-  private listenStream(stream: NodeJS.ReadableStream) {
-    this.unsubscribeStream();
-    this.connected.next(true);
-    this.stream = stream;
-    this.dataListener = (data: Uint8Array) => this.zone.runGuarded(() => this.parseStream(data));
-    this.closeListener = () => this.zone.runGuarded(() => this.onStreamClosed());
-    this.stream.addListener('data', this.dataListener);
-    this.stream.addListener('close', this.closeListener)
-  }
-
-  private onStreamClosed() {
-    this.unsubscribeStream();
-    this.initConnection();
   }
 
   private initConnection() {
-    this.unsubscribeStream();
-    this.connecting = true;
-    this.connectionSubscription = this.containerService.stats(this.containerId, {
-      stream: true,
-    }).subscribe(stream => this.listenStream(stream),
-      error => this.connected.next(false),
-      () => this.connecting = false);
+    this.statsSubscription = this.containerService.stats(this.containerId, {
+      stream: true
+    }).subscribe(stats => {
+      this.source.next(stats);
+    });
   }
 
 }

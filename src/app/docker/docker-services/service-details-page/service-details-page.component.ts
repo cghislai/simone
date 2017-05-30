@@ -28,11 +28,11 @@ export class ServiceDetailsPageComponent implements OnInit, OnDestroy {
       .map(params => params['id'])
       .filter(param => param != null)
       .distinctUntilChanged();
-    let ping = this.dockerService.getReachableObservable();
 
-    this.subscription = Observable.combineLatest(id, ping)
-      .map(results => results[0])
-      .subscribe(id => this.fetchService(id));
+    let heartbeats = Observable.of(true)
+      .concat(this.dockerService.getHeartBeatObservable());
+    this.subscription = heartbeats.combineLatest(id)
+      .subscribe(results=>this.fetchService(results[1]));
   }
 
   ngOnDestroy() {

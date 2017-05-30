@@ -1,10 +1,10 @@
-import {DockerClient} from '../../client/docker.client';
+import {DockerClient} from '../client/docker.client';
 import {Injectable} from '@angular/core';
 import * as moment from 'moment';
-import {ServiceJson} from '../../client/domain/service';
+import {ServiceJson} from '../client/domain/service';
 import {Observable} from 'rxjs/Observable';
-import {ServiceSpecJson} from '../../client/domain/service-spec';
-import {FilterJson} from '../../client/domain/filter';
+import {ServiceSpecJson} from '../client/domain/service-spec';
+import {FilterJson} from '../client/domain/filter';
 import {ServiceFilter} from '../domain/services/service-filter';
 import {Service} from '../domain/services/service';
 import {ServiceSpec} from '../domain/services/service-spec';

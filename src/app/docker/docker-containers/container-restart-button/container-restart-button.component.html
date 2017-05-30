@@ -1,0 +1,19 @@
+<span class="button">
+   <button pButton type="button"
+           class="restart"
+           [hidden]="busy"
+           [disabled]="!running"
+           title="Restart"
+           icon="fa-refresh"
+           iconPos="left"
+           (click)="restart()">
+  </button>
+   <button pButton type="button"
+           class="busy"
+           icon="fa-refresh"
+           iconPos="left"
+           [hidden]="!busy"
+           [disabled]="true"
+           title="Please wait">
+  </button>
+</span>

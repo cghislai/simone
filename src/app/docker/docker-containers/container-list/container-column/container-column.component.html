@@ -48,4 +48,27 @@
       </span>
     </div>
   </span>
+
+
+  <span *ngSwitchCase="containerColumn.STATUS_ICON">
+    <app-container-status-icon [status]="container.state"
+    ></app-container-status-icon>
+  </span>
+
+
+  <span *ngSwitchCase="containerColumn.ACTIONS" class="actions">
+    <app-container-pause-button [containerId]="container.id"
+                                [paused]="container.state === 'paused'"
+                                (pausedChanged)="onContainerChange()"
+    ></app-container-pause-button>
+    <app-container-restart-button [containerId]="container.id"
+                                  [running]="container.state === 'running'"
+                                  (restarted)="onContainerChange()"
+    ></app-container-restart-button>
+    <app-container-stop-button [containerId]="container.id"
+                               [running]="container.state === 'running'"
+                               (runningChange)="onContainerChange()"
+    ></app-container-stop-button>
+  </span>
+
 </span>

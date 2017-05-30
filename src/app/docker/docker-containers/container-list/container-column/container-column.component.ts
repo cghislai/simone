@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CONTAINER_COLUMN_DATA, ContainerColumn} from '../container-column';
 import {Container} from '../../../domain/containers/container';
 import {ColumnData} from '../../../domain/column-data';
@@ -15,6 +15,8 @@ export class ContainerColumnComponent implements OnInit {
   column: ContainerColumn;
   @Input()
   container: Container;
+  @Output()
+  private containerChanged = new EventEmitter<any>();
 
   containerColumn = ContainerColumn;
   columnData: ColumnData;
@@ -24,6 +26,10 @@ export class ContainerColumnComponent implements OnInit {
 
   ngOnInit() {
     this.columnData = CONTAINER_COLUMN_DATA[this.column];
+  }
+
+  onContainerChange() {
+    this.containerChanged.next(true);
   }
 
 }

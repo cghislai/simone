@@ -1,5 +1,11 @@
 <div>
+  <div class="error-container">
+    <div class="messages-container">
+      <p-messages [value]="errorMessages | async"
+                  (click)="dismissErrors()"
+      ></p-messages>
+    </div>
+  </div>
   <app-docker-menu-bar></app-docker-menu-bar>
   <router-outlet></router-outlet>
-
 </div>

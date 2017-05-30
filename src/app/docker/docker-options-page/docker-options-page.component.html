@@ -3,22 +3,22 @@
 
   <p-panel header="Client">
     <div class="client-panel">
-      <label>Client {{ (clientStated | async) ? 'started' : 'stopped'}}</label>
+      <label>Client {{ isClientStarted() ? 'started' : 'stopped'}}</label>
       <button type="text" pButton
               label="Stop"
               (click)="onStopClicked()"
-              [hidden]="!(clientStated | async)"
+              [hidden]="!isClientStarted()"
       ></button>
 
       <button type="text" pButton
               label="Start"
               (click)="onStartClicked()"
-              [hidden]="(clientStated | async)"
+              [hidden]="isClientStarted()"
       ></button>
     </div>
   </p-panel>
 
-  <p-panel header="Options" styleClass="options-panel">
+  <p-panel header="Options" styleClass="options-panel" *ngIf="dockerOptions != null">
     <app-docker-options-form [ngModel]="dockerOptions | async"
                              (ngModelChange)="onOptionsChange($event)"
                              (cancel)="onOptionsCancelled()"

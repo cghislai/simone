@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ContainerSpecJson} from '../../../client/domain/container-spec';
+import {ContainerSpecJson} from '../../client/domain/container-spec';
 
 @Component({
   selector: 'app-container-spec',

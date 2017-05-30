@@ -16,29 +16,19 @@
            [(ngModel)]="options.socketPath">
   </div>
   <div class="row" [hidden]="isModeSocket">
-    <label>Host</label>
+    <label>Url</label>
     <input type="text" pInputText
-           [(ngModel)]="options.host"
-           name="host">
+           [(ngModel)]="options.url"
+           name="url">
   </div>
-  <div class="row" [hidden]="isModeSocket">
-    <label>Port</label>
-    <p-spinner size="6" [(ngModel)]="options.port"
-               name="port"></p-spinner>
-  </div>
-  <div class="row" [hidden]="isModeSocket">
-    <label>Protocol</label>
-    <p-selectButton [(ngModel)]="options.protocol"
-                    [options]="protocols"
-                    name="protocol"
-    ></p-selectButton>
-  </div>
+
   <div class="row">
     <label>Timeout</label>
     <p-spinner [(ngModel)]="options.timeout"
                name="timeout"
-               [min]="5"
+               [min]="5000" [step]="100"
     ></p-spinner>
+    ms
   </div>
   <div class="row">
     <label>Heartbeat
@@ -46,10 +36,15 @@
     </label>
     <p-spinner [(ngModel)]="options.heartbeatDelay"
                name="heartbeat"
-               [min]="0"
+               [min]="0" [step]="100"
     ></p-spinner>
+    ms
   </div>
-
+  <div class="row">
+    <label>API Version</label>
+    <input pInputText [(ngModel)]="options.version"
+           name="version">
+  </div>
 
   <div class="row" [hidden]="!tlsEnabled">
     <label>Ca</label>

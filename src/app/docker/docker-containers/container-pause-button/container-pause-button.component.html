@@ -1,0 +1,26 @@
+<span class="button">
+  <button pButton type="button"
+          class="pause"
+          [hidden]="paused || busy"
+          title="Pause"
+          iconPos="left"
+          icon="fa-pause"
+          (click)="pause()">
+  </button>
+  <button pButton type="button"
+          class="resume"
+          [hidden]="!paused || busy"
+          title="Resume"
+          icon="fa-play"
+          iconPos="left"
+          (click)="resume()">
+  </button>
+   <button pButton type="button"
+           class="busy"
+           icon="fa-refresh"
+           iconPos="left"
+           [hidden]="!busy"
+           [disabled]="true"
+           title="Please wait">
+  </button>
+</span>

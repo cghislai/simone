@@ -22,7 +22,7 @@ export class ContainerListComponent implements OnInit, OnDestroy {
   columnOptions: SelectItem[];
   filter: ContainerFilter;
 
-  private subscription: Subscription;
+  private routeSubscription: Subscription;
 
 
   constructor(private dockerService: DockerService,
@@ -33,13 +33,8 @@ export class ContainerListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.dockerService.ping();
-    this.containers = this.dockerService.getReachableObservable()
-      .filter(rechable => {
-        return rechable === true;
-      })
-      .mergeMap(r => this.fetchContainers())
-      .share();
+    let heartBeatsContainers = this.dockerService.getHeartBeatObservable()
+      .mergeMap(r => this.fetchContainers());
     this.columns = this.initColumns();
     this.columnOptions = CONTAINER_COLUMNS
       .map(col => <SelectItem>{
@@ -47,20 +42,23 @@ export class ContainerListComponent implements OnInit, OnDestroy {
         label: this.getColumnLabel(col),
       });
     this.filter = Object.assign({}, EMPTY_CONTAINER_FILTER);
-    this.subscription = this.activatedRoute.params
+    this.routeSubscription = this.activatedRoute.params
       .subscribe(params => this.onRouteParamsChange(params));
+    this.containers = this.fetchContainers()
+      .concat(heartBeatsContainers)
+      .share();
   }
 
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.routeSubscription.unsubscribe();
   }
 
 
   onFilterChange(filter: ContainerFilter) {
     if (this.activatedRoute != null) {
       let params = {};
-      params['include-stopped'] = ''+filter.includeStopped;
+      params['include-stopped'] = '' + filter.includeStopped;
       if (filter.filters.id.length > 0) {
         params['id'] = this.reduceToRouteParam(filter.filters.id);
       }
@@ -74,8 +72,6 @@ export class ContainerListComponent implements OnInit, OnDestroy {
         params['is-task'] = this.reduceToRouteParam(filter.filters.isTask
           .map(p => p ? 'true' : 'false'));
       }
-      console.log("filter changed: ");
-      console.log(params);
       this.router.navigate(['../', params], {
         relativeTo: this.activatedRoute,
         replaceUrl: true,
@@ -83,26 +79,30 @@ export class ContainerListComponent implements OnInit, OnDestroy {
     }
   }
 
+  onContainerChange() {
+    this.dockerService.beat();
+  }
+
+
+  fetchContainers(): Observable<Container[]> {
+    return this.containerService.list(this.filter)
+      .catch(e => Observable.of([]));
+  }
 
   private onRouteParamsChange(params: Params) {
     let filter = Object.assign({}, this.filter);
     filter.includeStopped = params['include-stopped'] === 'true';
-    console.log(params['include-stopped']+" => "+filter.includeStopped);
     filter.filters.id = this.extractRouteParamArray(params['id']);
     filter.filters.name = this.extractRouteParamArray(params['name']);
     filter.filters.label = this.extractRouteParamArray(params['label']);
     filter.filters.isTask = this.extractIsTaskParmArray(params['is-task']);
 
-    this.zone.runGuarded(()=>{
+    this.zone.runGuarded(() => {
       this.filter = filter;
-      this.dockerService.ping();
+      this.dockerService.beat();
     });
   }
 
-  fetchContainers() {
-    return this.containerService.list(this.filter)
-      .catch(e => Observable.of([]));
-  }
 
   private reduceToRouteParam(array: string[]): string {
     return array == null ? 'true' : array.reduce((cur, next) => {
@@ -116,12 +116,13 @@ export class ContainerListComponent implements OnInit, OnDestroy {
     }
     return param.split(',');
   }
+
   private extractIsTaskParmArray(param: string): boolean[] {
     if (param == null) {
       return [true];
     }
     return param.split(',')
-      .map(val=>val === 'true');
+      .map(val => val === 'true');
   }
 
   getColumnLabel(column: ContainerColumn): string {
@@ -133,13 +134,15 @@ export class ContainerListComponent implements OnInit, OnDestroy {
   }
 
   private initColumns() {
-    return  [
+    return [
+      ContainerColumn.STATUS_ICON,
       ContainerColumn.ID,
       ContainerColumn.NAMES,
       ContainerColumn.IMAGE,
       ContainerColumn.COMMAND,
       ContainerColumn.STATE,
-      ContainerColumn.STATUS
+      ContainerColumn.STATUS,
+      ContainerColumn.ACTIONS,
     ]
   }
 }

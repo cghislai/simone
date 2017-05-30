@@ -1,6 +1,6 @@
 import * as moment from 'moment';
-import {TaskSpecJson} from '../../../client/domain/task-spec';
-import {NetworkAttachmentJson} from '../../../client/domain/network-attachment';
+import {TaskSpecJson} from '../../client/domain/task-spec';
+import {NetworkAttachmentJson} from '../../client/domain/network-attachment';
 
 /**
  * Created by cghislai on 5/23/17.
