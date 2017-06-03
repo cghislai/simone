@@ -6,8 +6,8 @@ import {ContainerSpecJson} from './container-spec';
 
 export interface TaskTemplateJson {
   ContainerSpec: ContainerSpecJson;
-  ForceUpdate: number;
-  Placement: { Constraints?: string[] };
   Resources: { Limits?: { MemoryBytes?: number, NanoCPUs?:number } }
   RestartPolicy?: { Condition?: string, MaxAttempts?: number }
+  Placement: { Constraints?: string[] };
+  ForceUpdate: number;
 }

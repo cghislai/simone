@@ -1,4 +1,5 @@
 import {SecretSpecJson} from './secret-spec';
+import {MountSpec} from './mount-spec';
 
 /**
  * Created by cghislai on 5/22/17.
@@ -6,10 +7,10 @@ import {SecretSpecJson} from './secret-spec';
 
 
 export class ContainerSpecJson {
-  Args: string[];
-  Env: string[];
   Image: string;
   Labels: { [key: string]: string };
-  Mounts: { Type: string, Source: string, Target: string }[];
+  Args: string[];
+  Env: string[];
+  Mounts: MountSpec[];
   Secrets: SecretSpecJson[];
 }

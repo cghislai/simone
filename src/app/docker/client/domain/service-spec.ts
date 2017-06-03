@@ -7,10 +7,10 @@ import {ServiceMode} from './service-mode';
  */
 export interface ServiceSpecJson {
 
-  EndpointSpec: EndpointSpec;
-  Labels: { [key: string]: string };
-  Mode: ServiceMode;
   Name: string;
-  Networks: { Target: string, Aliases: string[] }[];
+  Labels: { [key: string]: string };
   TaskTemplate: TaskTemplateJson;
+  Mode: ServiceMode;
+  Networks: { Target: string, Aliases: string[] }[];
+  EndpointSpec: EndpointSpec;
 }
