@@ -1,4 +1,4 @@
-import {SecretSpecJson} from './secret-spec';
+import {ContainerSecretSpec} from './container-secret-spec';
 import {MountSpec} from './mount-spec';
 
 /**
@@ -12,5 +12,5 @@ export class ContainerSpecJson {
   Args: string[];
   Env: string[];
   Mounts: MountSpec[];
-  Secrets: SecretSpecJson[];
+  Secrets: ContainerSecretSpec[];
 }

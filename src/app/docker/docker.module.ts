@@ -79,6 +79,12 @@ import {VolumeColumnComponent} from './docker-volumes/volume-list/volume-column/
 import {VolumeFilterComponent} from './docker-volumes/volume-list/volume-filter/volume-filter.component';
 import {VolumeListPageComponent} from './docker-volumes/volume-list-page/volume-list-page.component';
 import {DockerVolumesService} from './services/docker-volumes.service';
+import {MountSpecComponent} from './mount-spec/mount-spec.component';
+import {SecretListComponent} from './docker-secrets/secret-list/secret-list.component';
+import {SecretListPageComponent} from './docker-secrets/secret-list-page/secret-list-page.component';
+import {SecretColumnComponent} from './docker-secrets/secret-list/secret-column/secret-column.component';
+import {SecretFilterComponent} from './docker-secrets/secret-list/secret-filter/secret-filter.component';
+import {DockerSecretsService} from './services/docker-secrets.service';
 
 @NgModule({
   imports: [
@@ -154,6 +160,11 @@ import {DockerVolumesService} from './services/docker-volumes.service';
     VolumeColumnComponent,
     VolumeFilterComponent,
     VolumeListPageComponent,
+    MountSpecComponent,
+    SecretListComponent,
+    SecretListPageComponent,
+    SecretColumnComponent,
+    SecretFilterComponent,
   ],
   exports: [
     RouterModule,
@@ -169,6 +180,7 @@ import {DockerVolumesService} from './services/docker-volumes.service';
     DockerTasksService,
     DockerContainersService,
     DockerVolumesService,
+    DockerSecretsService,
     ErrorService,
   ],
 })

@@ -13,16 +13,13 @@
     max-width: 100%;
     box-sizing: border-box;
 
-    >* {
+    > * {
       margin: .3em;
     }
-    >label {
+    > label {
       flex: 0 0 auto;
     }
   }
   p-chips {
-    input.ui-inputtext.ui-state-focus, .ui-inputtext:focus {
-      box-shadow: none;
-    }
   }
 }

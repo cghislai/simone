@@ -1,0 +1,23 @@
+<span class="mount-spec">
+  <span class="type" *ngIf="showType">
+    {{mountSpec.Type}}
+  </span>
+  <span class="source">
+    <span *ngIf="mountSpec.Type === 'volume'">
+      <app-unique-id [id]="mountSpec.Source"
+                     [trimWidthEm]="12"
+                     [routerLink]="['/docker/volumes', mountSpec.Source]"
+      ></app-unique-id>
+    </span>
+    <span *ngIf="mountSpec.Type !== 'volume'">
+      {{mountSpec.Source}}
+    </span>
+  </span>
+  <span>:</span>
+  <span class="target">
+    {{mountSpec.Target}}
+  </span>
+  <span class="options" *ngIf="showOptions">
+    {{mountSpec.VolumeOptions}}
+  </span>
+</span>

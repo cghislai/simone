@@ -24,19 +24,11 @@
   <div class="row">
     <label>Mounts</label>
     <span class="mounts">
-          <div *ngFor="let mount of spec.Mounts" class="mount">
-            <span class="type" [hidden]="mount.Type == null">
-              {{mount.Type}}
-            </span>
-            <span class="src">
-              {{mount.Source}}
-            </span>
-            <span> : </span>
-            <span class="dest">
-              {{ mount.Target}}
-            </span>
-          </div>
-        </span>
+      <div *ngFor="let mount of spec.Mounts" class="mount">
+          <app-mount-spec [mountSpec]="mount"
+          ></app-mount-spec>
+      </div>
+    </span>
   </div>
   <div class="row">
     <label>Secrets</label>

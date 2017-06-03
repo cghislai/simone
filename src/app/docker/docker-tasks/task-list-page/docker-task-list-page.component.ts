@@ -20,7 +20,7 @@ export class DockerTaskListPageComponent implements OnInit, OnDestroy {
   columnOptions: SelectItem[];
   taskCount: number = 0;
 
-  private subscription: Subscription;
+    private subscription: Subscription;
 
   constructor(private dockerService: DockerService,
               private activatedRoute: ActivatedRoute,

@@ -6,7 +6,6 @@ import {TaskFilter} from '../../../client/domain/task-filter';
   selector: 'app-task-filter',
   templateUrl: './task-filter.component.html',
   styleUrls: ['./task-filter.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: TaskFilterComponent,

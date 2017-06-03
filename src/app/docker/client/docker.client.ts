@@ -17,6 +17,7 @@ import {ContainerAttachOptions} from './domain/container-attach-options';
 import {ContainerStatsOptions} from './domain/container-stats-options';
 import {ContainerRemoveOptions} from './domain/container-remove-options';
 import {Volume} from './domain/volume';
+import {Secret} from './domain/secret';
 
 
 @Injectable()
@@ -154,6 +155,13 @@ export class DockerClient {
   inspectVolume(name: string): Observable<Volume> {
     return this.request(`volumes/${name}`, {
       method: 'GET',
+    }).map(response => response.json());
+  }
+
+  listSecrets(filter?: FilterJson): Observable<Secret[]> {
+    return this.request(`secrets`, {
+      method: 'GET',
+      search: this.createSearchParams(filter),
     }).map(response => response.json());
   }
 
