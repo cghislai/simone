@@ -6,6 +6,7 @@ import {TaskFilter} from '../../domain/tasks/task-filter';
 import {Subscription} from 'rxjs/Subscription';
 import {SelectItem} from 'primeng/primeng';
 import {TASK_COLUMN_DATA, TASK_COLUMNS, TaskColumn} from '../task-list/taskColumn';
+import {Task} from '../../domain/tasks/task';
 
 @Component({
   selector: 'app-docker-task-list-page',
@@ -17,6 +18,7 @@ export class DockerTaskListPageComponent implements OnInit, OnDestroy {
   filter: TaskFilter;
   columns: TaskColumn[];
   columnOptions: SelectItem[];
+  taskCount: number = 0;
 
   private subscription: Subscription;
 
@@ -70,6 +72,10 @@ export class DockerTaskListPageComponent implements OnInit, OnDestroy {
         replaceUrl: true,
       });
     }
+  }
+
+  onTasksChange(tasks: Task[]) {
+    this.taskCount = tasks.length;
   }
 
 

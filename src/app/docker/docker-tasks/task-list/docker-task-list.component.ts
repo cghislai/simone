@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {DockerTasksService} from '../../services/docker-tasks.service';
 import {DockerService} from '../../services/docker.service';
@@ -18,6 +18,9 @@ export class DockerTaskListComponent implements OnInit, OnChanges {
   @Input()
   columns: TaskColumn[];
 
+  @Output()
+  tasksChange = new EventEmitter<Task[]>();
+
   tasks: Observable<Task[]>;
 
 
@@ -30,6 +33,7 @@ export class DockerTaskListComponent implements OnInit, OnChanges {
       .mergeMap(r => this.fetchTasks());
     this.tasks = this.fetchTasks()
       .concat(heartbeatTasks)
+      .do(tasks => this.tasksChange.next(tasks))
       .share();
   }
 

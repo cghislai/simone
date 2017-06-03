@@ -3,16 +3,24 @@
   <app-task-filter [ngModel]="filter" name="filter"
                    (ngModelChange)="onFilterChange($event)"></app-task-filter>
 
-  <div class="columns-filter ui-widget">
-    Columns:
-    <p-multiSelect [options]="columnOptions"
-                   [(ngModel)]="columns">
-    </p-multiSelect>
-
+  <div class="line ui-widget">
+    <span class="column-filter">
+      <span>
+        Columns:
+      </span>
+      <span>
+        <p-multiSelect [options]="columnOptions"
+                       [(ngModel)]="columns">
+        </p-multiSelect>
+      </span>
+    </span>
+    <span class="count">
+      {{ taskCount }} tasks found
+    </span>
   </div>
-
 
   <app-docker-task-list [filter]="filter"
                         [columns]="columns"
+                        (tasksChange)="onTasksChange($event)"
   ></app-docker-task-list>
 </div>
