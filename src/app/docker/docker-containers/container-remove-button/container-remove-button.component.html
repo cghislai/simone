@@ -1,0 +1,50 @@
+<span class="button">
+  <button pButton type="button"
+          class="remove"
+          title="Remove"
+          iconPos="left"
+          icon="fa-trash"
+          [disabled]="busy"
+          (click)="optionsPanel.toggle($event)">
+  </button>
+  <p-overlayPanel #optionsPanel appendTo="body">
+    <div style="min-width: 15em">
+
+        <h2>Options</h2>
+        <div class="label-table vertical">
+          <span class="row">
+            <label>Volumes</label>
+            <span>
+              <p-toggleButton [(ngModel)]="volumes"
+                              onLabel="Remove" offLabel="keep"
+              ></p-toggleButton>
+            </span>
+          </span>
+          <span class="row">
+            <label>Links</label>
+            <span>
+              <p-toggleButton [(ngModel)]="links"
+                              onLabel="Remove" offLabel="keep"
+              ></p-toggleButton>
+            </span>
+          </span>
+          <span class="row">
+            <label>Force</label>
+            <span>
+              <p-toggleButton [(ngModel)]="force"
+                              onLabel="Yes" offLabel="No"
+              ></p-toggleButton>
+            </span>
+          </span>
+        </div>
+        <button type="button" pButton
+                name="removeButton"
+                label="Remove"
+                class="remove-button"
+                (click)="remove()"
+                [disabled]="busy">
+        </button>
+    </div>
+  </p-overlayPanel>
+
+</span>

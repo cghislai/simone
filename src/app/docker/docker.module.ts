@@ -69,6 +69,7 @@ import {ErrorService} from './services/error.service';
 import {ContainerStopButtonComponent} from './docker-containers/container-stop-button/container-stop-button.component';
 import {ContainerStatusIconComponent} from './docker-containers/container-status-icon/container-status-icon.component';
 import {HttpClient} from './client/http.client';
+import { ContainerRemoveButtonComponent } from './docker-containers/container-remove-button/coontainer-remove-button.component';
 
 @NgModule({
   imports: [
@@ -135,6 +136,7 @@ import {HttpClient} from './client/http.client';
     ContainerRestartButtonComponent,
     ContainerStopButtonComponent,
     ContainerStatusIconComponent,
+    ContainerRemoveButtonComponent,
   ],
   exports: [
     RouterModule,

@@ -2,6 +2,13 @@
    <span *ngSwitchDefault>
     {{container[columnData.field]}}
   </span>
+
+  <span *ngSwitchCase="containerColumn.COMMAND">
+      <span class="command" [title]="container.command">
+        {{ container.command }}
+      </span>
+  </span>
+
   <span *ngSwitchCase="containerColumn.IMAGE">
    <app-docker-image-label [label]="container.image"
    ></app-docker-image-label>
@@ -69,6 +76,9 @@
                                [running]="container.state === 'running'"
                                (runningChange)="onContainerChange()"
     ></app-container-stop-button>
+    <app-container-remove-button [containerId]="container.id"
+                                 (containerChange)="onContainerChange()"
+    ></app-container-remove-button>
   </span>
 
 </span>

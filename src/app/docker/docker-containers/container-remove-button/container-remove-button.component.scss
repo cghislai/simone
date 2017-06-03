@@ -1,0 +1,11 @@
+.button:not([hidden]) {
+  display: inline-block;
+  position: relative;
+
+  button[hidden] {
+    display: none;
+  }
+  .remove {
+    background-color: red;
+  }
+}

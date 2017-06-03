@@ -13,6 +13,7 @@ import {DockerService} from './docker.service';
 import {DemuxedStream} from '../client/domain/demuxedStream';
 import {ContainerAttachOptions} from '../client/domain/container-attach-options';
 import {ContainerStats} from '../client/domain/container-stats';
+import {ContainerRemoveOptions} from '../client/domain/container-remove-options';
 
 /**
  * Created by cghislai on 11/02/17.
@@ -67,6 +68,11 @@ export class DockerContainersService {
 
   start(id: string): Observable<boolean> {
     return this.client.startContainer(id)
+      .map(r => true);
+  }
+
+  remove(id: string, options: ContainerRemoveOptions) {
+    return this.client.removeContainer(id, options)
       .map(r => true);
   }
 

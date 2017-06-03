@@ -15,6 +15,7 @@ import {DemuxedStream} from './domain/demuxedStream';
 import {HttpClient} from './http.client';
 import {ContainerAttachOptions} from './domain/container-attach-options';
 import {ContainerStatsOptions} from './domain/container-stats-options';
+import {ContainerRemoveOptions} from './domain/container-remove-options';
 
 
 @Injectable()
@@ -112,6 +113,13 @@ export class DockerClient {
     });
   }
 
+  removeContainer(id: string, options: ContainerRemoveOptions): Observable<Response> {
+    let search = this.createSearchParams(options);
+    return this.request(`containers/${id}`, {
+      method: 'DELETE',
+      search: search,
+    });
+  }
 
   listTasks(filter?: FilterJson): Observable<TaskJson[]> {
     return this.request('tasks', {

@@ -31,7 +31,7 @@ export class DockerTaskListPageComponent implements OnInit, OnDestroy {
     this.subscription = this.activatedRoute.params
       .subscribe(params => this.onRouteParamsChange(params));
     this.dockerService.beat();
-    this.filter = {id: [], label: [], name: [], node: [], service: [], desiredState: []};
+    this.filter = {id: [], label: [], name: [], node: [], service: [], desiredState: ['running']};
     this.columns = [...TASK_COLUMNS];
     this.columnOptions = TASK_COLUMNS
       .map(col => <SelectItem>{

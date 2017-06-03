@@ -17,4 +17,10 @@
       display: inline-block;
     }
   }
+  .command {
+    display: inline-block;
+    max-height: 3em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 }
