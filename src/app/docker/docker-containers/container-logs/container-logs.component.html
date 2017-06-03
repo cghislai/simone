@@ -6,9 +6,8 @@
 
   <p-panel #logs>
     <div class="blocked-reason ui-widget" [hidden]="!connecting || (connected | async)">
-      <div *ngIf="connecting">Connecting...</div>
-      <!--<a *ngIf="connecting" (click)="cancelConnection()">Cancel</a>-->
-      <span *ngIf="!connecting">Disconnected</span>
+      <span [hidden]="!connecting">Connecting...</span>
+      <span [hidden]="connecting">Disconnected</span>
     </div>
 
     <div class="filter label-table">
