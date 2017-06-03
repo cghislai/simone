@@ -1,6 +1,6 @@
 export interface VolumeFilter {
-  dangling?: boolean[];
-  driver?: string[];
-  label?: string[];
-  name?: string[];
+  dangling: boolean[];
+  driver: string[];
+  label: string[];
+  name: string[];
 }

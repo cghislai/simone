@@ -8,6 +8,7 @@ import {DockerTaskListPageComponent} from './docker-tasks/task-list-page/docker-
 import {TaskDetailsPageComponent} from './docker-tasks/task-details-page/task-details-page.component';
 import {ContainerDetailsPageComponent} from './docker-containers/container-details-page/container-details-page.component';
 import {VolumeListPageComponent} from './docker-volumes/volume-list-page/volume-list-page.component';
+import {VolumeDetailsPageComponent} from './docker-volumes/volume-details-page/volume-details-page.component';
 
 export const DOCKER_ROUTES: Route[] = [
   {
@@ -68,6 +69,9 @@ export const DOCKER_ROUTES: Route[] = [
               path: '',
               pathMatch: 'full',
               component: VolumeListPageComponent,
+            }, {
+              path: ':id',
+              component: VolumeDetailsPageComponent,
             }],
           },
         ],

@@ -151,6 +151,12 @@ export class DockerClient {
       .map(json => json.Volumes);
   }
 
+  inspectVolume(name: string): Observable<Volume> {
+    return this.request(`volumes/${name}`, {
+      method: 'GET',
+    }).map(response => response.json());
+  }
+
   info(): Observable<any> {
     return this.request(`info`, {
       method: 'GET',

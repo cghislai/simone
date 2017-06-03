@@ -1,3 +1,57 @@
-<p>
-  volume-details works!
-</p>
+<div class="volume-details ui-widget" *ngIf="volume!= null">
+  <header>
+    <h1>
+      {{ volume.Name }}
+    </h1>
+    <div class="info label-table">
+      <span class="row">
+        <label>Name</label>
+        <span>
+          <app-unique-id [id]="volume.Name"
+                         [routerLink]="['/docker/volumes', volume.Name]"
+                         [noTrim]="true"
+          ></app-unique-id>
+        </span>
+      </span>
+    </div>
+
+  </header>
+
+  <p-tabView>
+    <p-tabPanel header="Details">
+      <div class="label-table vertical">
+        <span class="row">
+          <label>Driver</label>
+          <span>{{volume.Driver}}</span>
+        </span>
+        <span class="row">
+          <label>Mount point</label>
+          <span>{{volume.Mountpoint}}</span>
+        </span>
+        <span class="row">
+          <label>Status</label>
+          <span>{{volume.Status | json }}</span>
+        </span>
+        <span class="row">
+          <label>Labels</label>
+          <span>
+            <app-labels [labels]="volume.Labels"
+            ></app-labels>
+          </span>
+        </span>
+        <span class="row">
+          <label>Options</label>
+          <span>
+            <app-labels [labels]="volume.Options"
+            ></app-labels>
+          </span>
+        </span>
+        <span class="row">
+          <label>Scope</label>
+          <span>{{volume.Scope}}</span>
+        </span>
+
+      </div>
+    </p-tabPanel>
+  </p-tabView>
+</div>
