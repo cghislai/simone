@@ -33,7 +33,7 @@ export class DockerServiceListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     let heartbeatServices = this.dockerService.getHeartBeatObservable()
       .mergeMap(r => this.fetchServices());
-    this.columns = [...SERVICE_COLUMNS];
+    this.initDefaultColumns();
     this.columnOptions = SERVICE_COLUMNS
       .map(col => <SelectItem>{
         value: col,
@@ -104,5 +104,16 @@ export class DockerServiceListComponent implements OnInit, OnDestroy {
       return [];
     }
     return param.split(',');
+  }
+
+  private initDefaultColumns() {
+    this.columns = [
+      ServiceColumn.ID,
+      ServiceColumn.NAME,
+      ServiceColumn.IMAGE,
+      ServiceColumn.MODE,
+      ServiceColumn.REPLICAS,
+      ServiceColumn.PORTS,
+    ];
   }
 }

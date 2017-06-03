@@ -1,6 +1,9 @@
-<span *ngIf="mode == serviceMode.REPLCIATED">
+<span *ngIf="mode.Replicated != null">
   Replicated
+  <span *ngIf="showReplicas">
+    ({{ mode.Replicated.Replicas }} replicas)
+  </span>
 </span>
-<span *ngIf="mode == serviceMode.GLOBAL">
+<span *ngIf="mode.Global != null">
   Global
 </span>

@@ -7,7 +7,8 @@ export enum ServiceColumn {
   REPLICAS,
   CREATED_AT,
   UPDATED_AT,
-  IMAGE
+  IMAGE,
+  PORTS
 }
 
 
@@ -18,15 +19,15 @@ SERVICES_COLUMN_DATA[ServiceColumn.ID] = {
 };
 SERVICES_COLUMN_DATA[ServiceColumn.NAME] = {
   label: {'en': 'Name'},
-  field: 'spec.name',
+  field: 'spec.Name',
 };
 SERVICES_COLUMN_DATA[ServiceColumn.MODE] = {
   label: {'en': 'Mode'},
-  field: 'spec.mode.mode',
+  field: 'spec.Mode.mode',
 };
 SERVICES_COLUMN_DATA[ServiceColumn.REPLICAS] = {
   label: {'en': 'Replicas'},
-  field: 'spec.mode.replicas',
+  field: 'spec.Mode.replicas',
 };
 SERVICES_COLUMN_DATA[ServiceColumn.UPDATED_AT] = {
   label: {'en': 'Updated'},
@@ -38,7 +39,11 @@ SERVICES_COLUMN_DATA[ServiceColumn.CREATED_AT] = {
 };
 SERVICES_COLUMN_DATA[ServiceColumn.IMAGE] = {
   label: {'en': 'Image'},
-  field: 'spec.taskTemplate.ContainerSpec.Image',
+  field: 'spec.TaskTemplate.ContainerSpec.Image',
+};
+SERVICES_COLUMN_DATA[ServiceColumn.PORTS] = {
+  label: {'en': 'Ports'},
+  field: 'spec.EndpointSpec',
 };
 
 
@@ -50,4 +55,5 @@ export const SERVICE_COLUMNS = [
   ServiceColumn.REPLICAS,
   ServiceColumn.CREATED_AT,
   ServiceColumn.UPDATED_AT,
+  ServiceColumn.PORTS,
 ];

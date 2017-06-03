@@ -71,6 +71,7 @@ import {ContainerStatusIconComponent} from './docker-containers/container-status
 import {HttpClient} from './client/http.client';
 import { ContainerRemoveButtonComponent } from './docker-containers/container-remove-button/coontainer-remove-button.component';
 import { TaskFilterDesiredStateComponent } from './docker-tasks/task-filter-state/task-filter-state.component';
+import { PortMappingsComponent } from './port-mappings/port-mappings.component';
 
 @NgModule({
   imports: [
@@ -139,6 +140,7 @@ import { TaskFilterDesiredStateComponent } from './docker-tasks/task-filter-stat
     ContainerStatusIconComponent,
     ContainerRemoveButtonComponent,
     TaskFilterDesiredStateComponent,
+    PortMappingsComponent,
   ],
   exports: [
     RouterModule,

@@ -3,25 +3,34 @@
     <div class="table-bloc">
       <div class="row">
         <label>Name</label>
-        <span>{{spec.name}}</span>
+        <span>{{spec.Name}}</span>
       </div>
       <div class="row">
         <label>Mode</label>
         <span>
-      <app-service-mode [mode]="spec.mode.mode"></app-service-mode>
-      <span [hidden]="spec.mode.replicas==null">{{spec.mode.replicas}} replicas</span>
+      <app-service-mode [mode]="spec.Mode"
+                        [showReplicas]="true"
+      ></app-service-mode>
     </span>
       </div>
       <div class="row">
         <label>Labels</label>
-        <app-labels [labels]="spec.labels"></app-labels>
+        <app-labels [labels]="spec.Labels"></app-labels>
+      </div>
+
+      <div class="row">
+        <label>Ports</label>
+        <span class="ports">
+          <app-port-mappings [ports]="spec.EndpointSpec.Ports"
+          ></app-port-mappings>
+        </span>
       </div>
 
       <div class="row">
         <label>Networks</label>
         <span class="networks label-table vertical">
 
-          <span *ngFor="let network of spec.networks" class="network row">
+          <span *ngFor="let network of spec.Networks" class="network row">
             <label class="target">
               <app-unique-id [id]="network.Target"
                              [routerLink]="['/docker/networks', network.Target]"
@@ -46,7 +55,7 @@
       <div class="title">
         Task template
       </div>
-      <app-task-template [template]="spec.taskTemplate"
+      <app-task-template [template]="spec.TaskTemplate"
       ></app-task-template>
     </div>
   </div>

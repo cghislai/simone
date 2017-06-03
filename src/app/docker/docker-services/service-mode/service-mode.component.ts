@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ServiceMode} from '../../domain/services/service-mode';
+import {ServiceMode} from '../../client/domain/service-mode';
 
 @Component({
   selector: 'app-service-mode',
@@ -10,8 +10,8 @@ export class ServiceModeComponent implements OnInit {
 
   @Input()
   mode: ServiceMode;
-
-  serviceMode = ServiceMode;
+  @Input()
+  showReplicas: boolean;
 
   constructor() {
   }

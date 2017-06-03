@@ -3,12 +3,9 @@ import {Injectable} from '@angular/core';
 import * as moment from 'moment';
 import {ServiceJson} from '../client/domain/service';
 import {Observable} from 'rxjs/Observable';
-import {ServiceSpecJson} from '../client/domain/service-spec';
 import {FilterJson} from '../client/domain/filter';
 import {ServiceFilter} from '../domain/services/service-filter';
 import {Service} from '../domain/services/service';
-import {ServiceSpec} from '../domain/services/service-spec';
-import {ServiceMode} from '../domain/services/service-mode';
 import {DockerOptionsService} from './docker-options.service';
 
 /**
@@ -35,28 +32,15 @@ export class DockerServicesService {
   }
 
   private mapServiceJson(json: ServiceJson): Service {
-    let spec: ServiceSpec = this.mapServiceSpecJson(json.Spec);
-    let previousSpec: ServiceSpec = this.mapServiceSpecJson(json.PreviousSpec);
     return {
       id: json.ID,
       endPoint: json.Endpoint,
-      spec: spec,
-      previousSpec: previousSpec,
+      spec: json.Spec,
+      previousSpec: json.PreviousSpec,
       updatedAt: moment(json.UpdatedAt),
       updateStatus: json.UpdateStatus,
       version: json.Version,
       createdAt: moment(json.CreatedAt),
-    };
-  }
-
-  private mapServiceSpecJson(spec: ServiceSpecJson): ServiceSpec {
-    return {
-      endPointSpec: spec.EndpointSpec,
-      labels: spec.Labels,
-      name: spec.Name,
-      networks: spec.Networks,
-      taskTemplate: spec.TaskTemplate,
-      mode: this.mapServiceSpecModeJson(spec.Mode),
     };
   }
 
@@ -68,11 +52,4 @@ export class DockerServicesService {
     return json;
   }
 
-  private mapServiceSpecModeJson(spec: { Replicated?: { Replicas: number } }): { mode: ServiceMode, replicas?: number } {
-    let mode = {
-      mode: spec.Replicated != null ? ServiceMode.REPLCIATED : ServiceMode.GLOBAL,
-      replicas: spec.Replicated != null ? spec.Replicated.Replicas : null,
-    };
-    return mode;
-  }
 }

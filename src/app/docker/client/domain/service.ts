@@ -9,7 +9,7 @@ export interface ServiceJson {
   CreatedAt: string;
   Endpoint: EndPointJson;
   ID: string;
-  PreviousSpec: ServiceSpecJson;
+  PreviousSpec?: ServiceSpecJson;
   Spec: ServiceSpecJson;
   UpdateStatus: { State: string, StartedAt: string }
   UpdatedAt: string;

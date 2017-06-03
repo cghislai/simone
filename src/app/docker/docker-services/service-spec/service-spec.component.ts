@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ServiceSpec} from '../../domain/services/service-spec';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {ServiceSpecJson} from '../../client/domain/service-spec';
 
 @Component({
   selector: 'app-service-spec',
@@ -10,14 +10,14 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: ServiceSpecComponent,
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
 
   @Input()
-  spec: ServiceSpec;
+  spec: ServiceSpecJson;
 
   private onTouchedFunction: Function;
   private onChangeFunction: Function;
