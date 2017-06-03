@@ -48,7 +48,7 @@ export class DockerServicesService {
     let json: FilterJson = {filters: {}};
     json.filters['id'] = filter.id;
     json.filters['name'] = filter.name;
-    json.filters['label'] = filter.label;
+    json.filters['label'] = this.client.mapFilterLabels(filter.label);
     return json;
   }
 

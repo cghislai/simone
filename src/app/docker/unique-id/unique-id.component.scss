@@ -3,7 +3,6 @@ a.id:not([hidden]){
   display: table-cell;
 
   &:not(.no-trim) {
-    max-width: 6em;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

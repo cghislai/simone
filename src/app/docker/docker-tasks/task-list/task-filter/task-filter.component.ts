@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {TaskFilter} from '../../../domain/tasks/task-filter';
+import {TaskFilter} from '../../../client/domain/task-filter';
 
 @Component({
   selector: 'app-task-filter',
@@ -69,7 +69,7 @@ export class TaskFilterComponent implements OnInit, ControlValueAccessor {
   }
 
   onServicesChange(services: string[]) {
-    this.services = this.services;
+    this.services = services;
     this.onTouchedFunction();
     this.fireFilter();
   }

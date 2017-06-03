@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Service} from '../../domain/services/service';
-import {TaskFilter} from '../../domain/tasks/task-filter';
+import {TaskFilter} from '../../client/domain/task-filter';
 import {TaskColumn} from '../../docker-tasks/task-list/taskColumn';
 
 @Component({

@@ -1,0 +1,19 @@
+<span class="column" [ngSwitch]="column" *ngIf="volume != null">
+
+  <span *ngSwitchCase="volumeColumn.NAME">
+    <app-unique-id [id]="volume.Name"
+                   [trimWidthEm]="12"
+                   [routerLink]="['/docker/volumes', volume.Name]"
+    ></app-unique-id>
+  </span>
+
+  <span *ngSwitchCase="volumeColumn.OPTIONS">
+    <app-labels [labels]="volume.Options"
+                [tooltip]="true"
+    ></app-labels>
+  </span>
+
+  <span *ngSwitchDefault>
+      {{volume[columnData.field]}}
+  </span>
+</span>

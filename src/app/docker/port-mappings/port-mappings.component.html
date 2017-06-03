@@ -1,0 +1,13 @@
+<span class="port-bindings">
+  <span class="port-mapping" *ngFor="let port of ports">
+    <span class="type">
+      {{port.Protocol}}
+    </span>
+    <span class="host">
+      {{ port.PublishedPort}}
+    </span>
+    <span class="target">
+      :{{port.TargetPort}}
+    </span>
+  </span>
+</span>

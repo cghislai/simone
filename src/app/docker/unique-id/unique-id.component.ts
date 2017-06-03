@@ -12,7 +12,9 @@ export class UniqueIdComponent implements OnInit {
   @Input()
   routerLink: any[];
   @Input()
-  noTrim: boolean
+  noTrim: boolean;
+  @Input()
+  trimWidthEm: number = 6;
 
   constructor() {
   }
@@ -20,5 +22,8 @@ export class UniqueIdComponent implements OnInit {
   ngOnInit() {
   }
 
+  getMaxWidthCss(): string {
+    return this.noTrim ? null : `${this.trimWidthEm}em`;
+  }
 
 }

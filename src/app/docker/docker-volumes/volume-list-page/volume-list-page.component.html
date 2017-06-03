@@ -1,0 +1,27 @@
+<div>
+
+  <app-volume-filter [ngModel]="filter" name="filter"
+                     (ngModelChange)="onFilterChange($event)"
+  ></app-volume-filter>
+
+  <div class="line ui-widget">
+    <span class="column-filter">
+      <span>
+        Columns:
+      </span>
+      <span>
+        <p-multiSelect [options]="columnOptions"
+                       [(ngModel)]="columns">
+        </p-multiSelect>
+      </span>
+    </span>
+    <span class="count">
+      {{ volumeCount }} volumes found
+    </span>
+  </div>
+
+  <app-volume-list [filter]="filter"
+                   [columns]="columns"
+                   (volumesChange)="onVolumesChange($event)"
+  ></app-volume-list>
+</div>

@@ -4,7 +4,7 @@ import {DockerTasksService} from '../../services/docker-tasks.service';
 import {DockerService} from '../../services/docker.service';
 import {TASK_COLUMN_DATA, TaskColumn} from './taskColumn';
 import {Task} from '../../domain/tasks/task';
-import {TaskFilter} from '../../domain/tasks/task-filter';
+import {TaskFilter} from '../../client/domain/task-filter';
 
 @Component({
   selector: 'app-docker-task-list',

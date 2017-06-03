@@ -69,9 +69,16 @@ import {ErrorService} from './services/error.service';
 import {ContainerStopButtonComponent} from './docker-containers/container-stop-button/container-stop-button.component';
 import {ContainerStatusIconComponent} from './docker-containers/container-status-icon/container-status-icon.component';
 import {HttpClient} from './client/http.client';
-import { ContainerRemoveButtonComponent } from './docker-containers/container-remove-button/coontainer-remove-button.component';
-import { TaskFilterDesiredStateComponent } from './docker-tasks/task-filter-state/task-filter-state.component';
-import { PortMappingsComponent } from './port-mappings/port-mappings.component';
+import {ContainerRemoveButtonComponent} from './docker-containers/container-remove-button/coontainer-remove-button.component';
+import {TaskFilterDesiredStateComponent} from './docker-tasks/task-filter-state/task-filter-state.component';
+import {PortMappingsComponent} from './port-mappings/port-mappings.component';
+import {VolumeListComponent} from './docker-volumes/volume-list/volume-list.component';
+import {VolumeDetailsComponent} from './docker-volumes/volume-details/volume-details.component';
+import {VolumeDetailsPageComponent} from './docker-volumes/volume-details-page/volume-details-page.component';
+import {VolumeColumnComponent} from './docker-volumes/volume-list/volume-column/volume-column.component';
+import {VolumeFilterComponent} from './docker-volumes/volume-list/volume-filter/volume-filter.component';
+import {VolumeListPageComponent} from './docker-volumes/volume-list-page/volume-list-page.component';
+import {DockerVolumesService} from './services/docker-volumes.service';
 
 @NgModule({
   imports: [
@@ -141,6 +148,12 @@ import { PortMappingsComponent } from './port-mappings/port-mappings.component';
     ContainerRemoveButtonComponent,
     TaskFilterDesiredStateComponent,
     PortMappingsComponent,
+    VolumeListComponent,
+    VolumeDetailsComponent,
+    VolumeDetailsPageComponent,
+    VolumeColumnComponent,
+    VolumeFilterComponent,
+    VolumeListPageComponent,
   ],
   exports: [
     RouterModule,
@@ -155,6 +168,7 @@ import { PortMappingsComponent } from './port-mappings/port-mappings.component';
     DockerServicesService,
     DockerTasksService,
     DockerContainersService,
+    DockerVolumesService,
     ErrorService,
   ],
 })

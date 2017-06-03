@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DockerTasksService} from '../../services/docker-tasks.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {DockerService} from '../../services/docker.service';
-import {TaskFilter} from '../../domain/tasks/task-filter';
+import {TaskFilter} from '../../client/domain/task-filter';
 import {Subscription} from 'rxjs/Subscription';
 import {SelectItem} from 'primeng/primeng';
 import {TASK_COLUMN_DATA, TASK_COLUMNS, TaskColumn} from '../task-list/taskColumn';

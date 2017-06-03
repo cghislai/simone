@@ -1,0 +1,28 @@
+.filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  width: 100%;
+  position: relative;
+
+  > span {
+    padding: .5em;
+    flex: 1 0 auto;
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    > * {
+      margin: .3em;
+    }
+    > label {
+      flex: 0 0 auto;
+    }
+  }
+  p-chips {
+    input.ui-inputtext.ui-state-focus, .ui-inputtext:focus {
+      box-shadow: none;
+    }
+  }
+}

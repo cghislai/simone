@@ -16,6 +16,7 @@ import {HttpClient} from './http.client';
 import {ContainerAttachOptions} from './domain/container-attach-options';
 import {ContainerStatsOptions} from './domain/container-stats-options';
 import {ContainerRemoveOptions} from './domain/container-remove-options';
+import {Volume} from './domain/volume';
 
 
 @Injectable()
@@ -51,13 +52,7 @@ export class DockerClient {
   }
 
   getContainerLogsStream(id: string, options: ContainerAttachOptions): Observable<DemuxedStream> {
-    let searchParams = new URLSearchParams();
-    searchParams.append('stream', options.stream ? '1' : '0');
-    searchParams.append('logs', options.logs ? '1' : '0');
-    searchParams.append('stdin', options.stdin ? '1' : '0');
-    searchParams.append('stdout', options.stdout ? '1' : '0');
-    searchParams.append('stderr', options.stderr ? '1' : '0');
-    searchParams.append('detachkeys', options.detachKeys);
+    let searchParams = this.mapSearchParams(options);
     return this.requestWsStream(`containers/${id}/attach/ws`, searchParams);
   }
 
@@ -148,6 +143,13 @@ export class DockerClient {
     }).map(response => response.json());
   }
 
+  listVolumes(filter?: FilterJson): Observable<Volume[]> {
+    return this.request('volumes', {
+      method: 'GET',
+      search: this.createSearchParams(filter),
+    }).map(response => response.json())
+      .map(json => json.Volumes);
+  }
 
   info(): Observable<any> {
     return this.request(`info`, {
@@ -175,6 +177,10 @@ export class DockerClient {
       this.requestsCancellations[id].unsubscribe();
       delete this.requestsCancellations[id];
     }
+  }
+
+  mapFilterLabels(labels: string[]): string[] {
+    return labels.map(label => label.replace('=', ':'));
   }
 
   mapSearchParams(options: any): URLSearchParams {

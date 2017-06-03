@@ -124,7 +124,7 @@ export class DockerContainersService {
     filters['isolation'] = filter.filters.isolation;
     filters['is-task'] = filter.filters.isTask == null ? null :
       filter.filters.isTask.map(s => s ? 'true' : 'false');
-    filters['label'] = filter.filters.label;
+    filters['label'] = this.client.mapFilterLabels(filter.filters.label);
     filters['name'] = filter.filters.name;
     filters['network'] = filter.filters.network;
     filters['since'] = filter.filters.since;

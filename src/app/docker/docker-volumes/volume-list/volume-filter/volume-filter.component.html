@@ -1,0 +1,36 @@
+<form class="filter ui-widget">
+  <span>
+    <label>Dangling</label>
+    <p-selectButton [ngModel]="dangling"
+                    (ngModelChange)="onDanglingChange($event)"
+                    name="dangling"
+                    [multiple]="true"
+                    [options]="danglingOptions"
+    ></p-selectButton>
+  </span>
+
+  <span>
+    <label>Name</label>
+    <p-chips name="name"
+             [ngModel]="names"
+             (ngModelChange)="onNamesChange($event)">
+    </p-chips>
+  </span>
+
+  <span>
+    <label>Labels</label>
+    <p-chips name="labels"
+             [ngModel]="labels"
+             (ngModelChange)="onLabelsChange($event)">
+    </p-chips>
+  </span>
+
+  <span>
+    <label>Driver</label>
+     <p-chips name="driver"
+              [ngModel]="drivers"
+              (ngModelChange)="onDriversChange($event)">
+    </p-chips>
+  </span>
+
+</form>

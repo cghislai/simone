@@ -1,0 +1,15 @@
+<div class="volume-list ui-widget">
+
+  <p-dataTable [value]="volumes | async">
+    <p-column *ngFor="let column of columns"
+              [sortable]="true"
+              [sortField]="getColumnField(column)"
+              [header]="getColumnLabel(column)">
+      <template let-col let-volume="rowData" let-rowIndex="rowIndex" pTemplate="body">
+        <app-volume-column [volume]="volume"
+                           [column]="column"
+        ></app-volume-column>
+      </template>
+    </p-column>
+  </p-dataTable>
+</div>
