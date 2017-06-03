@@ -50,23 +50,23 @@
     </div>
   </header>
 
-  <p-tabView [lazy]="false"
-             (onChange)="onTabChange($event)">
-    <p-tabPanel header="Inspect" [selected]="activeTab === 0">
-      <app-container-inspect-info [container]="container" *ngIf="activeTab === 0"
+  <p-tabView (onChange)="onTabChange($event)" >
+    <p-tabPanel header="Inspect" [selected]="activeTab == 0">
+      <app-container-inspect-info [container]="container"
+                                  *ngIf="activeTab == 0"
       ></app-container-inspect-info>
     </p-tabPanel>
 
-    <p-tabPanel header="Logs" [selected]="activeTab === 1">
+    <p-tabPanel header="Logs" [selected]="activeTab == 1">
       <app-container-logs [containerId]="container.Id"
                           [tty]="container.Config.Tty"
-                          *ngIf="activeTab === 1"
+                          *ngIf="activeTab == 1"
       ></app-container-logs>
     </p-tabPanel>
 
-    <p-tabPanel header="Stats" [selected]="activeTab === 2">
+    <p-tabPanel header="Stats" [selected]="activeTab == 2">
       <app-container-stats [containerId]="container.Id"
-                           *ngIf="activeTab === 2"
+                           *ngIf="activeTab == 2"
       ></app-container-stats>
     </p-tabPanel>
   </p-tabView>

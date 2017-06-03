@@ -3,6 +3,7 @@ import {ContainerInspectInfo} from 'dockerode';
 import {Subscription} from 'rxjs/Subscription';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'app-container-details',
@@ -16,7 +17,7 @@ export class ContainerDetailsComponent implements OnInit, OnDestroy {
   @Output()
   containerChanged = new EventEmitter<boolean>();
 
-  activeTab: number;
+  activeTab: number = 0;
 
   private subscription: Subscription;
 
