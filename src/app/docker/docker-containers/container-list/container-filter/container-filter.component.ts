@@ -17,7 +17,7 @@ import {SelectItem} from 'primeng/primeng';
 export class ContainerFilterComponent implements OnInit, ControlValueAccessor {
 
   includeStopped: boolean = false;
-  isTask: boolean = true;
+  isTask: boolean = null;
   ids: string[] = [];
   names: string[] = [];
   labels: string[] = [];
@@ -33,6 +33,9 @@ export class ContainerFilterComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit() {
     this.isTaskOptions = [{
+      value: null,
+      label: 'All',
+    }, {
       value: true,
       label: 'Tasks only',
     }, {
@@ -97,7 +100,7 @@ export class ContainerFilterComponent implements OnInit, ControlValueAccessor {
       this.ids = [];
       this.names = [];
       this.labels = [];
-      this.isTask = false;
+      this.isTask = null;
       this.includeStopped = false;
       return;
     }
@@ -106,8 +109,8 @@ export class ContainerFilterComponent implements OnInit, ControlValueAccessor {
     this.names = filter.filters.name;
     this.labels = filter.filters.label;
     this.includeStopped = filter.includeStopped;
-    this.isTask = filter.filters.isTask == null ? true
-      : filter.filters.isTask.length === 0 ? true
+    this.isTask = filter.filters.isTask == null ? null
+      : filter.filters.isTask.length === 0 ? null
         : filter.filters.isTask.find(t => t === true) != null;
   }
 

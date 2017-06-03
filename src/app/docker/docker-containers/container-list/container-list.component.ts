@@ -119,7 +119,7 @@ export class ContainerListComponent implements OnInit, OnDestroy {
 
   private extractIsTaskParmArray(param: string): boolean[] {
     if (param == null) {
-      return [true];
+      return null;
     }
     return param.split(',')
       .map(val => val === 'true');

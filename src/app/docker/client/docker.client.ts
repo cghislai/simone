@@ -38,7 +38,7 @@ export class DockerClient {
   listContainers(filter?: FilterJson): Observable<ContainerJson[]> {
     return this.request('containers/json', {
       method: 'GET',
-      body: filter,
+      search: this.createSearchParams(filter),
     }).map(response => response.json());
   }
 
@@ -116,7 +116,7 @@ export class DockerClient {
   listTasks(filter?: FilterJson): Observable<TaskJson[]> {
     return this.request('tasks', {
       method: 'GET',
-      body: filter,
+      search: this.createSearchParams(filter),
     }).map(response => response.json());
   }
 
@@ -130,7 +130,7 @@ export class DockerClient {
   listServices(filter?: FilterJson): Observable<ServiceJson[]> {
     return this.request('services', {
       method: 'GET',
-      body: filter,
+      search: this.createSearchParams(filter),
     }).map(response => response.json());
   }
 
@@ -258,5 +258,19 @@ export class DockerClient {
     this.runningRequestCountChanged.next(this.runningRequests.length);
   }
 
+  private createSearchParams(filter: any): URLSearchParams {
+    let searchParams: URLSearchParams = new URLSearchParams();
+    let keys: any[] = Reflect.ownKeys(filter);
+    keys.filter(key => typeof key === 'string')
+      .forEach(key => {
+        let value = filter[key];
+        if (value == null) {
+          return;
+        }
+        let jsonValue = JSON.stringify(value);
+        searchParams.append(key, jsonValue);
+      });
+    return searchParams;
+  }
 
 }

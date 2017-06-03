@@ -108,22 +108,29 @@ export class DockerContainersService {
 
 
   private mapContainerFilterJson(filter: ContainerFilter): ContainerFilterJson {
-    let json: ContainerFilterJson = {filters: {}};
-    json.filters['ancestor'] = filter.filters.ancestor;
-    json.filters['before'] = filter.filters.before;
-    json.filters['exited'] = filter.filters.exited == null ? null :
+    let filters = {};
+    filters['ancestor'] = filter.filters.ancestor;
+    filters['before'] = filter.filters.before;
+    filters['exited'] = filter.filters.exited == null ? null :
       filter.filters.exited.map(s => s ? 'true' : 'false');
-    json.filters['health'] = filter.filters.health;
-    json.filters['id'] = filter.filters.id;
-    json.filters['isolation'] = filter.filters.isolation;
-    json.filters['is-task'] = filter.filters.isTask == null ? null :
+    filters['health'] = filter.filters.health;
+    filters['id'] = filter.filters.id;
+    filters['isolation'] = filter.filters.isolation;
+    filters['is-task'] = filter.filters.isTask == null ? null :
       filter.filters.isTask.map(s => s ? 'true' : 'false');
-    json.filters['label'] = filter.filters.label;
-    json.filters['name'] = filter.filters.name;
-    json.filters['network'] = filter.filters.network;
-    json.filters['since'] = filter.filters.since;
-    json.filters['status'] = filter.filters.status;
-    json.filters['volume'] = filter.filters.volume;
+    filters['label'] = filter.filters.label;
+    filters['name'] = filter.filters.name;
+    filters['network'] = filter.filters.network;
+    filters['since'] = filter.filters.since;
+    filters['status'] = filter.filters.status;
+    filters['volume'] = filter.filters.volume;
+
+    let filteredFilters = {};
+    Reflect.ownKeys(filters)
+      .filter(key => filters[key] != null)
+      .forEach(key => filteredFilters[key] = filters[key]);
+
+    let json: ContainerFilterJson = {filters: filteredFilters};
     json.all = filter.includeStopped;
     json.limit = filter.limit;
     json.size = filter.includeSizes;
