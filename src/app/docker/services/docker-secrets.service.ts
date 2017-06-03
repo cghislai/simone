@@ -17,6 +17,11 @@ export class DockerSecretsService {
     return this.client.listSecrets(filterJson);
   }
 
+  inspect(id: string): Observable<Secret> {
+    return this.client.inspectSecret(id);
+
+  }
+
   private mapSecretFilter(filter: SecretFilter): FilterJson {
     let filtersJson = {};
     filtersJson['name'] = filter.names;

@@ -20,10 +20,16 @@ export class LabelsComponent implements OnInit {
   }
 
   getKeys() {
+    if (this.labels == null) {
+      return [];
+    }
     return Reflect.ownKeys(this.labels);
   }
 
   getValue(key: string): string {
+    if (this.labels == null) {
+      return null;
+    }
     return this.labels[key];
   }
 

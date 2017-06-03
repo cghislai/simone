@@ -165,6 +165,13 @@ export class DockerClient {
     }).map(response => response.json());
   }
 
+  inspectSecret(name: string): Observable<Secret> {
+    return this.request(`secrets/${name}`, {
+      method: 'GET',
+    }).map(response => response.json());
+  }
+
+
   info(): Observable<any> {
     return this.request(`info`, {
       method: 'GET',

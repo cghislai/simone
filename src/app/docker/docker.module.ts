@@ -85,6 +85,8 @@ import {SecretListPageComponent} from './docker-secrets/secret-list-page/secret-
 import {SecretColumnComponent} from './docker-secrets/secret-list/secret-column/secret-column.component';
 import {SecretFilterComponent} from './docker-secrets/secret-list/secret-filter/secret-filter.component';
 import {DockerSecretsService} from './services/docker-secrets.service';
+import { SecretDetailsComponent } from './docker-secrets/secret-details/secret-details.component';
+import { SecretDetailsPageComponent } from './docker-secrets/secret-details-page/secret-details-page.component';
 
 @NgModule({
   imports: [
@@ -165,6 +167,8 @@ import {DockerSecretsService} from './services/docker-secrets.service';
     SecretListPageComponent,
     SecretColumnComponent,
     SecretFilterComponent,
+    SecretDetailsComponent,
+    SecretDetailsPageComponent,
   ],
   exports: [
     RouterModule,

@@ -10,6 +10,7 @@ import {ContainerDetailsPageComponent} from './docker-containers/container-detai
 import {VolumeListPageComponent} from './docker-volumes/volume-list-page/volume-list-page.component';
 import {VolumeDetailsPageComponent} from './docker-volumes/volume-details-page/volume-details-page.component';
 import {SecretListPageComponent} from './docker-secrets/secret-list-page/secret-list-page.component';
+import {SecretDetailsPageComponent} from './docker-secrets/secret-details-page/secret-details-page.component';
 
 export const DOCKER_ROUTES: Route[] = [
   {
@@ -81,6 +82,9 @@ export const DOCKER_ROUTES: Route[] = [
               path: '',
               pathMatch: 'full',
               component: SecretListPageComponent,
+            }, {
+              path: ':id',
+              component: SecretDetailsPageComponent,
             }],
           },
         ],
