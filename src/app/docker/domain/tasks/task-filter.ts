@@ -4,5 +4,5 @@ export interface TaskFilter {
   name?: string[];
   node?: string[];
   service?: string[];
-  desiredState?: ('running' | 'shutdown' | 'accepted')[]
+  desiredState?: string[]
 }

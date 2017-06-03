@@ -24,10 +24,13 @@
   </span>
   <span>
     <label>Desired state</label>
-    <p-chips name="desiredStates"
-             [ngModel]="desiredStates"
-             (ngModelChange)="onStatesChanged($event)">
-    </p-chips>
+    <span>
+      <app-task-filter-state name="desired-state"
+                             [desired]="true"
+                             [ngModel]="desiredStates"
+                             (ngModelChange)="onStatesChanged($event)"
+      ></app-task-filter-state>
+    </span>
   </span>
   <span>
     <label>Node</label>

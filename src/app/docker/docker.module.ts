@@ -70,6 +70,7 @@ import {ContainerStopButtonComponent} from './docker-containers/container-stop-b
 import {ContainerStatusIconComponent} from './docker-containers/container-status-icon/container-status-icon.component';
 import {HttpClient} from './client/http.client';
 import { ContainerRemoveButtonComponent } from './docker-containers/container-remove-button/coontainer-remove-button.component';
+import { TaskFilterDesiredStateComponent } from './docker-tasks/task-filter-state/task-filter-state.component';
 
 @NgModule({
   imports: [
@@ -137,6 +138,7 @@ import { ContainerRemoveButtonComponent } from './docker-containers/container-re
     ContainerStopButtonComponent,
     ContainerStatusIconComponent,
     ContainerRemoveButtonComponent,
+    TaskFilterDesiredStateComponent,
   ],
   exports: [
     RouterModule,

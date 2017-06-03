@@ -1,0 +1,15 @@
+export const TASK_STATE_LABELS = {
+  new: {en: 'New'},
+  allocated: {en: 'Allocated'},
+  pending: {en: 'Pending'},
+  assigned: {en: 'Assigned'},
+  accepted: {en: 'Accepted'},
+  preparing: {en: 'Preparing'},
+  ready: {en: 'Ready'},
+  starting: {en: 'Starting'},
+  running: {en: 'Running'},
+  complete: {en: 'Complete'},
+  shutdown: {en: 'Shutdown'},
+  failed: {en: 'Failed'},
+  rejected: {en: 'Rejected'},
+};

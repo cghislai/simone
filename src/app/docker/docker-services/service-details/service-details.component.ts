@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Service} from '../../domain/services/service';
-import {SelectItem} from 'primeng/primeng';
 import {TaskFilter} from '../../domain/tasks/task-filter';
 import {TaskColumn} from '../../docker-tasks/task-list/taskColumn';
 
@@ -23,6 +22,10 @@ export class ServiceDetailsComponent implements OnInit {
   ngOnInit() {
     this.taskFilter = {
       service: [this.service.id],
+      desiredState: [],
+      id: [],
+      label: [],
+      name: [],
     };
     this.taskColumns = [
       TaskColumn.SLOT,
@@ -31,9 +34,14 @@ export class ServiceDetailsComponent implements OnInit {
       TaskColumn.NODE_ID,
       TaskColumn.DESIRED_STATE,
       TaskColumn.STATE,
-      TaskColumn.MESSAGE
+      TaskColumn.MESSAGE,
     ]
   }
 
+  onTaskFilterDesiredStateChange(states: string[]) {
+    let newFilter = Object.assign({}, this.taskFilter);
+    newFilter.desiredState = states;
+    this.taskFilter = newFilter;
+  }
 
 }

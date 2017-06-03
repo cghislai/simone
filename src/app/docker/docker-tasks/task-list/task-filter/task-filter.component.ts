@@ -18,7 +18,7 @@ export class TaskFilterComponent implements OnInit, ControlValueAccessor {
   ids: string[] = [];
   names: string[] = [];
   labels: string[] = [];
-  desiredStates: ('running' | 'shutdown' | 'accepted')[] = [];
+  desiredStates: string[] = [];
   nodes: string[] = [];
   services: string[] = [];
 
@@ -74,7 +74,7 @@ export class TaskFilterComponent implements OnInit, ControlValueAccessor {
     this.fireFilter();
   }
 
-  onStatesChanged(states: ('running' | 'shutdown' | 'accepted')[]) {
+  onStatesChanged(states: string[]) {
     this.desiredStates = states;
     this.onTouchedFunction();
     this.fireFilter();
@@ -106,7 +106,7 @@ export class TaskFilterComponent implements OnInit, ControlValueAccessor {
       label: this.labels,
       desiredState: this.desiredStates,
       node: this.nodes,
-      service: this.services
+      service: this.services,
     };
     this.onChangeFunction(filter);
   }
