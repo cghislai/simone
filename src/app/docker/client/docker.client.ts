@@ -245,7 +245,7 @@ export class DockerClient {
       return this.wrapRequest(request);
     } else {
       // todo: socket
-      throw 'Client: unsupported operation';
+      return Observable.throw('Docker client: Unix socket not supported yet');
     }
   }
 
@@ -258,7 +258,7 @@ export class DockerClient {
       return this.wrapRequest(request);
     } else {
       // todo: socket
-      throw 'Client: unsupported operation';
+      return Observable.throw('Docker client: Unix socket not supported yet');
     }
   }
 

@@ -28,6 +28,7 @@ export class DockerService {
   constructor(private client: DockerClient,
               private optionsService: DockerOptionsService) {
 
+    this.subscription = new Subscription();
     this.clientBusy = Observable.of(false)
       .concat(this.client.getRunningRequestCountObservable())
       .map(count => count > 0)
