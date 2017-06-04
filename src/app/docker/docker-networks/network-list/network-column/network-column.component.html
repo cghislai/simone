@@ -1,0 +1,35 @@
+<span class="column" [ngSwitch]="column" *ngIf="network != null">
+
+  <span class="id" *ngSwitchCase="networkColumns.ID">
+    <app-unique-id [id]="network.Id"
+                   [routerLink]="['/docker/networks', network.Id]"
+    ></app-unique-id>
+  </span>
+
+
+  <span class="created date" *ngSwitchCase="networkColumns.CREATED">
+    {{network.Created | date:'dd/MM/yyyy hh:mm' }}
+  </span>
+
+  <span class="containers" *ngSwitchCase="networkColumns.CONTAINERS">
+    <span *ngFor="let containerId of getContainerIds()"
+          class="containerId">
+      <app-unique-id [id]="containerId"
+                     [routerLink]="['/docker/containers', containerId]"
+      ></app-unique-id>
+    </span>
+  </span>
+
+  <span class="container-count" *ngSwitchCase="networkColumns.CONTAINERS_AMOUNT">
+    {{ getContainerIds().length }}
+  </span>
+
+  <span class="ipam-driver" *ngSwitchCase="networkColumns.IPAM_DRIVER">
+    {{ network.IPAM.Driver }}
+  </span>
+
+
+  <span *ngSwitchDefault>
+      {{network[columnData.field]}}
+  </span>
+</span>

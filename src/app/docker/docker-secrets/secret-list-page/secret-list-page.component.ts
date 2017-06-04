@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SecretFilter} from '../../client/domain/secret-filter';
 import {SECRET_COLUMN_DATA, SECRET_COLUMNS, SecretColumn} from '../secret-list/secretColumn';
 import {SelectItem} from 'primeng/primeng';
@@ -12,8 +12,7 @@ import {Secret} from '../../client/domain/secret';
   templateUrl: './secret-list-page.component.html',
   styleUrls: ['./secret-list-page.component.scss'],
 })
-export class SecretListPageComponent implements OnInit {
-
+export class SecretListPageComponent implements OnInit, OnDestroy {
 
   filter: SecretFilter;
   columns: SecretColumn[];

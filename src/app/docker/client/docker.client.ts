@@ -18,6 +18,7 @@ import {ContainerStatsOptions} from './domain/container-stats-options';
 import {ContainerRemoveOptions} from './domain/container-remove-options';
 import {Volume} from './domain/volume';
 import {Secret} from './domain/secret';
+import {Network} from './domain/network';
 
 
 @Injectable()
@@ -171,6 +172,19 @@ export class DockerClient {
     }).map(response => response.json());
   }
 
+  listNetworks(filter: FilterJson): Observable<Network[]> {
+    return this.request(`networks`, {
+      method: 'GET',
+      search: this.createSearchParams(filter),
+    }).map(response => response.json());
+  }
+
+  inspectNetwork(id: string): Observable<Network> {
+    return this.request(`networks/${id}`, {
+      method: 'GET',
+    }).map(response => response.json());
+  }
+
 
   info(): Observable<any> {
     return this.request(`info`, {
@@ -201,7 +215,8 @@ export class DockerClient {
   }
 
   mapFilterLabels(labels: string[]): string[] {
-    return labels.map(label => label.replace('=', ':'));
+    return labels;
+    // .map(label => label.replace('=', ':'));
   }
 
   mapSearchParams(options: any): URLSearchParams {

@@ -11,6 +11,8 @@ import {VolumeListPageComponent} from './docker-volumes/volume-list-page/volume-
 import {VolumeDetailsPageComponent} from './docker-volumes/volume-details-page/volume-details-page.component';
 import {SecretListPageComponent} from './docker-secrets/secret-list-page/secret-list-page.component';
 import {SecretDetailsPageComponent} from './docker-secrets/secret-details-page/secret-details-page.component';
+import {NetworkListPageComponent} from './docker-networks/network-list-page/network-list-page.component';
+import {NetworkDetailsPageComponent} from './docker-networks/network-details-page/network-details-page.component';
 
 export const DOCKER_ROUTES: Route[] = [
   {
@@ -85,6 +87,17 @@ export const DOCKER_ROUTES: Route[] = [
             }, {
               path: ':id',
               component: SecretDetailsPageComponent,
+            }],
+          },
+          {
+            path: 'networks',
+            children: [{
+              path: '',
+              pathMatch: 'full',
+              component: NetworkListPageComponent,
+            }, {
+              path: ':id',
+              component: NetworkDetailsPageComponent,
             }],
           },
         ],

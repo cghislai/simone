@@ -1,0 +1,43 @@
+<form class="filter ui-widget">
+  <span>
+    <label>Name</label>
+    <p-chips name="name"
+             [ngModel]="names"
+             (ngModelChange)="onNamesChange($event)">
+    </p-chips>
+  </span>
+
+  <span>
+    <label>Id</label>
+    <p-chips name="id"
+             [ngModel]="ids"
+             (ngModelChange)="onIdsChange($event)">
+    </p-chips>
+  </span>
+
+  <span>
+    <label>Driver</label>
+    <p-chips name="driver"
+             [ngModel]="drivers"
+             (ngModelChange)="onDriversChange($event)">
+    </p-chips>
+  </span>
+
+  <span>
+    <label>Labels</label>
+    <p-chips name="labels"
+             [ngModel]="labels"
+             (ngModelChange)="onLabelsChange($event)">
+    </p-chips>
+  </span>
+
+  <span>
+    <label>Types</label>
+    <p-selectButton name="types"
+                    [ngModel]="types"
+                    (ngModelChange)="onTypesChange($event)"
+                    [options]="typesOptions"
+                    [multiple]="true"
+    ></p-selectButton>
+  </span>
+</form>

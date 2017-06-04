@@ -1,0 +1,115 @@
+<div class="network-details ui-widget" *ngIf="network != null">
+  <header>
+    <h1>
+      {{ network.Name}}
+    </h1>
+    <div class="info label-table">
+      <span class="col row">
+        <label>Id</label>
+        <span>
+          <app-unique-id [id]="network.Id"
+                         [routerLink]="['/docker/networks', network.Id]"
+                         [noTrim]="true"
+          ></app-unique-id>
+        </span>
+      </span>
+      <span class="col row">
+        <label>Created</label>
+        <span>{{network.Created | date:'dd/MM/yyyy hh:mm' }}</span>
+      </span>
+    </div>
+  </header>
+
+  <p-tabView>
+    <p-tabPanel header="Details">
+      <div class="label-table vertical">
+        <span class="row">
+          <label>Driver</label>
+          <span>{{network.Driver}}</span>
+        </span>
+
+        <span class="row">
+          <label>Enable IPv6</label>
+          <span>{{network.EnableIPv6}}</span>
+        </span>
+
+        <span class="row">
+          <label>Containers</label>
+          <span>
+            <div *ngFor="let containerId of getContainerKeys()"
+                 class="label-table vertical">
+              <label>
+                <app-unique-id [id]="containerId"
+                               [routerLink]="['/docker/containers', containerId]"
+                ></app-unique-id>
+              </label>
+              <span>
+                <app-labels [labels]="network.Containers[containerId]"
+                ></app-labels>
+              </span>
+            </div>
+          </span>
+        </span>
+
+        <span class="row">
+          <label>IPAM</label>
+          <span class="label-table vertical">
+            <span class="row">
+              <label>Driver</label>
+              <span>{{network.IPAM?.Driver}}</span>
+            </span>
+            <span class="row">
+              <label>Configs</label>
+              <span>
+                <div *ngFor="let config of network.IPAM?.Config">
+                  <app-labels [labels]="config"
+                  ></app-labels>
+                </div>
+              </span>
+            </span>
+            <span class="row">
+              <label>Options</label>
+              <app-labels [labels]="network.IPAM?.Options"
+              ></app-labels>
+            </span>
+          </span>
+        </span>
+
+        <span class="row">
+          <label>Ingree</label>
+          <span>{{network.Ingress}}</span>
+        </span>
+
+        <span class="row">
+          <label>Scope</label>
+          <span>{{network.Scope}}</span>
+        </span>
+
+        <span class="row">
+          <label>Internal</label>
+          <span>{{network.Internal}}</span>
+        </span>
+
+        <span class="row">
+          <label>Options</label>
+          <span>
+            <app-labels [labels]="network.Options"
+            ></app-labels>
+          </span>
+        </span>
+
+        <span class="row">
+          <label>Labels</label>
+          <app-labels [labels]="network.Labels"
+          ></app-labels>
+        </span>
+
+        <span class="row">
+          <label>Attachable</label>
+          <span>{{network.Attachable}}</span>
+        </span>
+
+      </div>
+    </p-tabPanel>
+  </p-tabView>
+</div>

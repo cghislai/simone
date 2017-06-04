@@ -1,0 +1,16 @@
+.line {
+  display: flex;
+  align-items: center;
+  > * {
+    flex: 1 1 auto;
+  }
+  .count {
+    text-align: right;
+  }
+  .column-filter {
+    > * {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+}

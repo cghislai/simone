@@ -1,0 +1,15 @@
+<div class=" network-list ui-widget">
+
+  <p-dataTable [value]="networks | async">
+    <p-column *ngFor="let column of columns"
+              [sortable]="true"
+              [sortField]="getColumnField(column)"
+              [header]="getColumnLabel(column)">
+      <template let-col let-network="rowData" let-rowIndex="rowIndex" pTemplate="body">
+        <app-network-column [network]="network"
+                            [column]="column"
+        ></app-network-column>
+      </template>
+    </p-column>
+  </p-dataTable>
+</div>

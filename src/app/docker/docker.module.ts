@@ -85,8 +85,15 @@ import {SecretListPageComponent} from './docker-secrets/secret-list-page/secret-
 import {SecretColumnComponent} from './docker-secrets/secret-list/secret-column/secret-column.component';
 import {SecretFilterComponent} from './docker-secrets/secret-list/secret-filter/secret-filter.component';
 import {DockerSecretsService} from './services/docker-secrets.service';
-import { SecretDetailsComponent } from './docker-secrets/secret-details/secret-details.component';
-import { SecretDetailsPageComponent } from './docker-secrets/secret-details-page/secret-details-page.component';
+import {SecretDetailsComponent} from './docker-secrets/secret-details/secret-details.component';
+import {SecretDetailsPageComponent} from './docker-secrets/secret-details-page/secret-details-page.component';
+import {NetworkListComponent} from './docker-networks/network-list/network-list.component';
+import {NetworkListPageComponent} from './docker-networks/network-list-page/network-list-page.component';
+import {NetworkDetailsComponent} from './docker-networks/network-details/network-details.component';
+import {NetworkDetailsPageComponent} from './docker-networks/network-details-page/network-details-page.component';
+import {NetworkColumnComponent} from './docker-networks/network-list/network-column/network-column.component';
+import {NetworkFilterComponent} from './docker-networks/network-list/network-filter/network-filter.component';
+import {DockerNetworksService} from './services/docker-netwoks.service';
 
 @NgModule({
   imports: [
@@ -169,6 +176,12 @@ import { SecretDetailsPageComponent } from './docker-secrets/secret-details-page
     SecretFilterComponent,
     SecretDetailsComponent,
     SecretDetailsPageComponent,
+    NetworkListComponent,
+    NetworkListPageComponent,
+    NetworkDetailsComponent,
+    NetworkDetailsPageComponent,
+    NetworkColumnComponent,
+    NetworkFilterComponent,
   ],
   exports: [
     RouterModule,
@@ -185,6 +198,7 @@ import { SecretDetailsPageComponent } from './docker-secrets/secret-details-page
     DockerContainersService,
     DockerVolumesService,
     DockerSecretsService,
+    DockerNetworksService,
     ErrorService,
   ],
 })

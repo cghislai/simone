@@ -1,0 +1,27 @@
+<div>
+
+  <app-network-filter [ngModel]="filter" name="filter"
+                      (ngModelChange)="onFilterChange($event)"
+  ></app-network-filter>
+
+  <div class="line ui-widget">
+    <span class="column-filter">
+      <span>
+        Columns:
+      </span>
+      <span>
+        <p-multiSelect [options]="columnOptions"
+                       [(ngModel)]="columns">
+        </p-multiSelect>
+      </span>
+    </span>
+    <span class="count">
+      {{ networksCount }} networks found
+    </span>
+  </div>
+
+  <app-network-list [filter]="filter"
+                    [columns]="columns"
+                    (networksChange)="onNetworksChange($event)"
+  ></app-network-list>
+</div>
