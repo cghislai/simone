@@ -12,7 +12,7 @@ import {
   CheckboxModule,
   ChipsModule,
   DataTableModule, DropdownModule,
-  GrowlModule,
+  GrowlModule, InplaceModule,
   InputTextareaModule,
   InputTextModule,
   MessagesModule,
@@ -102,6 +102,8 @@ import { NodeDetailsPageComponent } from './docker-nodes/node-details-page/node-
 import { NodeColumnComponent } from './docker-nodes/node-list/node-column/node-column.component';
 import { NodeFilterComponent } from './docker-nodes/node-list/node-filter/node-filter.component';
 import {DockerNodesService} from './services/docker-nodes.service';
+import { NodeSpecComponent } from './docker-nodes/node-spec/node-spec.component';
+import { EditableFieldComponent } from '../utils/editable-field/editable-field.component';
 
 @NgModule({
   imports: [
@@ -128,6 +130,7 @@ import {DockerNodesService} from './services/docker-nodes.service';
     CheckboxModule,
     MessagesModule,
     DropdownModule,
+    InplaceModule,
 
     UtilsModule,
   ],
@@ -197,6 +200,8 @@ import {DockerNodesService} from './services/docker-nodes.service';
     NodeDetailsPageComponent,
     NodeColumnComponent,
     NodeFilterComponent,
+    NodeSpecComponent,
+    EditableFieldComponent,
   ],
   exports: [
     RouterModule,

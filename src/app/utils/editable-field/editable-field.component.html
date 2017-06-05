@@ -1,0 +1,30 @@
+<div class="editing-field">
+  <p-inplace [active]="editing"
+             class="inplace"
+             (onActivate)="onStartEdit()">
+    <span pInplaceDisplay>
+      <div class="output">
+        <ng-content select="[output]"></ng-content>
+      </div>
+    </span>
+
+    <span pInplaceContent>
+      <div class="input">
+        <span class="control">
+          <ng-content select="[input]"></ng-content>
+        </span>
+        <span class="actions">
+          <a class="confirm" (click)="onConfirm()">
+            <i class="fa fa-check"></i>
+          </a>
+          <a class="cancel" (click)="onCancel()">
+            <i class="fa fa-close"></i>
+          </a>
+          <a class="rollback" (click)="onRollback()">
+            <i class="fa fa-undo"></i>
+          </a>
+        </span>
+      </div>
+    </span>
+  </p-inplace>
+</div>

@@ -1,3 +1,4 @@
 <app-node-details [node]="node"
+                  (nodeChanged)="onNodeChanged()"
                   *ngIf="node != null"
 ></app-node-details>

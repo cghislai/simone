@@ -41,28 +41,9 @@
 
   <p-tabView>
     <p-tabPanel header="Spec">
-      <div class="label-table vertical">
-        <span class="row">
-          <label>Name</label>
-          <span>{{node.Spec.Name}}</span>
-        </span>
-
-        <span class="row">
-          <label>Labels</label>
-          <app-labels [labels]="node.Spec.Labels"
-          ></app-labels>
-        </span>
-
-        <span class="row">
-          <label>Role</label>
-          <span>{{node.Spec.Role}}</span>
-        </span>
-
-        <span class="row">
-          <label>Availability</label>
-          <span>{{node.Spec.Availability}}</span>
-        </span>
-      </div>
+      <app-node-spec [ngModel]="node.Spec"
+                     (ngModelChange)="onSpecChange($event)"
+      ></app-node-spec>
     </p-tabPanel>
 
     <p-tabPanel header="Description">

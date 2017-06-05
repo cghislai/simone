@@ -4,6 +4,8 @@ import {Observable} from 'rxjs/Observable';
 import {FilterJson} from '../client/domain/filter';
 import {NodeFilter} from '../client/domain/node-filter';
 import {Node} from '../client/domain/node';
+import {NodeSpec} from '../client/domain/node-spec';
+import {Version} from '../client/domain/version';
 
 @Injectable()
 export class DockerNodesService {
@@ -18,6 +20,10 @@ export class DockerNodesService {
 
   inspect(id: string): Observable<Node> {
     return this.client.inspectNode(id);
+  }
+
+  update(id: string, version: Version, spec: NodeSpec): Observable<any> {
+    return this.client.updateNode(id, version, spec);
   }
 
   private createFilterJson(filter: NodeFilter): FilterJson {

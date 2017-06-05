@@ -1,0 +1,41 @@
+.editing-field {
+  //display: inline-block;
+
+  .inplace .ui-inplace-display {
+    display: block;
+    min-width: 5em;
+    min-height: 1em;
+  }
+  .input {
+    > * {
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .control {
+    }
+    .actions {
+      position: relative;
+      > * {
+        display: inline-block;
+        vertical-align: middle;
+        margin: .2em;
+        padding: .2em;
+
+        &:hover {
+          filter: brightness(1.5);
+          scale: 1.2;
+          cursor: pointer;
+        }
+        &.confirm {
+          color: darkgreen;
+        }
+        &.cancel {
+          color: darkred;
+        }
+        &.rollback{
+          color: orange;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,79 @@
+<div class="node-spec" *ngIf="spec != null">
+  <div class="label-table">
+    <div class="table-bloc">
+
+    <span class="row">
+       <label>Labels</label>
+       <app-editable-field [ngModel]="specLabels"
+                           (ngModelChange)="onLabelsChange($event)"
+                           (rollback)="onLabelsRollback()"
+                           (touched)="onTouched()"
+                           [rollbackVisible]="true"
+                           [class.changed]="labelsDiffer()"
+                           name="labels" class="labels" #labelsField>
+        <span input>
+          <p-chips [(ngModel)]="labelsField.value"
+                   name="spec-labels"
+          ></p-chips>
+        </span>
+        <span output>
+          <app-labels [labels]="spec.Labels"
+          ></app-labels>
+        </span>
+      </app-editable-field>
+    </span>
+
+      <span class="row">
+          <label>Role</label>
+          <app-editable-field [ngModel]="spec?.Role"
+                              (ngModelChange)="onRoleChange($event)"
+                              (rollback)="onRoleRollback()"
+                              (touched)="onTouched()"
+                              [rollbackVisible]="true"
+                              [class.changed]="rolesDiffer()"
+                              name="role" class="role" #roleField>
+            <span input>
+              <p-selectButton [(ngModel)]="roleField.value"
+                              name="spec-role"
+                              [options]="rolesOptions"
+                              [multiple]="false"
+              ></p-selectButton>
+            </span>
+            <span output>{{roleField.value}}</span>
+          </app-editable-field>
+        </span>
+
+      <span class="row">
+          <label>Availability</label>
+          <app-editable-field [ngModel]="spec?.Availability"
+                              (ngModelChange)="onAvailabilityChange($event)"
+                              (rollback)="onAvailabilityRollback()"
+                              (touched)="onTouched()"
+                              [rollbackVisible]="true"
+                              [class.changed]="availabilitiesDiffer()"
+                              name="availability" class="availability" #availabilityField>
+            <span input>
+              <p-selectButton [(ngModel)]="availabilityField.value"
+                              name="spec-availability"
+                              [options]="availabilityOptions"
+                              [multiple]="false"
+              ></p-selectButton>
+            </span>
+            <span output>{{availabilityField.value}}</span>
+          </app-editable-field>
+        </span>
+    </div>
+    <div class="table-bloc">
+      <div>
+        <button pButton type="button"
+                label="Apply" class="apply-button"
+                [disabled]="!specTouched"
+                (click)="onApplyChangesClicked()"></button>
+        <button pButton type="button"
+                label="Cancel" class="cancel-button"
+                [disabled]="!specTouched"
+                (click)="onCancelChangesClicked()"></button>
+      </div>
+    </div>
+  </div>
+</div>

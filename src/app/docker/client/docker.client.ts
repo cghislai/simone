@@ -20,6 +20,8 @@ import {Volume} from './domain/volume';
 import {Secret} from './domain/secret';
 import {Network} from './domain/network';
 import {Node} from './domain/node';
+import {NodeSpec} from './domain/node-spec';
+import {Version} from './domain/version';
 
 
 @Injectable()
@@ -197,6 +199,16 @@ export class DockerClient {
     return this.request(`nodes/${id}`, {
       method: 'GET',
     }).map(response => response.json());
+  }
+
+  updateNode(id: string, version: Version, spec: NodeSpec): Observable<any> {
+    let queryParams: URLSearchParams = new URLSearchParams();
+    queryParams.append('version', `${version.Index}`);
+    return this.request(`nodes/${id}/update`, {
+      method: 'POST',
+      search: queryParams,
+      body: spec,
+    });
   }
 
   info(): Observable<any> {

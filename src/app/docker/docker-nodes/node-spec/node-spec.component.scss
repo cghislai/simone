@@ -1,0 +1,15 @@
+.node-spec {
+  .changed {
+    [output] {
+      color: blue;
+    }
+  }
+
+  .labels {
+    max-width: 30em;
+
+    li {
+      margin: .3em;
+    }
+  }
+}

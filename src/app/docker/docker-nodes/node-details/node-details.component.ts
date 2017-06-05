@@ -1,5 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Node} from '../../client/domain/node';
+import {NodeSpec} from '../../client/domain/node-spec';
+import {DockerNodesService} from '../../services/docker-nodes.service';
 
 @Component({
   selector: 'app-node-details',
@@ -11,11 +13,20 @@ export class NodeDetailsComponent implements OnInit {
 
   @Input()
   node: Node;
+  @Output()
+  nodeChanged = new EventEmitter<any>();
 
-  constructor() {
+
+  constructor(private nodeService: DockerNodesService) {
   }
 
   ngOnInit() {
   }
+
+  onSpecChange(spec: NodeSpec) {
+    this.nodeService.update(this.node.ID, this.node.Version, spec)
+      .subscribe(r => this.nodeChanged.next(true));
+  }
+
 
 }

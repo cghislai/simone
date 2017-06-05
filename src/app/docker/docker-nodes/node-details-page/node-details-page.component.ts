@@ -15,7 +15,6 @@ export class NodeDetailsPageComponent implements OnInit, OnDestroy {
 
 
   private subscription: Subscription;
-  private id: number;
   private node: Node;
 
 
@@ -39,6 +38,10 @@ export class NodeDetailsPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  onNodeChanged() {
+    this.dockerService.beat();
   }
 
   private fetchNode(id: string) {

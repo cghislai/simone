@@ -1,9 +1,10 @@
 import {NodeSpec} from './node-spec';
 import {NodeDescription} from './node-description';
+import {Version} from './version';
 
 export interface Node {
   ID: string;
-  Version: { Index: number };
+  Version: Version;
   CreatedAt: string ;
   UpdatedAt: string ;
   Spec: NodeSpec;
