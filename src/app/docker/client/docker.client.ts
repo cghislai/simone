@@ -359,10 +359,14 @@ export class DockerClient {
     let options = this.optionsService.getCurrentOptions();
     let wsUrl = options.url;
     let version = options.version;
-    let relUrl = error.url.replace(wsUrl, '')
-      .replace(`/${version}`, '')
-      .split('?')[0];
-    return relUrl;
+    if (error.url != null) {
+      let relUrl = error.url.replace(wsUrl, '')
+        .replace(`/${version}`, '')
+        .split('?')[0];
+      return relUrl;
+    } else {
+      return wsUrl;
+    }
   }
 
 }
