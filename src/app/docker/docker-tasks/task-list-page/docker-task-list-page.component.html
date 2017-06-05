@@ -1,7 +1,9 @@
 <div>
 
   <app-task-filter [ngModel]="filter" name="filter"
-                   (ngModelChange)="onFilterChange($event)"></app-task-filter>
+                   (ngModelChange)="onFilterChange($event)"
+                   [stacks]="stacks"
+  ></app-task-filter>
 
   <div class="line ui-widget">
     <span class="column-filter">

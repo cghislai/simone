@@ -1,10 +1,10 @@
 /**
  * Created by cghislai on 5/23/17.
  */
+import {ContainerSpecJson} from './container-spec';
+
 export interface TaskSpecJson {
-  ContainerSpec: {
-    Image: string;
-  };
+  ContainerSpec: ContainerSpecJson
   Resources: {
     Limits: any,
     Reservations: any

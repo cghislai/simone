@@ -55,4 +55,8 @@ export class DockerPingStatusComponent implements OnInit {
     this.busy = this.service.getBusyObservable();
   }
 
+  onClick() {
+    this.service.beat();
+  }
+
 }

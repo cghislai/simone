@@ -3,6 +3,7 @@ import {DockerService} from '../services/docker.service';
 import {Message} from 'primeng/primeng';
 import {Observable} from 'rxjs/Observable';
 import {ErrorService} from '../services/error.service';
+import {ErrorMessage} from '../domain/error-message';
 
 @Component({
   selector: 'app-docker-route',
@@ -22,6 +23,7 @@ export class DockerRouteComponent implements OnInit {
     this.dockerService.startClient();
     this.errorMessages = this.errorService
       .getErrorMessages()
+      .map(messages => this.reduceMessagesWithCount(messages))
       .map(messages => this.createMessages(messages))
       .share();
   }
@@ -30,10 +32,39 @@ export class DockerRouteComponent implements OnInit {
     this.errorService.dismissErrors();
   }
 
-  private createMessages(messages: string[]): Message[] {
+  private createMessages(messages: ErrorMessage[]): Message[] {
     return messages.map(message => <Message>{
       severity: 'error',
-      detail: message,
+      detail: message.message,
+      summary: message.title != null ? message.title : undefined,
     });
+  }
+
+  private reduceMessagesWithCount(messages: ErrorMessage[]): ErrorMessage[] {
+    let messagesWithCount: { message: ErrorMessage, count: number }[] =
+      messages.reduce((cur, next) => {
+        let existing = cur.find(m => this.isSameMessage(m.message, next));
+        if (existing != null) {
+          existing.count = existing.count + 1;
+        } else {
+          let withCount = {message: next, count: 1};
+          cur.push(withCount);
+        }
+        return cur;
+      }, []);
+    return messagesWithCount.map(withCount => {
+      if (withCount.count === 1) {
+        return withCount.message;
+      }
+      let newMessage = `${withCount.message.message} (${withCount.count} x)`;
+      return <ErrorMessage>{
+        title: withCount.message.title,
+        message: newMessage,
+      };
+    });
+  }
+
+  private isSameMessage(msg1: ErrorMessage, msg2: ErrorMessage) {
+    return msg1.title === msg2.title && msg1.message === msg2.message;
   }
 }

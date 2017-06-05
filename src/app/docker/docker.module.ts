@@ -11,7 +11,7 @@ import {
   BlockUIModule,
   CheckboxModule,
   ChipsModule,
-  DataTableModule,
+  DataTableModule, DropdownModule,
   GrowlModule,
   InputTextareaModule,
   InputTextModule,
@@ -94,6 +94,7 @@ import {NetworkDetailsPageComponent} from './docker-networks/network-details-pag
 import {NetworkColumnComponent} from './docker-networks/network-list/network-column/network-column.component';
 import {NetworkFilterComponent} from './docker-networks/network-list/network-filter/network-filter.component';
 import {DockerNetworksService} from './services/docker-netwoks.service';
+import {DockerStacksService} from './services/docker-stacks.service';
 
 @NgModule({
   imports: [
@@ -119,6 +120,7 @@ import {DockerNetworksService} from './services/docker-netwoks.service';
     BlockUIModule,
     CheckboxModule,
     MessagesModule,
+    DropdownModule,
 
     UtilsModule,
   ],
@@ -199,6 +201,7 @@ import {DockerNetworksService} from './services/docker-netwoks.service';
     DockerVolumesService,
     DockerSecretsService,
     DockerNetworksService,
+    DockerStacksService,
     ErrorService,
   ],
 })

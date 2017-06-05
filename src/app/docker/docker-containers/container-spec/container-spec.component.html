@@ -33,8 +33,13 @@
   <div class="row">
     <label>Secrets</label>
     <span class="secrets">
-          <div *ngFor="let secret of spec.Secrets">
-            <span>{{secret.SecretName}}</span>
+          <div *ngFor="let secret of spec.Secrets" class="secret">
+            <app-unique-id [id]="secret.SecretName"
+                           [noTrim]="true"
+                           [routerLink]="['/docker/secrets', secret.SecretID]"
+            ></app-unique-id>
+            <span>:</span>
+            <span>{{secret.File.Name}}</span>
           </div>
         </span>
   </div>

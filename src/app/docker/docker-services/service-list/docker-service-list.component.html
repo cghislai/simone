@@ -2,6 +2,7 @@
   <app-service-filter name="filter"
                       [ngModel]="filter"
                       (ngModelChange)="onFilterChange($event)"
+                      [stacks]="stacks | async"
   ></app-service-filter>
 
   <div class="columns-filter">

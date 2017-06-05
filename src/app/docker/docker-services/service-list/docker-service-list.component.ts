@@ -8,6 +8,7 @@ import {DockerServicesService} from '../../services/docker-services.service';
 import {ServiceFilter} from '../../domain/services/service-filter';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
+import {DockerStacksService} from '../../services/docker-stacks.service';
 
 @Component({
   selector: 'app-docker-service-list',
@@ -18,6 +19,7 @@ export class DockerServiceListComponent implements OnInit, OnDestroy {
 
 
   services: Observable<Service[]>;
+  stacks: Observable<string[]>;
   columns: ServiceColumn[];
   columnOptions: SelectItem[];
   filter: ServiceFilter;
@@ -27,7 +29,8 @@ export class DockerServiceListComponent implements OnInit, OnDestroy {
   constructor(private dockerService: DockerService,
               private activatedRoute: ActivatedRoute,
               private router: Router,
-              private serviceService: DockerServicesService) {
+              private serviceService: DockerServicesService,
+              private stackService: DockerStacksService) {
   }
 
   ngOnInit() {
@@ -44,6 +47,9 @@ export class DockerServiceListComponent implements OnInit, OnDestroy {
       .subscribe(params => this.onRouteParamsChange(params));
     this.services = this.fetchServices()
       .concat(heartbeatServices)
+      .share();
+    this.stacks = this.services
+      .map(services => this.stackService.extractServicesStackNames(services))
       .share();
   }
 
@@ -116,4 +122,5 @@ export class DockerServiceListComponent implements OnInit, OnDestroy {
       ServiceColumn.PORTS,
     ];
   }
+
 }

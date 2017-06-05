@@ -4,7 +4,7 @@ import {Observable, Subscription} from 'rxjs';
 import {DockerOptionsService} from './docker-options.service';
 import {Subject} from 'rxjs/Subject';
 import {SimoneDockerOptions} from '../domain/docker-options';
-import {Response, URLSearchParams} from '@angular/http';
+import {Response} from '@angular/http';
 
 /**
  * Created by cghislai on 11/02/17.
@@ -44,7 +44,6 @@ export class DockerService {
       ).share();
     this.heartbeat = this.heartbeatSource
       .throttleTime(100)
-      .do(a => console.log('beat'))
       .share();
     this.optionsService.getOptions()
       .subscribe(options => this.onOptionsChanged(options));
@@ -98,12 +97,17 @@ export class DockerService {
       return false;
     }
     if (successOrError instanceof Response) {
-      if (successOrError.status === 0) {
+      let statusCode = successOrError.status;
+      if (statusCode === 0) {
         return false;
       }
+      if (statusCode >= 500) {
+        return false;
+      }
+      return true;
     }
-    console.log('IS RESCHABLE');
-    console.log(successOrError);
+    console.warn('Cannot figure out if the docker daemon is reachable with this error:');
+    console.warn(successOrError);
     return false;
   }
 
@@ -132,8 +136,7 @@ export class DockerService {
       return;
     }
     this.heartBeatSubscription = Observable.timer(0, this.heartBeatDelayMs)
-      .do(b => console.log('beat?'))
-      // Skip beats when not reachable
+    // Skip beats when not reachable
       .withLatestFrom(this.clientReachable)
       .mergeMap(results => results[1] === true ? Observable.of(true) : Observable.empty())
       .subscribe(a => this.heartbeatSource.next(true));
@@ -144,7 +147,6 @@ export class DockerService {
   private ping() {
     Observable.timer(this.pingBackOffMs == null ? 0 : this.pingBackOffMs)
       .take(1)
-      .do(a => console.log('ping ' + this.pingBackOffMs))
       .mergeMap(t => this.client.ping())
       .subscribe(a => this.resetPingBackOff(),
         error => this.increasePingBackOff());

@@ -22,4 +22,13 @@
              (ngModelChange)="onLabelsChange($event)">
     </p-chips>
   </span>
+
+  <span *ngIf="stacks?.length > 0 && stack == null">
+    <label>Stack</label>
+    <p-dropdown name="stacks"
+                [ngModel]="stack"
+                (ngModelChange)="onStackChange($event)"
+                [options]="stackOptions"
+    ></p-dropdown>
+  </span>
 </form>

@@ -7,6 +7,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {SelectItem} from 'primeng/primeng';
 import {TASK_COLUMN_DATA, TASK_COLUMNS, TaskColumn} from '../task-list/taskColumn';
 import {Task} from '../../domain/tasks/task';
+import {DockerStacksService} from '../../services/docker-stacks.service';
 
 @Component({
   selector: 'app-docker-task-list-page',
@@ -19,13 +20,14 @@ export class DockerTaskListPageComponent implements OnInit, OnDestroy {
   columns: TaskColumn[];
   columnOptions: SelectItem[];
   taskCount: number = 0;
+  stacks: string[] = [];
 
-    private subscription: Subscription;
+  private subscription: Subscription;
 
   constructor(private dockerService: DockerService,
               private activatedRoute: ActivatedRoute,
               private router: Router,
-              private tasksService: DockerTasksService) {
+              private stackService: DockerStacksService) {
 
   }
 
@@ -33,7 +35,7 @@ export class DockerTaskListPageComponent implements OnInit, OnDestroy {
     this.subscription = this.activatedRoute.params
       .subscribe(params => this.onRouteParamsChange(params));
     this.dockerService.beat();
-    this.filter = {id: [], label: [], name: [], node: [], service: [], desiredState: ['running']};
+    this.initFilter();
     this.columns = [...TASK_COLUMNS];
     this.columnOptions = TASK_COLUMNS
       .map(col => <SelectItem>{
@@ -76,6 +78,7 @@ export class DockerTaskListPageComponent implements OnInit, OnDestroy {
 
   onTasksChange(tasks: Task[]) {
     this.taskCount = tasks.length;
+    this.stacks = this.stackService.extractTasksStackNames(tasks);
   }
 
 
@@ -104,4 +107,10 @@ export class DockerTaskListPageComponent implements OnInit, OnDestroy {
     }
     return param.split(',');
   }
+
+
+  private initFilter() {
+    this.filter = {id: [], label: [], name: [], node: [], service: [], desiredState: ['ready', 'running']};
+  }
+
 }

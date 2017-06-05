@@ -1,6 +1,8 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {TaskFilter} from '../../../client/domain/task-filter';
+import {SelectItem} from 'primeng/primeng';
+import {DockerStacksService} from '../../../services/docker-stacks.service';
 
 @Component({
   selector: 'app-task-filter',
@@ -12,7 +14,11 @@ import {TaskFilter} from '../../../client/domain/task-filter';
     multi: true,
   }],
 })
-export class TaskFilterComponent implements OnInit, ControlValueAccessor {
+export class TaskFilterComponent implements OnInit, OnChanges, ControlValueAccessor {
+
+
+  @Input()
+  private stacks: string[];
 
   ids: string[] = [];
   names: string[] = [];
@@ -20,14 +26,24 @@ export class TaskFilterComponent implements OnInit, ControlValueAccessor {
   desiredStates: string[] = [];
   nodes: string[] = [];
   services: string[] = [];
+  stackOptions: SelectItem[];
+  stack: string;
 
   private onChangeFunction: Function;
   private onTouchedFunction: Function;
 
-  constructor() {
+  constructor(private stackService: DockerStacksService) {
   }
 
   ngOnInit() {
+    this.initStackOptions();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    let stacksChange = changes['stacks'];
+    if (stacksChange != null) {
+      this.initStackOptions();
+    }
   }
 
   writeValue(obj: any): void {
@@ -57,9 +73,15 @@ export class TaskFilterComponent implements OnInit, ControlValueAccessor {
   onLabelsChange(labels: string[]) {
     this.labels = labels;
     this.onTouchedFunction();
+    this.updateSelectedStackFromLabels(labels);
     this.fireFilter();
   }
 
+  onStackChange(stack: string) {
+    this.stack = stack;
+    this.updateLabelsFromSelectedStack(stack);
+    this.fireFilter();
+  }
 
   onNodesChange(ndoes: string[]) {
     this.nodes = ndoes;
@@ -96,6 +118,7 @@ export class TaskFilterComponent implements OnInit, ControlValueAccessor {
     this.desiredStates = filter.desiredState;
     this.nodes = filter.node;
     this.services = filter.service;
+    this.updateSelectedStackFromLabels(this.labels);
   }
 
   private fireFilter() {
@@ -108,5 +131,51 @@ export class TaskFilterComponent implements OnInit, ControlValueAccessor {
       service: this.services,
     };
     this.onChangeFunction(filter);
+  }
+
+
+  private initStackOptions() {
+    let options: SelectItem[] = [{
+      label: 'None',
+      value: null,
+    }];
+
+    if (this.stacks != null) {
+      let extraOptions = this.stacks
+        .map(stackName => <SelectItem>{
+          label: stackName,
+          value: stackName,
+        });
+      options.push(...extraOptions);
+    }
+
+    this.stackOptions = options;
+    if (this.stack != null) {
+      let isStackValid = this.stacks.indexOf(this.stack) >= 0;
+      if (!isStackValid) {
+        this.stack = null;
+      }
+    }
+  }
+
+
+  private updateSelectedStackFromLabels(labels: string[]) {
+    let stackLabels = this.stackService.extractLabelListStackName(labels);
+    if (stackLabels.length != 1) {
+      this.stack = null;
+    } else {
+      this.stack = stackLabels[0];
+    }
+  }
+
+  private updateLabelsFromSelectedStack(stack: string) {
+    let updatedLabels = this.labels
+      .filter(label => !this.stackService.isStackLabel(label));
+    if (stack != null) {
+      let stackLabel = this.stackService.createStackLabel(stack);
+      updatedLabels.push(stackLabel);
+    }
+
+    this.labels = updatedLabels;
   }
 }

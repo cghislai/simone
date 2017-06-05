@@ -292,10 +292,16 @@ export class DockerClient {
 
   private onRequestError(id: number, error: any) {
     this.requestsSuccesses.next(error);
-    if (error.message != null) {
+    if (error instanceof Response) {
+      let title = `Request errored`;
+      let statusMessage = error.statusText;
+      let relUrl = this.getResponseRelativeUrl(error);
+      let message = `${relUrl} : ${statusMessage}`;
+      this.errorService.addErrorWithTitle(title, message);
+    } else if (error.message != null) {
       this.errorService.addError(error.message);
     } else {
-      let title = `Request ${id} errored`;
+      let title = `Request errored`;
       this.errorService.addErrorWithTitle(title, error);
     }
   }
@@ -321,6 +327,17 @@ export class DockerClient {
         searchParams.append(key, jsonValue);
       });
     return searchParams;
+  }
+
+
+  private getResponseRelativeUrl(error: any): string {
+    let options = this.optionsService.getCurrentOptions();
+    let wsUrl = options.url;
+    let version = options.version;
+    let relUrl = error.url.replace(wsUrl, '')
+      .replace(`/${version}`, '')
+      .split('?')[0];
+    return relUrl;
   }
 
 }

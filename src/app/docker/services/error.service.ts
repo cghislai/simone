@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
+import {ErrorMessage} from '../domain/error-message';
 
 /**
  * Created by cghislai on 11/02/17.
@@ -9,30 +10,37 @@ import {Observable} from 'rxjs/Observable';
 @Injectable()
 export class ErrorService {
 
-  private messagesSource: BehaviorSubject<string[]>;
+  private messagesSource: BehaviorSubject<ErrorMessage[]>;
+  private errors: Observable<ErrorMessage[]>;
 
-  errors: Observable<string[]>;
 
   constructor() {
-    this.messagesSource = new BehaviorSubject<string[]>([]);
+    this.messagesSource = new BehaviorSubject<ErrorMessage[]>([]);
     this.errors = this.messagesSource.asObservable().share();
   }
 
   addError(message: string) {
     let curList = this.messagesSource.getValue();
-    this.messagesSource.next([...curList, message]);
+    let errorMessage: ErrorMessage = {
+      message: message.toString(),
+    };
+    this.messagesSource.next([...curList, errorMessage]);
   }
 
   addErrorWithTitle(title: string, message: string) {
     let curList = this.messagesSource.getValue();
-    this.messagesSource.next([...curList, message]);
+    let errorMessage: ErrorMessage = {
+      title: title,
+      message: message.toString(),
+    };
+    this.messagesSource.next([...curList, errorMessage]);
   }
 
   dismissErrors() {
     this.messagesSource.next([]);
   }
 
-  getErrorMessages(): Observable<string[]> {
+  getErrorMessages(): Observable<ErrorMessage[]> {
     return this.errors;
   }
 }

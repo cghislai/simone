@@ -31,7 +31,7 @@
                    [routerLink]="['/docker/containers',task.status.ContainerStatus.ContainerID]"></app-unique-id>
   </span>
   <span *ngSwitchCase="taskColumn.NODE_ID">
-    <app-unique-id [id]="task.nodeID" [routerLink]="['/docker/containers',task.nodeID]"></app-unique-id>
+    <app-unique-id [id]="task.nodeID" [routerLink]="['/docker/nodes',task.nodeID]"></app-unique-id>
   </span>
   <span *ngSwitchDefault>
       {{task[columnData.field]}}
