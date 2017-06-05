@@ -12,6 +12,12 @@ export class LabelsComponent implements OnInit {
   labels: { [key: string]: string };
   @Input()
   tooltip: boolean;
+  @Input()
+  expandable: boolean;
+  @Input()
+  short: boolean;
+
+  expanded: boolean;
 
   constructor() {
   }
@@ -31,6 +37,12 @@ export class LabelsComponent implements OnInit {
       return null;
     }
     return this.labels[key];
+  }
+
+  expand() {
+    if (this.expandable) {
+      this.expanded = true;
+    }
   }
 
   onTooltip(event, panel) {

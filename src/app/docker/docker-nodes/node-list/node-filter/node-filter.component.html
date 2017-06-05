@@ -1,0 +1,45 @@
+<form class="filter ui-widget">
+  <span>
+    <label>Name</label>
+    <p-chips name="name"
+             [ngModel]="names"
+             (ngModelChange)="onNamesChange($event)">
+    </p-chips>
+  </span>
+
+  <span>
+    <label>Id</label>
+    <p-chips name="id"
+             [ngModel]="ids"
+             (ngModelChange)="onIdsChange($event)">
+    </p-chips>
+  </span>
+
+  <span>
+    <label>Role</label>
+    <p-selectButton name="role"
+                    [ngModel]="roles"
+                    (ngModelChange)="onRoleChange($event)"
+                    [options]="rolesOptions"
+                    [multiple]="true"
+    ></p-selectButton>
+  </span>
+
+  <span>
+    <label>Labels</label>
+    <p-chips name="labels"
+             [ngModel]="labels"
+             (ngModelChange)="onLabelsChange($event)">
+    </p-chips>
+  </span>
+
+  <span>
+    <label>Membership</label>
+    <p-selectButton name="membership"
+                    [ngModel]="memberships"
+                    (ngModelChange)="onMemebershipsChange($event)"
+                    [options]="membershipOptions"
+                    [multiple]="true"
+    ></p-selectButton>
+  </span>
+</form>

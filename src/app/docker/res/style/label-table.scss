@@ -44,5 +44,23 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
+    &.short-labels {
+      > label {
+        flex: 0 0 6em;
+      }
+    }
+
+    &.long-labels {
+      > label {
+        flex: 0 0 12em;
+      }
+    }
+
+    &.expand-labels{
+      > label {
+        flex: 0 0 auto;
+      }
+    }
   }
 }

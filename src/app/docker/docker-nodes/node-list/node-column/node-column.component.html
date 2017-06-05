@@ -1,0 +1,66 @@
+<span class="column" [ngSwitch]="column" *ngIf="node != null">
+
+  <span class="id" *ngSwitchCase="nodeColumns.ID">
+    <app-unique-id [id]="node.ID"
+                   [routerLink]="['/docker/nodes', node.ID]"
+    ></app-unique-id>
+  </span>
+
+  <span class="created date" *ngSwitchCase="nodeColumns.CREATED_AT">
+    {{node.CreatedAt | date:'dd/MM/yyyy hh:mm' }}
+  </span>
+
+  <span class="created date" *ngSwitchCase="nodeColumns.UPDATED_AT">
+    {{node.CreatedAt | date:'dd/MM/yyyy hh:mm' }}
+  </span>
+
+
+  <span *ngSwitchCase="nodeColumns.NAME">
+    {{ node.Spec.Name }}
+  </span>
+
+
+  <span *ngSwitchCase="nodeColumns.ROLE">
+    {{ node.Spec.Role }}
+  </span>
+
+  <span *ngSwitchCase="nodeColumns.AVAILABILITY">
+    {{ node.Spec.Availability }}
+  </span>
+
+  <span *ngSwitchCase="nodeColumns.HOSTNAME">
+    {{ node.Description.Hostname }}
+  </span>
+
+
+  <span *ngSwitchCase="nodeColumns.PLATFORM_ARCHITECTURE">
+    {{ node.Description.Platform.Architecture}}
+  </span>
+
+  <span *ngSwitchCase="nodeColumns.PLATFORM_OS">
+    {{ node.Description.Platform.OS}}
+  </span>
+
+  <span *ngSwitchCase="nodeColumns.RESOURCES_CPU">
+    {{ node.Description.Resources.NanoCPUs}}
+  </span>
+  <span *ngSwitchCase="nodeColumns.RESOURCES_MEM">
+    {{ node.Description.Resources.MemoryBytes }}
+  </span>
+
+  <span *ngSwitchCase="nodeColumns.ENGINE_VERSION">
+    {{ node.Description.Engine.EngineVersion }}
+  </span>
+
+  <span *ngSwitchCase="nodeColumns.STATUS_ADDRESS">
+    {{ node.Status?.Addr }}
+  </span>
+
+  <span *ngSwitchCase="nodeColumns.STATUS_STATE">
+    {{ node.Status?.State }}
+  </span>
+
+  <span *ngSwitchDefault>
+      {{node[columnData.field]}}
+  </span>
+</span>

@@ -95,6 +95,13 @@ import {NetworkColumnComponent} from './docker-networks/network-list/network-col
 import {NetworkFilterComponent} from './docker-networks/network-list/network-filter/network-filter.component';
 import {DockerNetworksService} from './services/docker-netwoks.service';
 import {DockerStacksService} from './services/docker-stacks.service';
+import { NodeListComponent } from './docker-nodes/node-list/node-list.component';
+import { NodeListPageComponent } from './docker-nodes/node-list-page/node-list-page.component';
+import { NodeDetailsComponent } from './docker-nodes/node-details/node-details.component';
+import { NodeDetailsPageComponent } from './docker-nodes/node-details-page/node-details-page.component';
+import { NodeColumnComponent } from './docker-nodes/node-list/node-column/node-column.component';
+import { NodeFilterComponent } from './docker-nodes/node-list/node-filter/node-filter.component';
+import {DockerNodesService} from './services/docker-nodes.service';
 
 @NgModule({
   imports: [
@@ -184,6 +191,12 @@ import {DockerStacksService} from './services/docker-stacks.service';
     NetworkDetailsPageComponent,
     NetworkColumnComponent,
     NetworkFilterComponent,
+    NodeListComponent,
+    NodeListPageComponent,
+    NodeDetailsComponent,
+    NodeDetailsPageComponent,
+    NodeColumnComponent,
+    NodeFilterComponent,
   ],
   exports: [
     RouterModule,
@@ -201,6 +214,7 @@ import {DockerStacksService} from './services/docker-stacks.service';
     DockerVolumesService,
     DockerSecretsService,
     DockerNetworksService,
+    DockerNodesService,
     DockerStacksService,
     ErrorService,
   ],

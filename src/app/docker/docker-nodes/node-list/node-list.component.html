@@ -1,0 +1,15 @@
+<div class=" node-list ui-widget">
+
+  <p-dataTable [value]="nodes | async">
+    <p-column *ngFor="let column of columns"
+              [sortable]="true"
+              [sortField]="getColumnField(column)"
+              [header]="getColumnLabel(column)">
+      <template let-col let-node="rowData" let-rowIndex="rowIndex" pTemplate="body">
+        <app-node-column [node]="node"
+                         [column]="column"
+        ></app-node-column>
+      </template>
+    </p-column>
+  </p-dataTable>
+</div>

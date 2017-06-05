@@ -1,0 +1,28 @@
+<div>
+
+  <app-node-filter name="filter"
+                   [ngModel]="filter"
+                   (ngModelChange)="onFilterChange($event)"
+  ></app-node-filter>
+
+  <div class="line ui-widget">
+    <span class="column-filter">
+      <span>
+        Columns:
+      </span>
+      <span>
+        <p-multiSelect [options]="columnOptions"
+                       [(ngModel)]="columns">
+        </p-multiSelect>
+      </span>
+    </span>
+    <span class="count">
+      {{ nodesCount }} nodes found
+    </span>
+  </div>
+
+  <app-node-list [filter]="filter"
+                 [columns]="columns"
+                 (nodesChange)="onNodesChange($event)"
+  ></app-node-list>
+</div>

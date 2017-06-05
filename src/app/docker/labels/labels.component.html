@@ -1,6 +1,9 @@
 <div>
-  <div class="labels label-table vertical">
-    <span class="label row" *ngFor="let key of getKeys()">
+  <div class="labels label-table vertical" (click)="expand()">
+    <span class="label row " *ngFor="let key of getKeys()"
+          [class.expand-labels]="expanded"
+          [class.long-labels]="!short"
+          [class.short-labels]="short">
       <label class="key" [title]="key">{{ key }}</label>
       <span class="value" [title]="getValue(key)">{{ getValue(key) }}</span>
     </span>

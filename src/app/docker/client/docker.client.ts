@@ -19,6 +19,7 @@ import {ContainerRemoveOptions} from './domain/container-remove-options';
 import {Volume} from './domain/volume';
 import {Secret} from './domain/secret';
 import {Network} from './domain/network';
+import {Node} from './domain/node';
 
 
 @Injectable()
@@ -185,6 +186,18 @@ export class DockerClient {
     }).map(response => response.json());
   }
 
+  listNodes(filter: FilterJson): Observable<Node[]> {
+    return this.request(`nodes`, {
+      method: 'GET',
+      search: this.createSearchParams(filter),
+    }).map(response => response.json());
+  }
+
+  inspectNode(id: string): Observable<Node> {
+    return this.request(`nodes/${id}`, {
+      method: 'GET',
+    }).map(response => response.json());
+  }
 
   info(): Observable<any> {
     return this.request(`info`, {

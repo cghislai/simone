@@ -1,11 +1,14 @@
 .labels {
   .row {
     margin: 0;
-  }
-  .key {
-    direction: rtl;
-  }
-  .value {
-    font-size: .9em;
+
+    &:not(.long-labels):not(.expand-labels) {
+      .key {
+        direction: rtl;
+      }
+    }
+    .value {
+      font-size: .9em;
+    }
   }
 }
