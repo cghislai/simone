@@ -45,4 +45,14 @@
     color: yellow;
     text-decoration: none;
   }
+
+  p-overlayPanel {
+    position: absolute;
+
+    .ui-overlaypanel {
+      //position: absolute;
+      top: 2em !important;
+      //right: 0;
+    }
+  }
 }

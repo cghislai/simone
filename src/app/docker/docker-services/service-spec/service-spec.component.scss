@@ -1,5 +1,16 @@
 .spec {
 
+  display: flex;
+  align-items: flex-start;
+
+  >.col {
+   flex: 1 1 30em;
+    .title {
+      margin: 1em;
+      font-weight: bold;
+    }
+  }
+
   .changed {
     color: blue;
   }

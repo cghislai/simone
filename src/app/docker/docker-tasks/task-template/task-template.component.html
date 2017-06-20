@@ -2,17 +2,46 @@
   <div class="table-bloc">
     <div class="row">
       <label>Force update</label>
-      <span>
-          {{ template.ForceUpdate ? 'yes' : 'no'}}
+      <app-editable-field [ngModel]="template.ForceUpdate === 1"
+                          (ngModelChange)="onForceUpdateChange($event)"
+                          (rollback)="onForceUpdateRollback()"
+                          (touched)="onTouched()"
+                          [rollbackVisible]="true"
+                          [editable]="editable"
+                          [class.changed]="forceUpdateDiffer()"
+                          name="force-update" class="force-update" #forceUpdateField>
+        <span input>
+          <p-toggleButton [(ngModel)]="forceUpdateField.value"
+                          name="spec-forceUpdate"
+          ></p-toggleButton>
         </span>
+        <span output>{{ template.ForceUpdate ? 'yes' : 'no'}}</span>
+      </app-editable-field>
     </div>
+
     <div class="row">
       <label>Placement constraints</label>
-      <span class="constraints">
-           <div *ngFor="let constraint of template?.Placement?.Constraints" class="constraint">
-              {{ constraint }}
-           </div>
+      <app-editable-field [ngModel]="template.Placement?.Constraints"
+                          (ngModelChange)="onConstraintsChange($event)"
+                          (rollback)="onConstraintsRollback()"
+                          (touched)="onTouched()"
+                          [rollbackVisible]="true"
+                          [editable]="editable"
+                          [class.changed]="constraintsDiffer()"
+                          name="constraints" class="constraints" #constraintsField>
+        <span input>
+          <app-placement-constraint [(ngModel)]="constraintsField.value"
+                                    name="spec-constraints"
+                                    [editable]="true"
+          ></app-placement-constraint>
         </span>
+        <span output>
+          <app-placement-constraint [ngModel]="constraintsField.value"
+                                    name="spec-constraints-output"
+                                    [editable]="false"
+          ></app-placement-constraint>
+        </span>
+      </app-editable-field>
     </div>
 
     <div class="row">
@@ -20,39 +49,162 @@
       <span class="limits label-table vertical">
           <span class="memory row">
             <label>Memory</label>
-            <span class="value">
-              {{ template.Resources.Limits.MemoryBytes / 1024 / 1024 }} Mb
-            </span>
+            <app-editable-field [ngModel]="template.Resources?.Limits?.MemoryBytes / 1024 / 1024"
+                                (ngModelChange)="onMemoryMegaBytesLimitChange($event)"
+                                (rollback)="onMemoryBytesLimitRollback()"
+                                (touched)="onTouched()"
+                                [rollbackVisible]="true"
+                                [editable]="editable"
+                                [class.changed]="memoryBytesLimitDiffer()"
+                                name="memory-limit" class="memory-limit" #memoryLimitField>
+              <span input>
+                <p-spinner [(ngModel)]="memoryLimitField.value"
+                           size="20" [min]="0" step="0.001"
+                ></p-spinner> Mb
+                <span [hidden]="memoryLimitField.value > 0">
+                  (None)
+                </span>
+              </span>
+              <span output>
+                <span *ngIf="memoryLimitField.value > 0">
+                  {{memoryLimitField.value | number:'3.0-2' }} Mb
+                </span>
+                <span *ngIf="!(memoryLimitField.value > 0)">
+                  None
+                </span>
+              </span>
+            </app-editable-field>
           </span>
-           <span class="cpu row">
+
+          <span class="cpu row">
             <label>CPU</label>
-            <span class="value">
-              {{ template.Resources.Limits.NanoCPUs / 1000000000 | number:'1.1-4' }}
-            </span>
+            <app-editable-field [ngModel]="template.Resources?.Limits?.NanoCPUs / 1000 / 1000 / 1000"
+                                (ngModelChange)="onCPULimitChange($event)"
+                                (rollback)="onNanoCPUsLimitRollback()"
+                                (touched)="onTouched()"
+                                [rollbackVisible]="true"
+                                [editable]="editable"
+                                [class.changed]="cpuLimitDiffer()"
+                                name="cpu-limit" class="cpu" #cpuLimitField>
+              <span input>
+                <p-spinner [(ngModel)]="cpuLimitField.value"
+                           size="20" [min]="0" [step]="0.001"
+                ></p-spinner> CPU
+                <span [hidden]="cpuLimitField.value > 0">
+                  (None)
+                </span>
+              </span>
+              <span output>
+                <span *ngIf="cpuLimitField.value > 0.00001">
+                  {{ cpuLimitField.value | number:'1.1-4' }} CPU
+                </span>
+                <span *ngIf="!(cpuLimitField.value > 0.00001)">
+                  None
+                </span>
+              </span>
+            </app-editable-field>
           </span>
         </span>
     </div>
+
 
     <div class="row">
       <label>Restart policy</label>
       <span class="restart-policy label-table vertical">
           <span class="policy row">
             <label>Condition</label>
-            <span class="value"> {{ template.RestartPolicy.Condition}} </span>
+            <app-editable-field [ngModel]="template.RestartPolicy.Condition"
+                                (ngModelChange)="onRestartConditionChange($event)"
+                                (rollback)="onRestartConditionRollback()"
+                                (touched)="onTouched()"
+                                [rollbackVisible]="true"
+                                [editable]="editable"
+                                [class.changed]="restartConditionDiffer()"
+                                name="restart-condition" class="restart-condition" #restartConditionField>
+              <span input>
+                <app-restart-condition [(ngModel)]="restartConditionField.value"
+                                       name="restart-condition-input"
+                                       [editable]="true"
+                ></app-restart-condition>
+              </span>
+              <span output>
+                <app-restart-condition [ngModel]="restartConditionField.value"
+                                       name="restart-condition-output"
+                                       [editable]="false"
+                ></app-restart-condition>
+              </span>
+            </app-editable-field>
           </span>
-           <span class="policy row">
+
+          <span class="policy row">
             <label>Max attempts</label>
-            <span class="value">  {{ template.RestartPolicy.MaxAttempts}} </span>
+            <app-editable-field [ngModel]="template.RestartPolicy.MaxAttempts"
+                                (ngModelChange)="onRestartMaxAttemptsChange($event)"
+                                (rollback)="onRestartMaxAttemptsRollback()"
+                                (touched)="onTouched()"
+                                [rollbackVisible]="true"
+                                [editable]="editable"
+                                [class.changed]="restartMaxAttemptsDiffer()"
+                                name="restart-maxAttempts" class="restart-maxAttempts" #restartMaxAttemptsField>
+              <span input>
+                <p-spinner [(ngModel)]="restartMaxAttemptsField.value"
+                           name="restart-maxAttempts-input" [min]="0"
+                ></p-spinner>
+              </span>
+              <span output>
+                {{ restartMaxAttemptsField.value }}
+                <span *ngIf="restartMaxAttemptsField.value == null">None</span>
+              </span>
+            </app-editable-field>
+          </span>
+
+
+          <span class="policy row">
+            <label>Delay</label>
+            <app-editable-field [ngModel]="template.RestartPolicy.Delay"
+                                (ngModelChange)="onRestartDelayChange($event)"
+                                (rollback)="onRestartDelayRollback()"
+                                (touched)="onTouched()"
+                                [rollbackVisible]="true"
+                                [editable]="editable"
+                                [class.changed]="restartDelayDiffer()"
+                                name="restart-delay" class="restart-delay" #restartDelayField>
+              <span input>
+                <p-spinner [(ngModel)]="restartDelayField.value"
+                           name="restart-delay-input" [min]="0"
+                ></p-spinner>
+              </span>
+              <span output>
+                {{ restartDelayField.value }}
+                <span *ngIf="restartDelayField.value == null">None</span>
+              </span>
+            </app-editable-field>
+          </span>
+
+
+          <span class="policy row">
+            <label>Window</label>
+            <app-editable-field [ngModel]="template.RestartPolicy.Window"
+                                (ngModelChange)="onRestartWindowChange($event)"
+                                (rollback)="onRestartWindowRollback()"
+                                (touched)="onTouched()"
+                                [rollbackVisible]="true"
+                                [editable]="editable"
+                                [class.changed]="restartWindowDiffer()"
+                                name="restart-window" class="restart-window" #restartWindowField>
+              <span input>
+                <p-spinner [(ngModel)]="restartWindowField.value"
+                           name="restart-window-input" [min]="0"
+                ></p-spinner>
+              </span>
+              <span output>
+                {{ restartWindowField.value }}
+                <span *ngIf="restartWindowField.value == null">None</span>
+              </span>
+            </app-editable-field>
           </span>
       </span>
     </div>
   </div>
 
-  <div class="table-bloc">
-    <div class="title">
-      Container spec
-    </div>
-    <app-container-spec [spec]="template.ContainerSpec"
-    ></app-container-spec>
-  </div>
 </div>

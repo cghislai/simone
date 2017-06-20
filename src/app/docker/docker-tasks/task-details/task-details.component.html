@@ -78,7 +78,10 @@
 
   <p-tabView>
     <p-tabPanel header="Spec">
-      <app-task-template [template]="task.spec"></app-task-template>
+      <app-task-template [ngModel]="task.spec"
+                         name="task-template"
+                         [editable]="false"
+      ></app-task-template>
     </p-tabPanel>
   </p-tabView>
 </div>
