@@ -1,0 +1,70 @@
+<span class="networks-spec" *ngIf="networkSpecs != null">
+  <div *ngIf="!editable">
+    <span *ngFor="let network of networkSpecs" class="network row">
+      <label class="target">
+        <app-unique-id [id]="getNetworkname(network.Target)"
+                       [noTrim]="true"
+                       [routerLink]="['/docker/networks', network.Target]"
+        ></app-unique-id>
+      </label>
+      <span class="aliases">
+        <div>
+          <span *ngFor="let alias of network.Aliases" class="alias">
+            {{alias}}
+          </span>
+        </div>
+      </span>
+    </span>
+  </div>
+  <div *ngIf="editable">
+    <div class="list" >
+      <div class="spec row" *ngFor="let spec of networkSpecs; let i=index">
+        <label class="target">
+          <app-unique-id [id]="getNetworkname(spec.Target)"
+                         [noTrim]="true"
+                         [routerLink]="['/docker/networks', spec.Target]"
+          ></app-unique-id>
+        </label>
+        <span class="aliases">
+          <div>
+            <span *ngFor="let alias of spec.Aliases" class="alias">
+              {{alias}}
+            </span>
+          </div>
+        </span>
+        <span class="actions">
+          <a class="remove" (click)="onRemoveSpecClicked(spec, i)">
+            <i class="fa fa-minus"></i>
+          </a>
+        </span>
+      </div>
+    </div>
+    <div class="new-spec">
+      <div class="row">
+        <span class="autocomplete">
+          <p-autoComplete [(ngModel)]="newSpecNetwork"
+                          [suggestions]="newSpecSuggestions"
+                          (completeMethod)="completeNewSpecNetwork($event)"
+                          field="Name"
+                          [dropdown]="true" (onDropdownClick)="completeNewSpecNetwork()"
+                          name="new-spec-network"
+                          required
+          ></p-autoComplete>
+        </span>
+      </div>
+      <div class="row">
+        <span>
+          <p-chips [(ngModel)]="newSpecAliases"
+                   name="new-spec-labels"
+                   required
+          ></p-chips>
+        </span>
+      </div>
+      <span class="actions">
+        <a class="add" (click)="onAddNewSpecClicked()">
+          <i class="fa fa-plus"></i>
+        </a>
+      </span>
+    </div>
+  </div>
+</span>

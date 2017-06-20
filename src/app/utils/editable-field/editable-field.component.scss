@@ -1,6 +1,21 @@
 .editing-field {
   //display: inline-block;
 
+  .with-output-button {
+    >* {
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .output-button {
+      padding: .1em;
+      border-radius: .1em;
+      &:hover {
+        cursor: pointer;
+        background-color: lightgray;
+      }
+    }
+  }
+
   .inplace .ui-inplace-display {
     display: block;
     min-width: 5em;

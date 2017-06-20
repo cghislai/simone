@@ -1,5 +1,5 @@
 import {EndPointJson} from './endpoint';
-import {ServiceSpecJson} from './service-spec';
+import {ServiceSpec} from './service-spec';
 import {ServiceUpdateStatus} from './service-update-status';
 
 /**
@@ -11,8 +11,8 @@ export interface ServiceJson {
   Version: { Index?: number };
   CreatedAt: string;
   UpdatedAt: string;
-  Spec: ServiceSpecJson;
-  PreviousSpec?: ServiceSpecJson;
+  Spec: ServiceSpec;
+  PreviousSpec?: ServiceSpec;
   Endpoint: EndPointJson;
   UpdateStatus?: ServiceUpdateStatus;
 }

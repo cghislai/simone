@@ -143,8 +143,11 @@ export class DockerClient {
   }
 
   inspectService(id: string): Observable<ServiceJson> {
+    let params = new URLSearchParams();
+    params.append('insertDefaults','true');
     return this.request(`services/${id}`, {
       method: 'GET',
+      search: params
     }).map(response => response.json());
   }
 

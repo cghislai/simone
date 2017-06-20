@@ -1,5 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Optional, Output, ViewEncapsulation} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {SingleActiveEditableFieldProvider} from './SingleActiveEditableFieldProvider';
 
 @Component({
   selector: 'app-editable-field',
@@ -21,6 +22,11 @@ export class EditableFieldComponent implements OnInit, ControlValueAccessor {
 
   @Input()
   rollbackVisible: boolean;
+  @Input()
+  editable: boolean = true;
+  @Input()
+  showEditButton: boolean = false;
+
   @Output()
   private touched = new EventEmitter<any>();
   @Output()
@@ -31,13 +37,14 @@ export class EditableFieldComponent implements OnInit, ControlValueAccessor {
   private onTouchedFunction: Function;
 
 
-  constructor() {
+  constructor(@Optional() private singleActiveProvider: SingleActiveEditableFieldProvider) {
   }
 
   ngOnInit() {
   }
 
   writeValue(obj: any): void {
+    console.log('write ' + obj);
     this.initialValue = obj;
     this.setCurrentValue(obj);
   }
@@ -54,10 +61,15 @@ export class EditableFieldComponent implements OnInit, ControlValueAccessor {
     this.editing = true;
     this.onTouchedFunction();
     this.touched.next(true);
+
+    if (this.singleActiveProvider != null) {
+      this.singleActiveProvider.setActive(this);
+    }
   }
 
   onConfirm() {
     this.editing = false;
+    this.initialValue = this.value;
     this.onChangeFunction(this.value);
   }
 
@@ -80,6 +92,8 @@ export class EditableFieldComponent implements OnInit, ControlValueAccessor {
       this.value = [...obj];
     } else if (typeof obj === 'object') {
       this.value = Object.assign({}, obj);
+    } else if (typeof obj === 'string') {
+      this.value = `${obj}`;
     } else {
       this.value = obj;
     }

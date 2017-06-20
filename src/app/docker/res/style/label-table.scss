@@ -24,7 +24,7 @@
     }
   }
 
-  .row {
+  >.row, .table-bloc>.row {
     display: flex;
     flex-wrap: wrap;
     margin: .5em 0;

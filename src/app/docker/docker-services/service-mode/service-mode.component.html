@@ -1,9 +1,30 @@
-<span *ngIf="mode.Replicated != null">
-  Replicated
-  <span *ngIf="showReplicas">
-    ({{ mode.Replicated.Replicas }} replicas)
+<div class="mode" *ngIf="mode != null">
+  <span *ngIf="!editable">
+    <span *ngIf="mode.Replicated != null">
+      Replicated
+      <span *ngIf="showReplicas">
+        ({{ mode.Replicated.Replicas }} replicas)
+      </span>
+    </span>
+      <span *ngIf="mode.Global != null">
+      Global
+    </span>
   </span>
-</span>
-<span *ngIf="mode.Global != null">
-  Global
-</span>
+  <span *ngIf="editable">
+    <span class="mode">
+      <p-selectButton [ngModel]="mode.Replicated != null ?'replicated':'global'"
+                      (ngModelChange)="onModeChange($event)"
+                      [options]="modeOptions"
+                      [multiple]="false"
+                      name="mode"
+      ></p-selectButton>
+    </span>
+    <span [hidden]="mode.Replicated == null">
+      <p-spinner [ngModel]="mode.Replicated?.Replicas"
+                 (ngModelChange)="onReplicasChange($event)"
+                 name="replicas"
+                 min="0" size="4"
+      ></p-spinner>
+    </span>
+  </span>
+</div>

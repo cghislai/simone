@@ -1,0 +1,53 @@
+.networks-spec {
+  .row {
+    margin: 0;
+  }
+  .aliases {
+    font-size: .9em;
+    >div  {
+      display: inline-block;
+      width: 5em;
+    }
+  }
+
+  .list {
+    .row {
+      display: flex;
+      align-items: center;
+
+      >.target {
+        flex: 1 1 auto;
+      }
+      >.aliases {
+        flex: 1 1 auto;
+      }
+      >.actions {
+        flex: 0 0 auto;
+
+      }
+    }
+  }
+
+  .new-spec {
+    display: block;
+    position: relative;
+  }
+
+  .actions {
+    .remove {
+      color: red;
+    }
+    .add {
+      color: green;
+    }
+
+    >a {
+      padding: .2em;
+
+      &:hover {
+        cursor: pointer;
+        filter: brightness(1.2);
+      }
+    }
+  }
+}

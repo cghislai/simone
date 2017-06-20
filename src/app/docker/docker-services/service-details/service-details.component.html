@@ -50,12 +50,14 @@
   <p-tabView>
     <p-tabPanel header="Current spec">
       <app-service-spec [ngModel]="service.spec" name="spec"
+                        [editable]="true"
       ></app-service-spec>
     </p-tabPanel>
 
     <p-tabPanel header="Previous spec">
-      <app-service-spec [ngModel]="service.previousSpec" name="spec"
-      ></app-service-spec>
+      <!--<app-service-spec [ngModel]="service.previousSpec" name="spec"-->
+                        <!--[editable]="false"-->
+      <!--&gt;</app-service-spec>-->
     </p-tabPanel>
 
     <p-tabPanel header="Tasks">

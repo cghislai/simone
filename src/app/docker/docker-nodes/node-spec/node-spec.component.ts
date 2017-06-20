@@ -17,13 +17,14 @@ import {ArrayUtils} from '../../../utils/array-utils';
 export class NodeSpecComponent implements OnInit, ControlValueAccessor {
 
   spec: NodeSpec;
-  originalSpec: NodeSpec;
-  specTouched: boolean;
 
   specLabels: string[];
 
   rolesOptions: SelectItem[];
   availabilityOptions: SelectItem[];
+
+  private specTouched: boolean;
+  private originalSpec: NodeSpec;
 
   @Output()
   private touched = new EventEmitter<any>();

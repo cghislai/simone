@@ -1,4 +1,4 @@
-<div class=" task-template label-table">
+<div class=" task-template label-table" *ngIf="template != null">
   <div class="table-bloc">
     <div class="row">
       <label>Force update</label>
@@ -9,7 +9,7 @@
     <div class="row">
       <label>Placement constraints</label>
       <span class="constraints">
-           <div *ngFor="let constraint of template.Placement.Constraints" class="constraint">
+           <div *ngFor="let constraint of template?.Placement?.Constraints" class="constraint">
               {{ constraint }}
            </div>
         </span>

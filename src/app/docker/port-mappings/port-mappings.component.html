@@ -1,13 +1,26 @@
-<span class="port-bindings">
-  <span class="port-mapping" *ngFor="let port of ports">
-    <span class="type">
-      {{port.Protocol}}
+<span class="port-bindings" *ngIf="ports != null">
+  <div *ngIf="!editable">
+    <span class="port-mapping" *ngFor="let port of ports">
+      <span class="type">
+        {{port.Protocol}}
+      </span>
+      <span class="host">
+        {{ port.PublishedPort}}
+      </span>
+      <span class="target">
+        :{{port.TargetPort}}
+      </span>
+      <span class="mode">
+        ({{port.PublishMode}})
+      </span>
     </span>
-    <span class="host">
-      {{ port.PublishedPort}}
+    <span *ngIf="ports?.length === 0">
+      None
     </span>
-    <span class="target">
-      :{{port.TargetPort}}
-    </span>
-  </span>
+  </div>
+  <div *ngIf="editable">
+    <p-chips [ngModel]="portStrings"
+             (ngModelChange)="onPortsChanged($event)"
+    ></p-chips>
+  </div>
 </span>

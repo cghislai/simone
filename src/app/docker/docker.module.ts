@@ -8,6 +8,7 @@ import {FormsModule} from '@angular/forms';
 import {DockerClient} from './client/docker.client';
 import {DockerOptionsService} from './services/docker-options.service';
 import {
+  AutoCompleteModule,
   BlockUIModule,
   CheckboxModule,
   ChipsModule,
@@ -104,6 +105,7 @@ import { NodeFilterComponent } from './docker-nodes/node-list/node-filter/node-f
 import {DockerNodesService} from './services/docker-nodes.service';
 import { NodeSpecComponent } from './docker-nodes/node-spec/node-spec.component';
 import { EditableFieldComponent } from '../utils/editable-field/editable-field.component';
+import { NetworksSpecComponent } from './docker-networks/networks-spec/networks-spec.component';
 
 @NgModule({
   imports: [
@@ -131,6 +133,7 @@ import { EditableFieldComponent } from '../utils/editable-field/editable-field.c
     MessagesModule,
     DropdownModule,
     InplaceModule,
+    AutoCompleteModule,
 
     UtilsModule,
   ],
@@ -202,6 +205,7 @@ import { EditableFieldComponent } from '../utils/editable-field/editable-field.c
     NodeFilterComponent,
     NodeSpecComponent,
     EditableFieldComponent,
+    NetworksSpecComponent,
   ],
   exports: [
     RouterModule,

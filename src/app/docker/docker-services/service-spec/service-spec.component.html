@@ -1,51 +1,117 @@
 <div class="spec label-table" *ngIf="spec != null">
   <div class="col">
     <div class="table-bloc">
+
       <div class="row">
         <label>Name</label>
-        <span>{{spec.Name}}</span>
+        <app-editable-field [ngModel]="spec.Name"
+                            (ngModelChange)="onNameChange($event)"
+                            (rollback)="onNameRollback()"
+                            (touched)="onTouched()"
+                            [rollbackVisible]="true"
+                            [editable]="editable"
+                            [class.changed]="namesDiffer()"
+                            name="name" class="name" #nameField>
+          <span input>
+            <input pInputText name="spec-name"
+                   [(ngModel)]="nameField.value">
+          </span>
+          <span output>{{nameField.value}}</span>
+        </app-editable-field>
       </div>
+
       <div class="row">
         <label>Mode</label>
         <span>
-      <app-service-mode [mode]="spec.Mode"
-                        [showReplicas]="true"
-      ></app-service-mode>
-    </span>
+        <app-editable-field [ngModel]="spec.Mode"
+                            (ngModelChange)="onModeChange($event)"
+                            (rollback)="onModeRollback()"
+                            (touched)="onTouched()"
+                            [rollbackVisible]="true"
+                            [editable]="editable"
+                            [class.changed]="modesDiffer()"
+                            name="mode" class="mode" #modeField>
+          <span input>
+            <app-service-mode [(ngModel)]="modeField.value"
+                              [editable]="true"
+            ></app-service-mode>
+          </span>
+          <span output>
+            <app-service-mode [ngModel]="modeField.value"
+                              [showReplicas]="true"
+            ></app-service-mode>
+          </span>
+        </app-editable-field>
+        </span>
       </div>
+
       <div class="row">
         <label>Labels</label>
-        <app-labels [labels]="spec.Labels"></app-labels>
+        <app-editable-field [ngModel]="specLabels"
+                            (ngModelChange)="onLabelsChange($event)"
+                            (rollback)="onLabelsRollback()"
+                            (touched)="onTouched()"
+                            [rollbackVisible]="true"
+                            [editable]="editable"
+                            [class.changed]="labelsDiffer()"
+                            name="labels" class="labels" #labelsField>
+          <span input>
+            <p-chips [(ngModel)]="labelsField.value"
+                     name="spec-labels"
+            ></p-chips>
+          </span>
+            <span output>
+            <app-labels [labels]="spec.Labels"
+            ></app-labels>
+          </span>
+        </app-editable-field>
       </div>
 
       <div class="row">
         <label>Ports</label>
-        <span class="ports">
-          <app-port-mappings [ports]="spec.EndpointSpec.Ports"
-          ></app-port-mappings>
-        </span>
+        <app-editable-field [ngModel]="spec.EndpointSpec.Ports"
+                            (ngModelChange)="onPortsChange($event)"
+                            (rollback)="onPortsRollback()"
+                            (touched)="onTouched()"
+                            [rollbackVisible]="true"
+                            [editable]="editable"
+                            [class.changed]="portsDiffer()"
+                            name="ports" class="ports" #portsField>
+          <span input>
+            <app-port-mappings [(ngModel)]="portsField.value"
+                               [editable]="true"
+            ></app-port-mappings>
+          </span>
+            <span output>
+              <app-port-mappings [(ngModel)]="portsField.value"
+                                 [editable]="false"
+              ></app-port-mappings>
+          </span>
+        </app-editable-field>
       </div>
 
       <div class="row">
         <label>Networks</label>
-        <span class="networks label-table vertical">
-
-          <span *ngFor="let network of spec.Networks" class="network row">
-            <label class="target">
-              <app-unique-id [id]="network.Target"
-                             [routerLink]="['/docker/networks', network.Target]"
-              ></app-unique-id>
-            </label>
-            <span class="aliases">
-              <div>
-                <span *ngFor="let alias of network.Aliases" class="alias">
-                  {{alias}}
-                </span>
-              </div>
-            </span>
+        <app-editable-field [ngModel]="spec.Networks"
+                            (ngModelChange)="onNetworksChange($event)"
+                            (rollback)="onNetworksRollback()"
+                            (touched)="onTouched()"
+                            [rollbackVisible]="true"
+                            [showEditButton]="true"
+                            [editable]="editable"
+                            [class.changed]="networksDiffer()"
+                            name="networks" class="networks" #networksField>
+          <span input>
+            <app-networks-spec  [(ngModel)]="networksField.value"
+                                [editable]="true"
+            ></app-networks-spec>
           </span>
-
-        </span>
+          <span button-output>
+             <app-networks-spec  [(ngModel)]="networksField.value"
+                                 [editable]="false"
+             ></app-networks-spec>
+          </span>
+        </app-editable-field>
       </div>
     </div>
   </div>

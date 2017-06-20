@@ -1,5 +1,17 @@
 <div class="editing-field">
+  <span *ngIf="showEditButton && !editing"
+        class="with-output-button">
+    <span class="output">
+      <ng-content select="[button-output]"></ng-content>
+    </span>
+    <span class="output-button"
+          (click)="onStartEdit()">
+      <i class="fa fa-edit"></i>
+    </span>
+  </span>
   <p-inplace [active]="editing"
+             *ngIf="!showEditButton || editing"
+             [disabled]="!editable"
              class="inplace"
              (onActivate)="onStartEdit()">
     <span pInplaceDisplay>

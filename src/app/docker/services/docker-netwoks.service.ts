@@ -23,7 +23,7 @@ export class DockerNetworksService {
 
   mapNetworkFilterJson(filter: NetworkFilter): FilterJson {
     if (filter == null) {
-      return null;
+      return {filters: {}};
     }
     let filters = {};
     filters['label'] = filter.label;
