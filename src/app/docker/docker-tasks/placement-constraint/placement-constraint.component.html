@@ -1,0 +1,16 @@
+<div class="placement-constraints">
+  <div *ngIf="!editable">
+    <div *ngFor="let constraint of constraints" class="constraint">
+      {{ constraint }}
+    </div>
+    <div *ngIf="constraints.length === 0">
+      None
+    </div>
+  </div>
+  <div *ngIf="editable">
+    <p-chips [ngModel]="constraints"
+             (ngModelChange)="onConstraintsChange($event)"
+             name="constraint-input"
+    ></p-chips>
+  </div>
+</div>

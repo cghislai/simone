@@ -1,0 +1,14 @@
+<div class="placement-constraints">
+  <div *ngIf="!editable">
+    {{ condition }}
+    <div *ngIf="condition == null">
+      None
+    </div>
+  </div>
+  <div *ngIf="editable">
+    <p-selectButton [ngModel]="condition"
+                    (ngModelChange)="onConditionChange($event)"
+                    [options]="conditionOptions"
+    ></p-selectButton>
+  </div>
+</div>
