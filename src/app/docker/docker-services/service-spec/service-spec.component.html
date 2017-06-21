@@ -118,6 +118,24 @@
             </span>
         </app-editable-field>
       </div>
+
+      <div class="row">
+        <label>Update Config</label>
+        <app-update-config [(ngModel)]="spec.UpdateConfig"
+                           (touched)="onTouched()"
+                           [editable]="editable"
+                           name="update-input"
+        ></app-update-config>
+      </div>
+
+      <div class="row">
+        <label>Rollback Config</label>
+        <app-update-config [(ngModel)]="spec.RollbackConfig"
+                           (touched)="onTouched()"
+                           [editable]="editable"
+                           name="update-input"
+        ></app-update-config>
+      </div>
     </div>
 
     <div class="col">

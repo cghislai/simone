@@ -1,0 +1,139 @@
+<div class="update-config label-table vertical" *ngIf="spec != null">
+  <div class="row">
+    <label>Parallelism</label>
+    <app-editable-field [ngModel]="spec.Parallelism"
+                        (ngModelChange)="onParallelismChange($event)"
+                        (rollback)="onParallelismRollback()"
+                        (touched)="onTouched()"
+                        [rollbackVisible]="true"
+                        [editable]="editable"
+                        [class.changed]="parallelismDiffer()"
+                        name="parallelism" class="parallelism" #parallelismField>
+      <span input>
+          <p-spinner [(ngModel)]="parallelismField.value"
+                     name="parallelism-input"
+                     [min]="0"
+          ></p-spinner>
+      </span>
+      <span output>
+        <span *ngIf="spec.Parallelism == null">None</span>
+        {{ spec.Parallelism }}
+      </span>
+    </app-editable-field>
+  </div>
+
+  <div class="row">
+    <label>delay</label>
+    <app-editable-field [ngModel]="spec.delay"
+                        (ngModelChange)="onDelayChange($event)"
+                        (rollback)="onDelayRollback()"
+                        (touched)="onTouched()"
+                        [rollbackVisible]="true"
+                        [editable]="editable"
+                        [class.changed]="delayDiffer()"
+                        name="delay" class="delay" #delayField>
+      <span input>
+          <p-spinner [(ngModel)]="delayField.value"
+                     name="delay-input"
+                     [min]="0"
+          ></p-spinner>
+      </span>
+      <span output>
+        <span *ngIf="spec.delay == null">None</span>
+        {{ spec.Delay }}
+      </span>
+    </app-editable-field>
+  </div>
+
+  <div class="row">
+    <label>failureAction</label>
+    <app-editable-field [ngModel]="spec.FailureAction"
+                        (ngModelChange)="onFailureActionChange($event)"
+                        (rollback)="onFailureActionRollback()"
+                        (touched)="onTouched()"
+                        [rollbackVisible]="true"
+                        [editable]="editable"
+                        [class.changed]="failureActionDiffer()"
+                        name="failureAction" class="failureAction" #failureActionField>
+      <span input>
+        <p-selectButton [(ngModel)]="failureActionField.value"
+                        [options]="failureActionOptions"
+                        name="failureAction-input"
+        ></p-selectButton>
+      </span>
+      <span output>
+        <span *ngIf="spec.FailureAction == null">None</span>
+        {{ spec.FailureAction }}
+      </span>
+    </app-editable-field>
+  </div>
+
+  <div class="row">
+    <label>monitor</label>
+    <app-editable-field [ngModel]="spec.Monitor"
+                        (ngModelChange)="onMonitorChange($event)"
+                        (rollback)="onMonitorRollback()"
+                        (touched)="onTouched()"
+                        [rollbackVisible]="true"
+                        [editable]="editable"
+                        [class.changed]="monitorDiffer()"
+                        name="monitor" class="monitor" #monitorField>
+      <span input>
+          <p-spinner [(ngModel)]="monitorField.value"
+                     name="monitor-input"
+                     [min]="0"
+          ></p-spinner>
+      </span>
+      <span output>
+        <span *ngIf="spec.Monitor == null">None</span>
+        {{ spec.Monitor }}
+      </span>
+    </app-editable-field>
+  </div>
+
+  <div class="row">
+    <label>maxFailureRatio</label>
+    <app-editable-field [ngModel]="spec.MaxFailureRatio"
+                        (ngModelChange)="onMaxFailureRatioChange($event)"
+                        (rollback)="onMaxFailureRatioRollback()"
+                        (touched)="onTouched()"
+                        [rollbackVisible]="true"
+                        [editable]="editable"
+                        [class.changed]="maxFailureRatioDiffer()"
+                        name="maxFailureRatio" class="maxFailureRatio" #maxFailureRatioField>
+      <span input>
+          <p-spinner [(ngModel)]="maxFailureRatioField.value"
+                     name="maxFailureRatio-input"
+                     [min]="0" [max]="1" [step]="0.1"
+          ></p-spinner>
+      </span>
+      <span output>
+        <span *ngIf="spec.MaxFailureRatio == null">None</span>
+        {{ spec.MaxFailureRatio }}
+      </span>
+    </app-editable-field>
+  </div>
+
+  <div class="row">
+    <label>order</label>
+    <app-editable-field [ngModel]="spec.Order"
+                        (ngModelChange)="onOrderChange($event)"
+                        (rollback)="onOrderRollback()"
+                        (touched)="onTouched()"
+                        [rollbackVisible]="true"
+                        [editable]="editable"
+                        [class.changed]="orderDiffer()"
+                        name="order" class="order" #orderField>
+      <span input>
+          <p-selectButton [(ngModel)]="orderField.value"
+                          [options]="orderOptions"
+                          name="order-input"
+          ></p-selectButton>
+      </span>
+      <span output>
+        <span *ngIf="spec.Order == null">None</span>
+        {{ spec.Order }}
+      </span>
+    </app-editable-field>
+  </div>
+</div>

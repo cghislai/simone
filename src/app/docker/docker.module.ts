@@ -108,6 +108,7 @@ import { EditableFieldComponent } from '../utils/editable-field/editable-field.c
 import { NetworksSpecComponent } from './docker-networks/networks-spec/networks-spec.component';
 import { PlacementConstraintComponent } from './docker-tasks/placement-constraint/placement-constraint.component';
 import { RestartConditionComponent } from './docker-tasks/restart-condition/restart-condition.component';
+import {UpdateConfigComponent} from './docker-services/update-config/update-config.component';
 
 @NgModule({
   imports: [
@@ -210,6 +211,7 @@ import { RestartConditionComponent } from './docker-tasks/restart-condition/rest
     NetworksSpecComponent,
     PlacementConstraintComponent,
     RestartConditionComponent,
+    UpdateConfigComponent,
   ],
   exports: [
     RouterModule,

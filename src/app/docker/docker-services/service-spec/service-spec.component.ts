@@ -7,6 +7,7 @@ import {PortBinding} from '../../client/domain/port-binding';
 import {ObjectUtils} from '../../../utils/ObjectUtils';
 import {NetworkSpec} from '../../client/domain/network-spec';
 import {SingleActiveEditableFieldProvider} from '../../../utils/editable-field/SingleActiveEditableFieldProvider';
+import {ServiceUpdateConfig} from '../../client/domain/service-update-config';
 
 @Component({
   selector: 'app-service-spec',
@@ -180,6 +181,47 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
           && !ArrayUtils.arrayContentDiffer(net1.Aliases, net2.Aliases);
       });
   }
+
+
+  onRollbackConfigChange(rollbackConfig: ServiceUpdateConfig) {
+    let newSpec = ObjectUtils.jsonClone(this.spec);
+    newSpec.RollbackConfig = rollbackConfig;
+    this.setSpec(newSpec);
+  }
+
+  onRollbackConfigRollback() {
+    let newSpec = ObjectUtils.jsonClone(this.spec);
+    newSpec.RollbackConfig = this.originalSpec.RollbackConfig;
+    this.setSpec(newSpec);
+  }
+
+  rollbackConfigDiffer() {
+    if (this.spec == null || this.originalSpec == null) {
+      return true;
+    }
+    return this.spec.RollbackConfig !== this.originalSpec.RollbackConfig;
+  }
+
+
+  onUpdateConfigChange(updateConfig: ServiceUpdateConfig) {
+    let newSpec = ObjectUtils.jsonClone(this.spec);
+    newSpec.UpdateConfig = updateConfig;
+    this.setSpec(newSpec);
+  }
+
+  onUpdateConfigUpdate() {
+    let newSpec = ObjectUtils.jsonClone(this.spec);
+    newSpec.UpdateConfig = this.originalSpec.UpdateConfig;
+    this.setSpec(newSpec);
+  }
+
+  updateConfigDiffer() {
+    if (this.spec == null || this.originalSpec == null) {
+      return true;
+    }
+    return this.spec.UpdateConfig !== this.originalSpec.UpdateConfig;
+  }
+
 
   onTouched() {
     this.firetouched();
