@@ -1,3 +1,4 @@
 <app-service-details [service]="service"
+                     (serviceChanged)="onServiceChanged()"
                      *ngIf="service != null"
 ></app-service-details>

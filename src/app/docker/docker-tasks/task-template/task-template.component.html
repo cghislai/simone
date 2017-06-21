@@ -95,10 +95,10 @@
                 </span>
               </span>
               <span output>
-                <span *ngIf="cpuLimitField.value > 0.00001">
+                <span *ngIf="cpuLimitField.value > 0.001">
                   {{ cpuLimitField.value | number:'1.1-4' }} CPU
                 </span>
-                <span *ngIf="!(cpuLimitField.value > 0.00001)">
+                <span *ngIf="!(cpuLimitField.value > 0.001)">
                   None
                 </span>
               </span>

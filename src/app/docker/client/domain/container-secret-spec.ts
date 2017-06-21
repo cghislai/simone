@@ -3,7 +3,7 @@
  */
 
 export interface ContainerSecretSpec {
-  File?: { Name: string, UID: string, GID: string, Mode: number };
-  SecretID: string;
+  File?: { Name: string, UID?: string, GID?: string, Mode?: number };
   SecretName: string;
+  SecretID?: string;
 }

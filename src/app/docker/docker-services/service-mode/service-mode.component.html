@@ -19,7 +19,7 @@
                       name="mode"
       ></p-selectButton>
     </span>
-    <span [hidden]="mode.Replicated == null">
+    <span *ngIf="mode.Replicated != null">
       <p-spinner [ngModel]="mode.Replicated?.Replicas"
                  (ngModelChange)="onReplicasChange($event)"
                  name="replicas"

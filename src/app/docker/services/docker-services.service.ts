@@ -7,6 +7,8 @@ import {FilterJson} from '../client/domain/filter';
 import {ServiceFilter} from '../domain/services/service-filter';
 import {Service} from '../domain/services/service';
 import {DockerOptionsService} from './docker-options.service';
+import {ServiceSpec} from '../client/domain/service-spec';
+import {Version} from '../client/domain/version';
 
 /**
  * Created by cghislai on 11/02/17.
@@ -29,6 +31,10 @@ export class DockerServicesService {
   inspect(id: string): Observable<Service> {
     return this.client.inspectService(id)
       .map(service => this.mapServiceJson(service));
+  }
+
+  update(id: string, version: Version, spec: ServiceSpec): Observable<any> {
+    return this.client.updateService(id, version, spec);
   }
 
   private mapServiceJson(json: ServiceJson): Service {

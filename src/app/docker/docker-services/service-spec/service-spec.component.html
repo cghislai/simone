@@ -1,123 +1,126 @@
 <div class="spec label-table" *ngIf="spec != null">
-  <div class="col label-table vertical">
-    <div class="title">
-      Service
-    </div>
+  <div class="spec">
 
-    <div class="row">
-      <label>Name</label>
-      <app-editable-field [ngModel]="spec.Name"
-                          (ngModelChange)="onNameChange($event)"
-                          (rollback)="onNameRollback()"
-                          (touched)="onTouched()"
-                          [rollbackVisible]="true"
-                          [editable]="editable"
-                          [class.changed]="namesDiffer()"
-                          name="name" class="name" #nameField>
-          <span input>
-            <input pInputText name="spec-name"
-                   [(ngModel)]="nameField.value">
-          </span>
-        <span output>{{nameField.value}}</span>
-      </app-editable-field>
-    </div>
+    <div class="col label-table vertical">
+      <div class="title">
+        Service
+      </div>
 
-    <div class="row">
-      <label>Mode</label>
-      <span>
-        <app-editable-field [ngModel]="spec.Mode"
-                            (ngModelChange)="onModeChange($event)"
-                            (rollback)="onModeRollback()"
+      <div class="row">
+        <label>Name</label>
+        <app-editable-field [ngModel]="spec.Name"
+                            (ngModelChange)="onNameChange($event)"
+                            (rollback)="onNameRollback()"
                             (touched)="onTouched()"
                             [rollbackVisible]="true"
                             [editable]="editable"
-                            [class.changed]="modesDiffer()"
-                            name="mode" class="mode" #modeField>
-          <span input>
-            <app-service-mode [(ngModel)]="modeField.value"
-                              [editable]="true"
-            ></app-service-mode>
-          </span>
-          <span output>
-            <app-service-mode [ngModel]="modeField.value"
-                              [showReplicas]="true"
-            ></app-service-mode>
-          </span>
+                            [class.changed]="namesDiffer()"
+                            name="name" class="name" #nameField>
+            <span input>
+              <input pInputText name="spec-name"
+                     [(ngModel)]="nameField.value">
+            </span>
+          <span output>{{nameField.value}}</span>
         </app-editable-field>
-      </span>
-    </div>
+      </div>
 
-    <div class="row">
-      <label>Labels</label>
-      <app-editable-field [ngModel]="specLabels"
-                          (ngModelChange)="onLabelsChange($event)"
-                          (rollback)="onLabelsRollback()"
-                          (touched)="onTouched()"
-                          [rollbackVisible]="true"
-                          [editable]="editable"
-                          [class.changed]="labelsDiffer()"
-                          name="labels" class="labels" #labelsField>
-          <span input>
-            <p-chips [(ngModel)]="labelsField.value"
-                     name="spec-labels"
-            ></p-chips>
-          </span>
-        <span output>
-            <app-labels [labels]="spec.Labels"
-            ></app-labels>
-          </span>
-      </app-editable-field>
-    </div>
+      <div class="row">
+        <label>Mode</label>
+        <span>
+          <app-editable-field [ngModel]="spec.Mode"
+                              (ngModelChange)="onModeChange($event)"
+                              (rollback)="onModeRollback()"
+                              (touched)="onTouched()"
+                              [rollbackVisible]="true"
+                              [editable]="editable"
+                              [class.changed]="modesDiffer()"
+                              name="mode" class="mode" #modeField>
+            <span input>
+              <app-service-mode [(ngModel)]="modeField.value"
+                                [editable]="true"
+              ></app-service-mode>
+            </span>
+            <span output>
+              <app-service-mode [ngModel]="modeField.value"
+                                [showReplicas]="true"
+              ></app-service-mode>
+            </span>
+          </app-editable-field>
+        </span>
+      </div>
 
-    <div class="row">
-      <label>Ports</label>
-      <app-editable-field [ngModel]="spec.EndpointSpec.Ports"
-                          (ngModelChange)="onPortsChange($event)"
-                          (rollback)="onPortsRollback()"
-                          (touched)="onTouched()"
-                          [rollbackVisible]="true"
-                          [editable]="editable"
-                          [class.changed]="portsDiffer()"
-                          name="ports" class="ports" #portsField>
-          <span input>
-            <app-port-mappings [(ngModel)]="portsField.value"
-                               [editable]="true"
-            ></app-port-mappings>
-          </span>
-        <span output>
+      <div class="row">
+        <label>Labels</label>
+        <app-editable-field [ngModel]="specLabels"
+                            (ngModelChange)="onLabelsChange($event)"
+                            (rollback)="onLabelsRollback()"
+                            (touched)="onTouched()"
+                            [rollbackVisible]="true"
+                            [editable]="editable"
+                            [class.changed]="labelsDiffer()"
+                            name="labels" class="labels" #labelsField>
+            <span input>
+              <p-chips [(ngModel)]="labelsField.value"
+                       name="spec-labels"
+                       styleClass="vertical"
+              ></p-chips>
+            </span>
+          <span output>
+              <app-labels [labels]="spec.Labels"
+              ></app-labels>
+            </span>
+        </app-editable-field>
+      </div>
+
+      <div class="row">
+        <label>Ports</label>
+        <app-editable-field [ngModel]="spec.EndpointSpec.Ports"
+                            (ngModelChange)="onPortsChange($event)"
+                            (rollback)="onPortsRollback()"
+                            (touched)="onTouched()"
+                            [rollbackVisible]="true"
+                            [editable]="editable"
+                            [class.changed]="portsDiffer()"
+                            name="ports" class="ports" #portsField>
+            <span input>
               <app-port-mappings [(ngModel)]="portsField.value"
-                                 [editable]="false"
+                                 [editable]="true"
               ></app-port-mappings>
-          </span>
-      </app-editable-field>
-    </div>
+            </span>
+          <span output>
+                <app-port-mappings [(ngModel)]="portsField.value"
+                                   [editable]="false"
+                ></app-port-mappings>
+            </span>
+        </app-editable-field>
+      </div>
 
-    <div class="row">
-      <label>Networks</label>
-      <app-editable-field [ngModel]="spec.Networks"
-                          (ngModelChange)="onNetworksChange($event)"
-                          (rollback)="onNetworksRollback()"
-                          (touched)="onTouched()"
-                          [rollbackVisible]="true"
-                          [showEditButton]="true"
-                          [editable]="editable"
-                          [class.changed]="networksDiffer()"
-                          name="networks" class="networks" #networksField>
-          <span input>
-            <app-networks-spec [(ngModel)]="networksField.value"
-                               [editable]="true"
-            ></app-networks-spec>
-          </span>
+      <div class="row">
+        <label>Networks</label>
+        <app-editable-field [ngModel]="spec.Networks"
+                            (ngModelChange)="onNetworksChange($event)"
+                            (rollback)="onNetworksRollback()"
+                            (touched)="onTouched()"
+                            [rollbackVisible]="true"
+                            [showEditButton]="true"
+                            [editable]="editable"
+                            [class.changed]="networksDiffer()"
+                            name="networks" class="networks" #networksField>
+            <span input>
+              <app-networks-spec [(ngModel)]="networksField.value"
+                                 [editable]="true"
+              ></app-networks-spec>
+            </span>
           <span button-output>
-             <app-networks-spec [(ngModel)]="networksField.value"
-                                [editable]="false"
-             ></app-networks-spec>
-          </span>
-      </app-editable-field>
+               <app-networks-spec [(ngModel)]="networksField.value"
+                                  [editable]="false"
+               ></app-networks-spec>
+            </span>
+        </app-editable-field>
+      </div>
     </div>
-  </div>
 
-  <div class="col">
+    <div class="col">
       <div class="title">
         Task template
       </div>
@@ -126,13 +129,27 @@
                          name="task-template"
                          (touched)="onTouched()"
       ></app-task-template>
-  </div>
-
-  <div class="col">
-    <div class="title">
-      Container spec
     </div>
-    <app-container-spec [spec]="spec.TaskTemplate.ContainerSpec"
-    ></app-container-spec>
+
+    <div class="col">
+      <div class="title">
+        Container spec
+      </div>
+      <app-container-spec [(ngModel)]="spec.TaskTemplate.ContainerSpec"
+                          [editable]="editable"
+                          name="container-spec"
+                          (touched)="onTouched()"
+      ></app-container-spec>
+    </div>
+  </div>
+  <div class="actions">
+    <button pButton type="button"
+            label="Apply" class="apply-button"
+            [disabled]="!specTouched"
+            (click)="onApplyChangesClicked()"></button>
+    <button pButton type="button"
+            label="Cancel" class="cancel-button"
+            [disabled]="!specTouched"
+            (click)="onCancelChangesClicked()"></button>
   </div>
 </div>

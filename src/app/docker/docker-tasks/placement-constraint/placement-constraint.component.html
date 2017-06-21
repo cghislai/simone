@@ -9,6 +9,7 @@
   </div>
   <div *ngIf="editable">
     <p-chips [ngModel]="constraints"
+             styleClass="vertical"
              (ngModelChange)="onConstraintsChange($event)"
              name="constraint-input"
     ></p-chips>

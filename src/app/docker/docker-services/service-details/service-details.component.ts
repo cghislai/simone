@@ -1,7 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Service} from '../../domain/services/service';
 import {TaskFilter} from '../../client/domain/task-filter';
 import {TaskColumn} from '../../docker-tasks/task-list/taskColumn';
+import {ServiceSpec} from '../../client/domain/service-spec';
+import {DockerServicesService} from '../../services/docker-services.service';
 
 @Component({
   selector: 'app-service-details',
@@ -12,11 +14,13 @@ export class ServiceDetailsComponent implements OnInit {
 
   @Input()
   service: Service;
+  @Output()
+  serviceChanged = new EventEmitter<any>();
 
   taskFilter: TaskFilter;
   taskColumns: TaskColumn[];
 
-  constructor() {
+  constructor(private dockerService: DockerServicesService) {
   }
 
   ngOnInit() {
@@ -44,4 +48,8 @@ export class ServiceDetailsComponent implements OnInit {
     this.taskFilter = newFilter;
   }
 
+  onSpecChanged(spec: ServiceSpec) {
+    this.dockerService.update(this.service.id, this.service.version, spec)
+      .subscribe(r => this.serviceChanged.next(true));
+  }
 }

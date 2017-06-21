@@ -39,6 +39,10 @@ export class ServiceDetailsPageComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  onServiceChanged() {
+    this.fetchService(this.service.id);
+  }
+
   private fetchService(id: string) {
     this.servicesService.inspect(id)
       .subscribe(service => this.service = service);

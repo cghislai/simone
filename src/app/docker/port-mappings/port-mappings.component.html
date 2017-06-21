@@ -20,6 +20,7 @@
   </div>
   <div *ngIf="editable">
     <p-chips [ngModel]="portStrings"
+             styleClass="vertical"
              (ngModelChange)="onPortsChanged($event)"
     ></p-chips>
   </div>

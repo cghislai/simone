@@ -13,9 +13,7 @@ import {ArrayUtils} from '../../../utils/array-utils';
     provide: NG_VALUE_ACCESSOR,
     useExisting: TaskTemplateComponent,
     multi: true,
-  },
-    SingleActiveEditableFieldProvider,
-  ],
+  }],
 })
 export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
 
@@ -44,7 +42,7 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
   writeValue(obj: any): void {
     this.originalSpec = obj;
     if (!this.specTouched && obj != null) {
-      this.setSpec(ObjectUtils.deepClone(this.originalSpec));
+      this.setSpec(ObjectUtils.jsonClone(this.originalSpec));
     }
   }
 
@@ -63,13 +61,13 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
   }
 
   onForceUpdateChange(force: boolean) {
-    let newSpec: TaskTemplateJson = ObjectUtils.deepClone(this.template);
+    let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
     newSpec.ForceUpdate = force ? 1 : 0; // TODO move in service
     this.setSpec(newSpec);
   }
 
   onForceUpdateRollback() {
-    let newSpec: TaskTemplateJson = ObjectUtils.deepClone(this.template);
+    let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
     newSpec.ForceUpdate = this.originalSpec.ForceUpdate;
     this.setSpec(newSpec);
   }
@@ -79,14 +77,14 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
   }
 
   onConstraintsChange(constraints: string[]) {
-    let newSpec: TaskTemplateJson = ObjectUtils.deepClone(this.template);
+    let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
     newSpec.Placement.Constraints = constraints;
     this.setSpec(newSpec);
   }
 
 
   onConstraintsRollback() {
-    let newSpec: TaskTemplateJson = ObjectUtils.deepClone(this.template);
+    let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
     newSpec.Placement.Constraints = [...this.originalSpec.Placement.Constraints];
     this.setSpec(newSpec);
   }
@@ -98,13 +96,13 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
 
   onMemoryMegaBytesLimitChange(megaBytes: number) {
     let bytes = megaBytes * 1024 * 1024;
-    let newSpec: TaskTemplateJson = ObjectUtils.deepClone(this.template);
+    let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
     newSpec.Resources.Limits.MemoryBytes = bytes < 0.0000000001 ? 0 : bytes;
     this.setSpec(newSpec);
   }
 
   onMemoryBytesLimitRollback() {
-    let newSpec: TaskTemplateJson = ObjectUtils.deepClone(this.template);
+    let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
     newSpec.Resources.Limits.MemoryBytes = this.originalSpec.Resources.Limits.MemoryBytes;
     this.setSpec(newSpec);
   }
@@ -114,14 +112,14 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
   }
 
   onCPULimitChange(cpu: number) {
-    let nanoCpus = cpu * 10 ^ 9;
-    let newSpec: TaskTemplateJson = ObjectUtils.deepClone(this.template);
+    let nanoCpus = cpu * 1000000000;
+    let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
     newSpec.Resources.Limits.NanoCPUs = nanoCpus;
     this.setSpec(newSpec);
   }
 
   onNanoCPUsLimitRollback() {
-    let newSpec: TaskTemplateJson = ObjectUtils.deepClone(this.template);
+    let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
     newSpec.Resources.Limits.NanoCPUs = this.originalSpec.Resources.Limits.NanoCPUs;
     this.setSpec(newSpec);
   }
@@ -132,13 +130,13 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
 
 
   onRestartConditionChange(condition: string) {
-    let newSpec: TaskTemplateJson = ObjectUtils.deepClone(this.template);
+    let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
     newSpec.RestartPolicy.Condition = <'none' | 'on-failure' | 'any'>condition;
     this.setSpec(newSpec);
   }
 
   onRestartConditionRollback() {
-    let newSpec: TaskTemplateJson = ObjectUtils.deepClone(this.template);
+    let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
     newSpec.RestartPolicy.Condition = this.originalSpec.RestartPolicy.Condition;
     this.setSpec(newSpec);
   }
@@ -149,13 +147,13 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
 
 
   onRestartMaxAttemptsChange(maxAttempts: number) {
-    let newSpec: TaskTemplateJson = ObjectUtils.deepClone(this.template);
+    let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
     newSpec.RestartPolicy.MaxAttempts = maxAttempts;
     this.setSpec(newSpec);
   }
 
   onRestartMaxAttemptsRollback() {
-    let newSpec: TaskTemplateJson = ObjectUtils.deepClone(this.template);
+    let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
     newSpec.RestartPolicy.MaxAttempts = this.originalSpec.RestartPolicy.MaxAttempts;
     this.setSpec(newSpec);
   }
@@ -166,13 +164,13 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
 
 
   onRestartDelayChange(delay: number) {
-    let newSpec: TaskTemplateJson = ObjectUtils.deepClone(this.template);
+    let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
     newSpec.RestartPolicy.Delay = delay;
     this.setSpec(newSpec);
   }
 
   onRestartDelayRollback() {
-    let newSpec: TaskTemplateJson = ObjectUtils.deepClone(this.template);
+    let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
     newSpec.RestartPolicy.Delay = this.originalSpec.RestartPolicy.Delay;
     this.setSpec(newSpec);
   }
@@ -183,13 +181,13 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
 
 
   onRestartWindowChange(window: number) {
-    let newSpec: TaskTemplateJson = ObjectUtils.deepClone(this.template);
+    let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
     newSpec.RestartPolicy.Window = window;
     this.setSpec(newSpec);
   }
 
   onRestartWindowRollback() {
-    let newSpec: TaskTemplateJson = ObjectUtils.deepClone(this.template);
+    let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
     newSpec.RestartPolicy.Window = this.originalSpec.RestartPolicy.Window;
     this.setSpec(newSpec);
   }
@@ -233,5 +231,6 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
     if (spec == null) {
       return;
     }
+    this.fireChange(spec);
   }
 }

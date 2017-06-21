@@ -22,6 +22,7 @@ import {Network} from './domain/network';
 import {Node} from './domain/node';
 import {NodeSpec} from './domain/node-spec';
 import {Version} from './domain/version';
+import {ServiceSpec} from './domain/service-spec';
 
 
 @Injectable()
@@ -144,11 +145,21 @@ export class DockerClient {
 
   inspectService(id: string): Observable<ServiceJson> {
     let params = new URLSearchParams();
-    params.append('insertDefaults','true');
+    params.append('insertDefaults', 'true');
     return this.request(`services/${id}`, {
       method: 'GET',
-      search: params
+      search: params,
     }).map(response => response.json());
+  }
+
+  updateService(id: string, version: Version, spec: ServiceSpec): Observable<any> {
+    let queryParams: URLSearchParams = new URLSearchParams();
+    queryParams.append('version', `${version.Index}`);
+    return this.request(`services/${id}/update`, {
+      method: 'POST',
+      search: queryParams,
+      body: spec,
+    });
   }
 
   listVolumes(filter?: FilterJson): Observable<Volume[]> {

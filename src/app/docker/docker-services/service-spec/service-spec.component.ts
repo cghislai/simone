@@ -48,14 +48,7 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
   writeValue(obj: any): void {
     this.originalSpec = obj;
     if (!this.specTouched && obj != null) {
-      this.setSpec(ObjectUtils.deepClone(this.originalSpec));
-      this.specLabels = this.getLabels(this.spec.Labels);
-      if (this.spec.EndpointSpec == null) {
-        this.spec.EndpointSpec = {
-          Ports: [],
-          Mode: 'VIP',
-        };
-      }
+      this.setSpec(ObjectUtils.jsonClone(this.originalSpec));
     }
   }
 
@@ -68,13 +61,13 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
   }
 
   onNameChange(name: string) {
-    let newSpec = ObjectUtils.deepClone(this.spec);
+    let newSpec = ObjectUtils.jsonClone(this.spec);
     newSpec.Name = name;
     this.setSpec(newSpec);
   }
 
   onNameRollback() {
-    let newSpec = ObjectUtils.deepClone(this.spec);
+    let newSpec = ObjectUtils.jsonClone(this.spec);
     newSpec.Name = this.originalSpec.Name;
     this.setSpec(newSpec);
   }
@@ -91,7 +84,7 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
   }
 
   onModeRollback() {
-    let newSpec = ObjectUtils.deepClone(this.spec);
+    let newSpec = ObjectUtils.jsonClone(this.spec);
     newSpec.Mode = this.originalSpec.Mode;
     this.setSpec(newSpec);
   }
@@ -100,27 +93,21 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
     if (this.spec == null || this.originalSpec == null) {
       return true;
     }
-    return (this.spec.Mode.Replicated == null) !== (this.originalSpec.Mode.Replicated == null)
-      || (this.spec.Mode.Global == null) !== (this.originalSpec.Mode.Global == null)
-      || (this.spec.Mode.Replicated.Replicas) !== (this.originalSpec.Mode.Replicated.Replicas)
+    return this.spec.Mode.Replicated != null && this.originalSpec.Mode.Replicated != null
+      && (
+        (this.spec.Mode.Global == null) !== (this.originalSpec.Mode.Global == null)
+        || (this.spec.Mode.Replicated.Replicas) !== (this.originalSpec.Mode.Replicated.Replicas));
   }
 
   onLabelsChange(labels: string[]) {
-    this.specLabels = labels;
-    let specLabels = {};
-    labels.forEach(label => {
-      let splitted = label.split('=');
-      let key = splitted[0];
-      let value = splitted.length > 1 ? splitted[1] : '';
-      specLabels[key] = value;
-    });
-    let newSpec = ObjectUtils.deepClone(this.spec);
-    newSpec.Labels = specLabels;
+    let labelsDict = ObjectUtils.arrayToDict(labels);
+    let newSpec = ObjectUtils.jsonClone(this.spec);
+    newSpec.Labels = labelsDict;
     this.setSpec(newSpec);
   }
 
   onLabelsRollback() {
-    this.specLabels = this.getLabels(this.originalSpec.Labels);
+    this.specLabels = ObjectUtils.dictToArray(this.originalSpec.Labels);
     this.spec.Labels = this.originalSpec.Labels;
   }
 
@@ -128,12 +115,13 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
     if (this.originalSpec == null) {
       return true;
     }
-    let originalLabels = this.getLabels(this.originalSpec.Labels);
-    return ArrayUtils.arrayContentDiffer(originalLabels, this.specLabels);
+    return ArrayUtils.arrayContentDiffer(
+      this.specLabels, ObjectUtils.dictToArray(this.originalSpec.Labels),
+    );
   }
 
   onPortsChange(ports: PortBinding[]) {
-    let newSpec = ObjectUtils.deepClone(this.spec);
+    let newSpec = ObjectUtils.jsonClone(this.spec);
     if (newSpec.EndpointSpec == null) {
       newSpec.EndpointSpec = {
         Ports: ports,
@@ -146,7 +134,7 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
   }
 
   onPortsRollback() {
-    let newSpec = ObjectUtils.deepClone(this.spec);
+    let newSpec = ObjectUtils.jsonClone(this.spec);
     newSpec.EndpointSpec = this.originalSpec.EndpointSpec;
     this.setSpec(newSpec);
   }
@@ -170,14 +158,14 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
   }
 
   onNetworksChange(networks: NetworkSpec[]) {
-    let newSpec = ObjectUtils.deepClone(this.spec);
+    let newSpec = ObjectUtils.jsonClone(this.spec);
     newSpec.Networks = networks;
     this.setSpec(newSpec);
   }
 
 
   onNetworksRollback() {
-    let newSpec = ObjectUtils.deepClone(this.spec);
+    let newSpec = ObjectUtils.jsonClone(this.spec);
     newSpec.Networks = this.originalSpec.Networks;
     this.setSpec(newSpec);
   }
@@ -197,6 +185,16 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
     this.firetouched();
   }
 
+  onApplyChangesClicked() {
+    this.fireChange(this.spec);
+    this.specTouched = false;
+  }
+
+  onCancelChangesClicked() {
+    let newSpec = Object.assign({}, this.originalSpec);
+    this.setSpec(newSpec);
+    this.specTouched = false;
+  }
 
   private firetouched() {
     this.specTouched = true;
@@ -208,21 +206,6 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
     this.onChangeFunction(spec);
   }
 
-  private getLabels(labels: any): string[] {
-    if (labels == null) {
-      return [];
-    }
-    let keys = Reflect.ownKeys(labels);
-    return keys.map(key => {
-      let value = labels[key];
-      if (value == null || value.length === 0) {
-        return `${key}`;
-      } else {
-        return `${key}=${value}`
-      }
-    });
-  }
-
   private initOptions() {
 
   }
@@ -232,6 +215,7 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
     if (spec == null) {
       return;
     }
+    this.specLabels = ObjectUtils.dictToArray(spec.Labels);
     // TODO: move this in service
     if (this.spec.EndpointSpec == null) {
       this.spec.EndpointSpec = {
@@ -241,6 +225,5 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
     } else if (this.spec.EndpointSpec.Ports == null) {
       this.spec.EndpointSpec.Ports = [];
     }
-
   }
 }
