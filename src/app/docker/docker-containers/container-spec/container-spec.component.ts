@@ -4,6 +4,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {ObjectUtils} from '../../../utils/ObjectUtils';
 import {ArrayUtils} from '../../../utils/array-utils';
 import {ContainerUtils} from '../container-utils';
+import {HealthConfig} from '../../client/domain/health-config';
 
 @Component({
   selector: 'app-container-spec',
@@ -179,6 +180,115 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
           === ContainerUtils.stringifyContainerSecretSpec(s2);
       });
   }
+
+
+  onUserChange(user: string) {
+    let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
+    newSpec.User = user;
+    this.setSpec(newSpec);
+  }
+
+  onUserRollback() {
+    let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
+    newSpec.User = this.originalSpec.User;
+    this.setSpec(newSpec);
+  }
+
+  userDiffer() {
+    return this.spec.User !== this.originalSpec.User;
+  }
+
+  onGroupsChange(groups: string[]) {
+    let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
+    newSpec.Groups = [...groups];
+    this.setSpec(newSpec);
+  }
+
+  onGroupsRollback() {
+    let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
+    newSpec.Groups = this.originalSpec.Groups;
+    this.setSpec(newSpec);
+  }
+
+  groupsDiffer() {
+    return ArrayUtils.arrayContentDiffer(this.spec.Groups, this.originalSpec.Groups);
+  }
+
+
+  onDirChange(dir: string) {
+    let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
+    newSpec.Dir = dir;
+    this.setSpec(newSpec);
+  }
+
+  onDirRollback() {
+    let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
+    newSpec.Dir = this.originalSpec.Dir;
+    this.setSpec(newSpec);
+  }
+
+  dirDiffer() {
+    return this.spec.Dir !== this.originalSpec.Dir;
+  }
+
+
+  onStopSignalChange(stopSignal: string) {
+    let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
+    newSpec.StopSignal = stopSignal;
+    this.setSpec(newSpec);
+  }
+
+  onStopSignalRollback() {
+    let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
+    newSpec.StopSignal = this.originalSpec.StopSignal;
+    this.setSpec(newSpec);
+  }
+
+  stopSignalDiffer() {
+    return this.spec.StopSignal !== this.originalSpec.StopSignal;
+  }
+
+
+  onStopGracePeriodSecondChange(stopGracePeriod: number) {
+    let nanoSeconds = stopGracePeriod * 1000000000;
+    let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
+    newSpec.StopGracePeriod = nanoSeconds;
+    this.setSpec(newSpec);
+  }
+
+  onStopGracePeriodRollback() {
+    let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
+    newSpec.StopGracePeriod = this.originalSpec.StopGracePeriod;
+    this.setSpec(newSpec);
+  }
+
+  stopGracePeriodDiffer() {
+    return this.spec.StopGracePeriod !== this.originalSpec.StopGracePeriod;
+  }
+
+
+  onHealthCheckChange(healthCheck: HealthConfig) {
+    let newCheck = ObjectUtils.jsonClone(healthCheck);
+    let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
+    newSpec.HealthCheck = newCheck;
+    this.setSpec(newSpec);
+  }
+
+  onHealthCheckRollback() {
+    let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
+    newSpec.HealthCheck = this.originalSpec.HealthCheck;
+    this.setSpec(newSpec);
+  }
+
+  healthCheckDiffer() {
+    if (this.spec == null) {
+      return false;
+    }
+    let newCheckJSON = JSON.stringify(this.spec.HealthCheck);
+    let originalCheckJSON = JSON.stringify(this.originalSpec.HealthCheck);
+    return newCheckJSON !== originalCheckJSON;
+  }
+
 
 
   private firetouched() {

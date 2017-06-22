@@ -143,4 +143,128 @@
       </span>
     </app-editable-field>
   </div>
+
+  <div class="row">
+    <label>User</label>
+    <app-editable-field [ngModel]="spec.User"
+                        (ngModelChange)="onUserChange($event)"
+                        (rollback)="onUserRollback()"
+                        (touched)="onTouched()"
+                        [rollbackVisible]="true"
+                        [editable]="editable"
+                        [class.changed]="userDiffer()"
+                        name="user" class="user" #userField>
+      <span input>
+        <input pInputText [(ngModel)]="userField.value"
+               name="user-input">
+      </span>
+      <span output>
+        <span *ngIf="userField.value == null">None</span>
+        <span>{{userField.value}}</span>
+      </span>
+    </app-editable-field>
+  </div>
+
+
+  <div class="row">
+    <label>Groups</label>
+    <app-editable-field [ngModel]="spec.Groups"
+                        (ngModelChange)="onGroupsChange($event)"
+                        (rollback)="onGroupsRollback()"
+                        (touched)="onTouched()"
+                        [rollbackVisible]="true"
+                        [editable]="editable"
+                        [class.changed]="groupsDiffer()"
+                        name="groups" class="groups" #groupsField>
+      <span input>
+        <p-chips [(ngModel)]="groupsField.value"
+                 name="groups-input"></p-chips>
+      </span>
+      <span output>
+        <span *ngIf="groupsField.value == null || groupsField.value.length === 0">None</span>
+        <span *ngFor="let group of groupsField.value">{{group}}</span>
+      </span>
+    </app-editable-field>
+  </div>
+
+
+  <div class="row">
+    <label>Dir</label>
+    <app-editable-field [ngModel]="spec.Dir"
+                        (ngModelChange)="onDirChange($event)"
+                        (rollback)="onDirRollback()"
+                        (touched)="onTouched()"
+                        [rollbackVisible]="true"
+                        [editable]="editable"
+                        [class.changed]="dirDiffer()"
+                        name="dir" class="dir" #dirField>
+       <span input>
+        <input pInputText [(ngModel)]="dirField.value"
+               name="dir-input">
+      </span>
+      <span output>
+        <span *ngIf="dirField.value == null">None</span>
+        <span>{{dirField.value}}</span>
+      </span>
+    </app-editable-field>
+  </div>
+
+
+  <div class="row">
+    <label>StopSignal</label>
+    <app-editable-field [ngModel]="spec.StopSignal"
+                        (ngModelChange)="onStopSignalChange($event)"
+                        (rollback)="onStopSignalRollback()"
+                        (touched)="onTouched()"
+                        [rollbackVisible]="true"
+                        [editable]="editable"
+                        [class.changed]="stopSignalDiffer()"
+                        name="stopSignal" class="stopSignal" #stopSignalField>
+       <span input>
+        <input pInputText [(ngModel)]="stopSignalField.value"
+               name="stopSignal-input">
+      </span>
+      <span output>
+        <span *ngIf="stopSignalField.value == null">None</span>
+        <span>{{stopSignalField.value}}</span>
+      </span>
+    </app-editable-field>
+  </div>
+
+
+  <div class="row">
+    <label>StopGracePeriod</label>
+    <app-editable-field [ngModel]="spec.StopGracePeriod / 1000000000"
+                        (ngModelChange)="onStopGracePeriodSecondChange($event)"
+                        (rollback)="onStopGracePeriodRollback()"
+                        (touched)="onTouched()"
+                        [rollbackVisible]="true"
+                        [editable]="editable"
+                        [class.changed]="stopGracePeriodDiffer()"
+                        name="stopGracePeriod" class="stopGracePeriod" #stopGracePeriodField>
+      <span input>
+       <p-spinner [(ngModel)]="stopGracePeriodField.value"
+                  name="stopGracePeriod-input"
+                  [min]="0" [size]="4"
+       ></p-spinner> s
+      </span>
+      <span output>
+        <span *ngIf="stopGracePeriodField.value == null || stopGracePeriodField.value <= 0">None</span>
+        <span *ngIf="stopGracePeriodField.value > 0">{{ stopGracePeriodField.value | number:'.0-2'}} s</span>
+      </span>
+    </app-editable-field>
+  </div>
+
+
+  <div class="row">
+    <label>HealthCheck</label>
+    <app-healthcheck-config [ngModel]="spec.HealthCheck"
+                            (ngModelChange)="onHealthCheckChange($event)"
+                            [rollbackConfig]="originalSpec.HealthCheck"
+                            (rollback)="onHealthCheckRollback()"
+                            (touched)="onTouched()"
+                            name="healthCheck-input"
+                            [editable]="editable"
+    ></app-healthcheck-config>
+  </div>
 </div>

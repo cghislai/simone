@@ -161,8 +161,8 @@
 
           <span class="policy row">
             <label>Delay</label>
-            <app-editable-field [ngModel]="template.RestartPolicy.Delay"
-                                (ngModelChange)="onRestartDelayChange($event)"
+            <app-editable-field [ngModel]="template.RestartPolicy.Delay / 1000000000"
+                                (ngModelChange)="onRestartDelaySecondsChange($event)"
                                 (rollback)="onRestartDelayRollback()"
                                 (touched)="onTouched()"
                                 [rollbackVisible]="true"
@@ -171,12 +171,12 @@
                                 name="restart-delay" class="restart-delay" #restartDelayField>
               <span input>
                 <p-spinner [(ngModel)]="restartDelayField.value"
-                           name="restart-delay-input" [min]="0"
-                ></p-spinner>
+                           name="restart-delay-input" [min]="0" [size]="4"
+                ></p-spinner> s
               </span>
               <span output>
-                {{ restartDelayField.value }}
-                <span *ngIf="restartDelayField.value == null">None</span>
+                <span *ngIf="restartDelayField.value > 0">{{ restartDelayField.value | number:'.0-2' }} s</span>
+                <span *ngIf="!(restartDelayField.value > 0)">None</span>
               </span>
             </app-editable-field>
           </span>

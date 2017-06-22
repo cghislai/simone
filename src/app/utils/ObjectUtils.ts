@@ -40,4 +40,24 @@ export class ObjectUtils {
     });
     return dict;
   }
+
+
+  static applyValue(obj: any, field: string, value: any): any {
+    let clone = ObjectUtils.jsonClone(obj);
+    clone[field] = value;
+    return clone;
+  }
+
+  static valuesDiffer(val1: any, val2: any): boolean {
+    if (val1 === val2 || val1 == val2) {
+      return false;
+    }
+    let type1 = typeof val1;
+    if (type1 != typeof val2) {
+      return true;
+    }
+    let json1 = JSON.stringify(val1);
+    let json2 = JSON.stringify(val2);
+    return json1 !== json2;
+  }
 }

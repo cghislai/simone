@@ -44,7 +44,6 @@ export class EditableFieldComponent implements OnInit, ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
-    console.log('write ' + obj);
     this.initialValue = obj;
     this.setCurrentValue(obj);
   }
@@ -58,6 +57,9 @@ export class EditableFieldComponent implements OnInit, ControlValueAccessor {
   }
 
   onStartEdit() {
+    if (!this.editable) {
+      return;
+    }
     this.editing = true;
     this.onTouchedFunction();
     this.touched.next(true);

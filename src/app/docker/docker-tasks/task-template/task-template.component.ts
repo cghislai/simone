@@ -163,9 +163,10 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
   }
 
 
-  onRestartDelayChange(delay: number) {
+  onRestartDelaySecondChange(delay: number) {
+    let nanos = delay * 1000000000;
     let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
-    newSpec.RestartPolicy.Delay = delay;
+    newSpec.RestartPolicy.Delay = nanos;
     this.setSpec(newSpec);
   }
 

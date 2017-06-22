@@ -109,6 +109,7 @@ import { NetworksSpecComponent } from './docker-networks/networks-spec/networks-
 import { PlacementConstraintComponent } from './docker-tasks/placement-constraint/placement-constraint.component';
 import { RestartConditionComponent } from './docker-tasks/restart-condition/restart-condition.component';
 import {UpdateConfigComponent} from './docker-services/update-config/update-config.component';
+import {HealthcheckConfigComponent} from './docker-containers/healthcheck-config/healthcheck-config.component';
 
 @NgModule({
   imports: [
@@ -212,6 +213,7 @@ import {UpdateConfigComponent} from './docker-services/update-config/update-conf
     PlacementConstraintComponent,
     RestartConditionComponent,
     UpdateConfigComponent,
+    HealthcheckConfigComponent,
   ],
   exports: [
     RouterModule,

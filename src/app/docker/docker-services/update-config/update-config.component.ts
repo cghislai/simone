@@ -79,9 +79,10 @@ export class UpdateConfigComponent implements OnInit, ControlValueAccessor {
   }
 
 
-  onDelayChange(delay: number) {
+  onDelaySecondChange(delay: number) {
+    let nanoSeconds = delay * 1000000000;
     let newSpec = ObjectUtils.jsonClone(this.spec);
-    newSpec.Delay = delay;
+    newSpec.Delay = nanoSeconds;
     this.setSpec(newSpec);
   }
 
@@ -119,9 +120,10 @@ export class UpdateConfigComponent implements OnInit, ControlValueAccessor {
   }
 
 
-  onMonitorChange(monitor: number) {
+  onMonitorSecondsChange(monitor: number) {
+    let nanoSec = monitor * 1000000000;
     let newSpec = ObjectUtils.jsonClone(this.spec);
-    newSpec.Monitor = monitor;
+    newSpec.Monitor = nanoSec;
     this.setSpec(newSpec);
   }
 

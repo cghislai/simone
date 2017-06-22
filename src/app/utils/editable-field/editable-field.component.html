@@ -9,34 +9,39 @@
       <i class="fa fa-edit"></i>
     </span>
   </span>
-  <p-inplace [active]="editing"
-             *ngIf="!showEditButton || editing"
-             [disabled]="!editable"
-             class="inplace"
-             (onActivate)="onStartEdit()">
-    <span pInplaceDisplay>
-      <div class="output">
-        <ng-content select="[output]"></ng-content>
-      </div>
-    </span>
 
-    <span pInplaceContent>
-      <div class="input">
-        <span class="control">
-          <ng-content select="[input]"></ng-content>
-        </span>
-        <span class="actions">
-          <a class="confirm" (click)="onConfirm()">
-            <i class="fa fa-check"></i>
-          </a>
-          <a class="cancel" (click)="onCancel()">
-            <i class="fa fa-close"></i>
-          </a>
-          <a class="rollback" (click)="onRollback()">
-            <i class="fa fa-undo"></i>
-          </a>
-        </span>
+  <span *ngIf="!showEditButton || editing"
+        class="inplace"
+        [class.disabled]="!editable"
+        [class.active]="editing">
+
+      <div class="input-content">
+          <div class="input">
+            <span class="control">
+              <ng-content select="[input]"></ng-content>
+            </span>
+          </div>
+          <div class="actions-container">
+            <span class="actions">
+              <a class="confirm" (click)="onConfirm()">
+                <i class="fa fa-check"></i>
+              </a>
+              <a class="cancel" (click)="onCancel()">
+                <i class="fa fa-close"></i>
+              </a>
+              <a class="rollback" (click)="onRollback()">
+                <i class="fa fa-undo"></i>
+              </a>
+            </span>
+          </div>
+        </div>
+
+      <div class="ouput-content">
+         <div class="output" (click)="onStartEdit()">
+          <ng-content select="[output]"></ng-content>
+         </div>
       </div>
-    </span>
-  </p-inplace>
+
+  </span>
+
 </div>

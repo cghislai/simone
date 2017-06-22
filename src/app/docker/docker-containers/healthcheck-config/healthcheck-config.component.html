@@ -1,0 +1,133 @@
+<div class="health-config label-table vertical" *ngIf="config != null">
+  <div class="row">
+    <label>Test</label>
+    <app-editable-field [ngModel]="config.Test"
+                        (ngModelChange)="onChange('Test', $event)"
+                        (rollback)="onRollback('Test')"
+                        (touched)="onTouched()"
+                        [rollbackVisible]="rollbackConfig != null"
+                        [editable]="editable"
+                        [class.changed]="differs('Test')"
+                        name="test" class="test" #testField>
+      <span input>
+        <p-selectButton [(ngModel)]="testType"
+                        name="testType-input"
+                        [options]="testOptions"
+        ></p-selectButton>
+        <input pInputText [(ngModel)]="testValue"
+               name="testValue-input">
+      </span>
+      <span output>
+        <span *ngIf="testField.value == null || testField.value.length == 0">Inherit</span>
+        <span *ngIf="!(testField.value == null || testField.value.length == 0)">
+          <span *ngFor="let cmd of testField.value"
+                class="cmd">{{cmd}}</span>
+        </span>
+      </span>
+    </app-editable-field>
+  </div>
+
+  <div class="row">
+    <label>Interval</label>
+    <app-editable-field [ngModel]="config.Interval / 1000000000"
+                        (ngModelChange)="onChange('Interval', $event * 1000000000)"
+                        (rollback)="onRollback('Interval')"
+                        (touched)="onTouched()"
+                        [rollbackVisible]="rollbackConfig != null"
+                        [editable]="editable"
+                        [class.changed]="differs('Interval')"
+                        name="interval" class="interval" #intervalField>
+      <span input>
+       <p-spinner [(ngModel)]="intervalField.value"
+                  name="interval-input"
+                  [min]="1" [size]="4"
+       ></p-spinner> s
+      </span>
+      <span output>
+        <span *ngIf="intervalField.value == null ">Inherit</span>
+        <span *ngIf="!(intervalField.value == null)">
+          {{ intervalField.value | number:'.0-2'}} s
+        </span>
+      </span>
+    </app-editable-field>
+  </div>
+
+
+  <div class="row">
+    <label>Timeout</label>
+    <app-editable-field [ngModel]="config.Timeout / 1000000000"
+                        (ngModelChange)="onChange('Timeout', $event * 1000000000)"
+                        (rollback)="onRollback('Timeout')"
+                        (touched)="onTouched()"
+                        [rollbackVisible]="true"
+                        [editable]="editable"
+                        [class.changed]="differs('Timeout')"
+                        name="timeout" class="timeout" #timeoutField>
+      <span input>
+       <p-spinner [(ngModel)]="timeoutField.value"
+                  name="timeout-input"
+                  [min]="1" [size]="8"
+       ></p-spinner> s
+      </span>
+      <span output>
+        <span *ngIf="timeoutField.value == null ">Inherit</span>
+        <span *ngIf="!(timeoutField.value == null)">
+          {{ timeoutField.value | number:'.0-2'}} s
+        </span>
+      </span>
+    </app-editable-field>
+  </div>
+
+
+  <div class="row">
+    <label>Retries</label>
+    <app-editable-field [ngModel]="config.Retries"
+                        (ngModelChange)="onChange('Retries', $event)"
+                        (rollback)="onRollback('Retries')"
+                        (touched)="onTouched()"
+                        [rollbackVisible]="true"
+                        [editable]="editable"
+                        [class.changed]="differs('Retries')"
+                        name="retries" class="retries" #retriesField>
+      <span input>
+       <p-spinner [(ngModel)]="retriesField.value"
+                  name="retries-input"
+                  [min]="0" [size]="4"
+       ></p-spinner>
+      </span>
+      <span output>
+        <span *ngIf="retriesField.value == null ">Inherit</span>
+        <span *ngIf="!(retriesField.value == null)">
+          {{ retriesField.value }}
+        </span>
+      </span>
+    </app-editable-field>
+  </div>
+
+
+  <div class="row">
+    <label>StartPeriod</label>
+    <app-editable-field [ngModel]="config.StartPeriod / 1000000000"
+                        (ngModelChange)="onChange('StartPeriod', $event * 1000000000)"
+                        (rollback)="onRollback('StartPeriod')"
+                        (touched)="onTouched()"
+                        [rollbackVisible]="true"
+                        [editable]="editable"
+                        [class.changed]="differs('StartPeriod')"
+                        name="startPeriod" class="startPeriod" #startPeriodField>
+      <span input>
+       <p-spinner [(ngModel)]="startPeriodField.value"
+                  name="startPeriod-input"
+                  [min]="0" [size]="4"
+       ></p-spinner> s
+      </span>
+      <span output>
+        <span *ngIf="startPeriodField.value == null ">Inherit</span>
+        <span *ngIf="!(startPeriodField.value == null)">
+          {{ startPeriodField.value | number:'.0-2'}} s
+        </span>
+      </span>
+    </app-editable-field>
+  </div>
+</div>
+<span *ngIf="config == null">None</span>

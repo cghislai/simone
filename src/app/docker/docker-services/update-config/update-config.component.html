@@ -12,7 +12,7 @@
       <span input>
           <p-spinner [(ngModel)]="parallelismField.value"
                      name="parallelism-input"
-                     [min]="0"
+                     [min]="0" [size]="4"
           ></p-spinner>
       </span>
       <span output>
@@ -24,8 +24,8 @@
 
   <div class="row">
     <label>delay</label>
-    <app-editable-field [ngModel]="spec.delay"
-                        (ngModelChange)="onDelayChange($event)"
+    <app-editable-field [ngModel]="spec.Delay / 1000000000"
+                        (ngModelChange)="onDelaySecondChange($event)"
                         (rollback)="onDelayRollback()"
                         (touched)="onTouched()"
                         [rollbackVisible]="true"
@@ -35,12 +35,12 @@
       <span input>
           <p-spinner [(ngModel)]="delayField.value"
                      name="delay-input"
-                     [min]="0"
-          ></p-spinner>
+                     [min]="0" [size]="4"
+          ></p-spinner> s
       </span>
       <span output>
-        <span *ngIf="spec.delay == null">None</span>
-        {{ spec.Delay }}
+        <span *ngIf="!(delayField.value > 0)">None</span>
+        <span *ngIf="delayField.value > 0">{{ delayField.value | number:'.0-2' }} s</span>
       </span>
     </app-editable-field>
   </div>
@@ -70,8 +70,8 @@
 
   <div class="row">
     <label>monitor</label>
-    <app-editable-field [ngModel]="spec.Monitor"
-                        (ngModelChange)="onMonitorChange($event)"
+    <app-editable-field [ngModel]="spec.Monitor / 1000000000"
+                        (ngModelChange)="onMonitorSecondsChange($event)"
                         (rollback)="onMonitorRollback()"
                         (touched)="onTouched()"
                         [rollbackVisible]="true"
@@ -81,12 +81,12 @@
       <span input>
           <p-spinner [(ngModel)]="monitorField.value"
                      name="monitor-input"
-                     [min]="0"
-          ></p-spinner>
+                     [min]="0" [size]="4"
+          ></p-spinner> s
       </span>
       <span output>
-        <span *ngIf="spec.Monitor == null">None</span>
-        {{ spec.Monitor }}
+        <span *ngIf="monitorField.value == null || monitorField.value <= 0">None</span>
+        <span *ngIf="monitorField.value > 0">{{ monitorField.value | number:'.0-2' }} s</span>
       </span>
     </app-editable-field>
   </div>
@@ -104,7 +104,7 @@
       <span input>
           <p-spinner [(ngModel)]="maxFailureRatioField.value"
                      name="maxFailureRatio-input"
-                     [min]="0" [max]="1" [step]="0.1"
+                     [min]="0" [max]="1" [step]="0.1" [size]="4"
           ></p-spinner>
       </span>
       <span output>
@@ -115,7 +115,7 @@
   </div>
 
   <div class="row">
-    <label>order</label>
+    <label>Order</label>
     <app-editable-field [ngModel]="spec.Order"
                         (ngModelChange)="onOrderChange($event)"
                         (rollback)="onOrderRollback()"

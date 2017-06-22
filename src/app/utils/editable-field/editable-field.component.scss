@@ -16,20 +16,51 @@
     }
   }
 
-  .inplace .ui-inplace-display {
-    display: block;
-    min-width: 5em;
-    min-height: 1em;
-  }
-  .input {
-    > * {
-      display: inline-block;
-      vertical-align: middle;
+  .inplace {
+    &:not(.active) {
+      .input-content {
+        display: none;
+      }
+      .output-content {
+
+      }
     }
-    .control {
+
+    &:not(.disabled) {
+      .output {
+        display: inline-block;
+        min-width: 5em;
+        min-height: 1em;
+        z-index: 1;
+        padding: .2em;
+
+        &:hover {
+          cursor: pointer;
+          background-color: lightgray;
+        }
+      }
+    }
+
+    .input-content {
+      position: absolute;
+      z-index: 2;
+      background-color: rgba(255, 255, 255, .8);
+      border-radius: .2em;
+      padding: .2em;
+      display: inline-block;
+
+      border: 1px solid lightgray;
+    }
+    .input {
+      > * {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .control {
+      }
     }
     .actions {
-      position: relative;
+
       > * {
         display: inline-block;
         vertical-align: middle;
@@ -53,4 +84,5 @@
       }
     }
   }
+
 }
