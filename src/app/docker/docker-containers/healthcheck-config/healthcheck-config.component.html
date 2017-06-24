@@ -14,8 +14,11 @@
                         name="testType-input"
                         [options]="testOptions"
         ></p-selectButton>
-        <input pInputText [(ngModel)]="testValue"
-               name="testValue-input">
+        <div>
+          <input pInputText [(ngModel)]="testValue"
+                 [size]="30"
+                 name="testValue-input">
+        </div>
       </span>
       <span output>
         <span *ngIf="testField.value == null || testField.value.length == 0">Inherit</span>

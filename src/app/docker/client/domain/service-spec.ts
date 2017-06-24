@@ -9,6 +9,7 @@ import {ServiceUpdateConfig} from './service-update-config';
  */
 export interface ServiceSpec {
 
+  Id: string;
   Name: string;
   Labels: { [key: string]: string };
   TaskTemplate: TaskTemplateJson;

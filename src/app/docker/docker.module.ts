@@ -110,6 +110,7 @@ import { PlacementConstraintComponent } from './docker-tasks/placement-constrain
 import { RestartConditionComponent } from './docker-tasks/restart-condition/restart-condition.component';
 import {UpdateConfigComponent} from './docker-services/update-config/update-config.component';
 import {HealthcheckConfigComponent} from './docker-containers/healthcheck-config/healthcheck-config.component';
+import {TasksService} from './services/tasks.service';
 
 @NgModule({
   imports: [
@@ -234,6 +235,7 @@ import {HealthcheckConfigComponent} from './docker-containers/healthcheck-config
     DockerNodesService,
     DockerStacksService,
     ErrorService,
+    TasksService,
   ],
 })
 export class DockerModule {

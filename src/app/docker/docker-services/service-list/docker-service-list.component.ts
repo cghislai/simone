@@ -120,6 +120,7 @@ export class DockerServiceListComponent implements OnInit, OnDestroy {
       ServiceColumn.MODE,
       ServiceColumn.REPLICAS,
       ServiceColumn.PORTS,
+      ServiceColumn.UPDATE_STATUS,
     ];
   }
 

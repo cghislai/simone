@@ -1,0 +1,12 @@
+.update-status {
+  .status {
+    display: block;
+  }
+  .message {
+    font-size: .9em;
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}

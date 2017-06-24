@@ -107,7 +107,7 @@
       </span>
       <span output>
         <span *ngIf="mountsField.value == null">None</span>
-        <div *ngFor="let mount of spec?.Mounts" class="mounts">
+        <div *ngFor="let mount of spec.Mounts" class="mounts">
           <app-mount-spec [mountSpec]="mount"
           ></app-mount-spec>
         </div>
@@ -257,10 +257,10 @@
 
 
   <div class="row">
-    <label>HealthCheck</label>
-    <app-healthcheck-config [ngModel]="spec.HealthCheck"
+    <label>Healthcheck</label>
+    <app-healthcheck-config [ngModel]="spec.Healthcheck"
                             (ngModelChange)="onHealthCheckChange($event)"
-                            [rollbackConfig]="originalSpec.HealthCheck"
+                            [rollbackConfig]="originalSpec.Healthcheck"
                             (rollback)="onHealthCheckRollback()"
                             (touched)="onTouched()"
                             name="healthCheck-input"

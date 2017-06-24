@@ -126,19 +126,13 @@ export class HealthcheckConfigComponent implements OnInit, ControlValueAccessor 
       this.testValue = '';
     } else {
       let copy = [...test];
-      this.testType = copy[0] == null ? this.testOptions[0].value : this.testType;
+      this.testType = copy[0] == null ? this.testOptions[0].value : copy[0];
       copy.splice(0, 1);
       this.testValue = copy.reduce((c, n) => c + n, '');
     }
   }
 
   private newConfig(): HealthConfig {
-    return {
-      Interval: 0,
-      Retries: 0,
-      StartPeriod: 0,
-      Test: [],
-      Timeout: 0,
-    };
+    return {};
   }
 }

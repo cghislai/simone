@@ -7,11 +7,11 @@
   </span>
 
   <span class="created date" *ngSwitchCase="nodeColumns.CREATED_AT">
-    {{node.CreatedAt | date:'dd/MM/yyyy hh:mm' }}
+    {{node.CreatedAt | date:'medium' }}
   </span>
 
   <span class="created date" *ngSwitchCase="nodeColumns.UPDATED_AT">
-    {{node.CreatedAt | date:'dd/MM/yyyy hh:mm' }}
+    {{node.CreatedAt | date:'medium' }}
   </span>
 
 

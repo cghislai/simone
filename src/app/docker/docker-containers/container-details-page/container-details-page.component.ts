@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {DockerContainersService} from '../../services/docker-containers.service';
 import {DockerService} from '../../services/docker.service';
 import {Observable} from 'rxjs/Observable';
-import {ContainerInspectInfo} from 'dockerode';
+import {ContainerInspectInfo} from '../../client/domain/container-inspect-info';
 
 @Component({
   selector: 'app-container-details-page',

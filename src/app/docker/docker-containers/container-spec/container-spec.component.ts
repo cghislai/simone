@@ -270,13 +270,13 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
   onHealthCheckChange(healthCheck: HealthConfig) {
     let newCheck = ObjectUtils.jsonClone(healthCheck);
     let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
-    newSpec.HealthCheck = newCheck;
+    newSpec.Healthcheck = newCheck;
     this.setSpec(newSpec);
   }
 
   onHealthCheckRollback() {
     let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
-    newSpec.HealthCheck = this.originalSpec.HealthCheck;
+    newSpec.Healthcheck = this.originalSpec.Healthcheck;
     this.setSpec(newSpec);
   }
 
@@ -284,8 +284,8 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
     if (this.spec == null) {
       return false;
     }
-    let newCheckJSON = JSON.stringify(this.spec.HealthCheck);
-    let originalCheckJSON = JSON.stringify(this.originalSpec.HealthCheck);
+    let newCheckJSON = JSON.stringify(this.spec.Healthcheck);
+    let originalCheckJSON = JSON.stringify(this.originalSpec.Healthcheck);
     return newCheckJSON !== originalCheckJSON;
   }
 

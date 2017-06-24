@@ -8,7 +8,8 @@ export enum ServiceColumn {
   CREATED_AT,
   UPDATED_AT,
   IMAGE,
-  PORTS
+  PORTS,
+  UPDATE_STATUS,
 }
 
 
@@ -45,7 +46,10 @@ SERVICES_COLUMN_DATA[ServiceColumn.PORTS] = {
   label: {'en': 'Ports'},
   field: 'spec.EndpointSpec',
 };
-
+SERVICES_COLUMN_DATA[ServiceColumn.UPDATE_STATUS] = {
+  label: {'en': 'Update status'},
+  field: 'spec.UpdateStatus.Message',
+};
 
 export const SERVICE_COLUMNS = [
   ServiceColumn.ID,
@@ -56,4 +60,5 @@ export const SERVICE_COLUMNS = [
   ServiceColumn.CREATED_AT,
   ServiceColumn.UPDATED_AT,
   ServiceColumn.PORTS,
+  ServiceColumn.UPDATE_STATUS,
 ];

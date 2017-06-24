@@ -1,10 +1,10 @@
 <span class="column" [ngSwitch]="column" *ngIf="task != null">
 
   <span class="created date" *ngSwitchCase="taskColumn.CREATED_AT">
-    {{task.createdAt | date:'dd/MM/yyyy hh:mm' }}
+    {{task.createdAt | date:'medium' }}
   </span>
   <span class="updated date" *ngSwitchCase="taskColumn.UPDATED_AT">
-    {{task.updatedAt | date:'dd/MM/yyyy hh:mm' }}
+    {{task.updatedAt | date:'medium' }}
   </span>
    <span class="state" *ngSwitchCase="taskColumn.STATE">
     {{task.status.State}}
@@ -34,6 +34,6 @@
     <app-unique-id [id]="task.nodeID" [routerLink]="['/docker/nodes',task.nodeID]"></app-unique-id>
   </span>
   <span *ngSwitchDefault>
-      {{task[columnData.field]}}
+      {{ task[columnData.field] }}
   </span>
 </span>

@@ -25,7 +25,7 @@ export class ContainerSpecJson {
 
   StopSignal: string;
   StopGracePeriod: number;
-  HealthCheck?: HealthConfig;
+  Healthcheck?: HealthConfig;
 
   Hosts: string[];
   DNSConfig: any;

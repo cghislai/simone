@@ -6,12 +6,14 @@
   ></app-service-filter>
 
   <div class="columns-filter">
-    Columns:
-    <p-multiSelect [options]="columnOptions" name="columns"
-                   [(ngModel)]="columns">
-    </p-multiSelect>
-    <span style="float: right"[hidden]="(services | async) == null">
-      {{ (services|async)?.length }} services returned
+    <span class="columns">
+      Columns:
+      <p-multiSelect [options]="columnOptions" name="columns"
+                     [(ngModel)]="columns">
+      </p-multiSelect>
+    </span>
+    <span class="count" [hidden]="(services | async) == null">
+      {{ (services|async)?.length }} services found
     </span>
   </div>
 

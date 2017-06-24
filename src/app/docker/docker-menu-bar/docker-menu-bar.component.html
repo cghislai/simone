@@ -38,15 +38,28 @@
     </a>
   </span>
   <span class="group-right">
+    <span class="icon-link tasks-icon action"
+          [class.active]="tasksOverlay.visible"
+          [hidden]="(backgroundTasks | async).length < 1"
+          (click)="tasksOverlay.toggle($event)">
+      <i class="fa fa-tasks"></i>
+    </span>
+
     <span class="icon-link options-icon action"
           [class.active]="optionsOverlay.visible"
           (click)="optionsOverlay.toggle($event)">
       <i class="fa fa-gear"></i>
     </span>
+
     <app-docker-ping-status></app-docker-ping-status>
   </span>
   <p-overlayPanel #optionsOverlay>
     <app-docker-options-page></app-docker-options-page>
+  </p-overlayPanel>
+  <p-overlayPanel #tasksOverlay>
+    <div *ngFor="let task of backgroundTasks | async ">
+      {{ task.label }} : {{ task.status | async }}
+    </div>
   </p-overlayPanel>
 </div>
 

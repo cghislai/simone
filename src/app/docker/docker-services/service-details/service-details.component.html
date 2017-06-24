@@ -16,25 +16,25 @@
       </span>
       <span class="col row">
         <label>Created</label>
-        <span>{{service.createdAt | date:'dd/MM/yyyy hh:mm' }}</span>
+        <span>{{service.createdAt | date:'medium' }}</span>
       </span>
       <span class="col row">
         <label>Updated</label>
-        <span>{{service.updatedAt | date:'dd/MM/yyyy hh:mm'}}</span>
+        <span>{{service.updatedAt | date:'medium'}}</span>
       </span>
     </div>
   </header>
 
-  <div class="label-table vertical">
-    <div class="table-bloc" *ngIf="service.updateStatus != null">
-      <div class="title">Update status</div>
+  <div>
+    <div class="title">Update status</div>
+    <div class="label-table" *ngIf="service.updateStatus != null">
       <span class="row">
           <label>Started at</label>
-          <span>{{service.updateStatus?.StartedAt | date:'dd/MM/yyyy hh:mm'}}</span>
+          <span>{{service.updateStatus?.StartedAt | date:'medium'}}</span>
         </span>
       <span class="row" [hidden]="service.updateStatus?.CompletedAt == null">
           <label>Completed at</label>
-          <span>{{service.updateStatus.CompletedAt | date:'dd/MM/yyyy hh:mm'}}</span>
+          <span>{{service.updateStatus.CompletedAt | date:'medium'}}</span>
         </span>
       <span class="row" [hidden]="service.updateStatus?.State == null">
           <label>State</label>

@@ -13,8 +13,17 @@
     align-items: center;
 
     >* {
-      flex: 0 0 auto;
+      flex: 1 1 auto;
       margin: .3em;
+    }
+    .count {
+      text-align: right;
+    }
+    .columns {
+      > * {
+        display: inline-block;
+        vertical-align: middle;
+      }
     }
   }
 }

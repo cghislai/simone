@@ -2,7 +2,6 @@ import {Observable} from 'rxjs';
 import {Http, RequestOptionsArgs, Response, URLSearchParams} from '@angular/http';
 import {Injectable, NgZone} from '@angular/core';
 import {DockerOptionsService} from '../services/docker-options.service';
-import {ContainerInspectInfo} from 'dockerode';
 import {ServiceJson} from './domain/service';
 import {TaskJson} from './domain/task';
 import {FilterJson} from './domain/filter';
@@ -23,6 +22,7 @@ import {Node} from './domain/node';
 import {NodeSpec} from './domain/node-spec';
 import {Version} from './domain/version';
 import {ServiceSpec} from './domain/service-spec';
+import {ContainerInspectInfo} from './domain/container-inspect-info';
 
 
 @Injectable()

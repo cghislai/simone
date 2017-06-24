@@ -6,7 +6,7 @@ import {Container} from '../domain/containers/container';
 import {MountSettings} from '../domain/containers/mount-settings';
 import {MountSettingsJson} from '../client/domain/mount-settings';
 import {ContainerFilterJson} from '../client/domain/container-filter';
-import {ContainerInspectInfo, NetworkInfo} from 'dockerode';
+import {NetworkInfo} from 'dockerode';
 import {ContainerJson} from '../client/domain/container';
 import {ContainerStatsOptions} from '../client/domain/container-stats-options';
 import {DockerService} from './docker.service';
@@ -14,6 +14,7 @@ import {DemuxedStream} from '../client/domain/demuxedStream';
 import {ContainerAttachOptions} from '../client/domain/container-attach-options';
 import {ContainerStats} from '../client/domain/container-stats';
 import {ContainerRemoveOptions} from '../client/domain/container-remove-options';
+import {ContainerInspectInfo} from '../client/domain/container-inspect-info';
 
 /**
  * Created by cghislai on 11/02/17.

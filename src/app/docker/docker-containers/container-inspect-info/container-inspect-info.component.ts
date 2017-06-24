@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ContainerInspectInfo} from 'dockerode';
+import {ContainerInspectInfo} from '../../client/domain/container-inspect-info';
 
 @Component({
   selector: 'app-container-inspect-info',

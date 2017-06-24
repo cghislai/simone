@@ -8,7 +8,7 @@
 
 
   <span class="created date" *ngSwitchCase="networkColumns.CREATED">
-    {{network.Created | date:'dd/MM/yyyy hh:mm' }}
+    {{network.Created | date:'medium' }}
   </span>
 
   <span class="containers" *ngSwitchCase="networkColumns.CONTAINERS">

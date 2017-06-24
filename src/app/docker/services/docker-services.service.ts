@@ -9,6 +9,7 @@ import {Service} from '../domain/services/service';
 import {DockerOptionsService} from './docker-options.service';
 import {ServiceSpec} from '../client/domain/service-spec';
 import {Version} from '../client/domain/version';
+import {ServiceUpdateStatus} from '../client/domain/service-update-status';
 
 /**
  * Created by cghislai on 11/02/17.
@@ -35,6 +36,22 @@ export class DockerServicesService {
 
   update(id: string, version: Version, spec: ServiceSpec): Observable<any> {
     return this.client.updateService(id, version, spec);
+  }
+
+  pollServiceUpdate(id: string): Observable<ServiceUpdateStatus> {
+    let pollTask = Observable.timer(1000, 1000)
+      .mergeMap(a => this.inspect(id))
+      .share();
+    return pollTask
+      .takeUntil(
+        pollTask.map(s => s.updateStatus)
+          .skipWhile(s => s == null)
+          .skipWhile(s => s.State !== 'updating')
+          .filter(s => s.State !== 'updating')
+          .delay(2000),
+      )
+      .map(s => s.updateStatus)
+      .filter(s => s != null);
   }
 
   private mapServiceJson(json: ServiceJson): Service {

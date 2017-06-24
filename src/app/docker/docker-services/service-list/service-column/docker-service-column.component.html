@@ -10,22 +10,28 @@
     <app-service-mode [ngModel]="service.spec.Mode"
     ></app-service-mode>
   </span>
-<span class="replicas" *ngSwitchCase="serviceColumn.REPLICAS">
+  <span class="replicas" *ngSwitchCase="serviceColumn.REPLICAS">
     {{service.spec.Mode.Replicated?.Replicas}}
   </span>
-<span class="image" *ngSwitchCase="serviceColumn.IMAGE">
+  <span class="image" *ngSwitchCase="serviceColumn.IMAGE">
     <app-docker-image-label [label]="service.spec.TaskTemplate.ContainerSpec.Image"></app-docker-image-label>
   </span>
-<span class="created date" *ngSwitchCase="serviceColumn.CREATED_AT">
+  <span class="created date" *ngSwitchCase="serviceColumn.CREATED_AT">
     {{service.createdAt | date:medium }}
   </span>
-<span class="updated date" *ngSwitchCase="serviceColumn.UPDATED_AT">
+  <span class="updated date" *ngSwitchCase="serviceColumn.UPDATED_AT">
     {{service.updatedAt | date:medium }}
   </span>
-<span *ngSwitchCase="serviceColumn.ID">
+  <span *ngSwitchCase="serviceColumn.ID">
     <app-unique-id [id]="service.id" [routerLink]="['/docker/services', service.id]"></app-unique-id>
   </span>
-<span *ngSwitchCase="serviceColumn.PORTS">
+  <span *ngSwitchCase="serviceColumn.PORTS">
     <app-port-mappings [ngModel]="service.endPoint.Ports"></app-port-mappings>
+  </span>
+  <span *ngSwitchCase="serviceColumn.UPDATE_STATUS" class="update-status">
+    <span *ngIf="service.updateStatus != null"
+          [title]="service.updateStatus.Message">
+      <span class="status">{{ service.updateStatus.State }}</span>
+      <span class="message">{{ service.updateStatus.Message}}</span>
   </span>
 </span>

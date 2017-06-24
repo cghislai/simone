@@ -6,7 +6,7 @@
       <span class="row">
             <label>Started</label>
             <span>
-              {{ container.State.StartedAt  | date:'dd/MM/yy HH:mm'}}
+              {{ container.State.StartedAt  | date:'medium'}}
             </span>
           </span>
 
@@ -41,7 +41,7 @@
       <span class="row" [hidden]="container.State.Running">
             <label>Finished</label>
             <span>
-              {{ container.State.FinishedAt  | date:'dd/MM/yy HH:mm'}}
+              {{ container.State.FinishedAt  | date:'medium'}}
             </span>
           </span>
 
@@ -57,11 +57,38 @@
           </span>
 
       <span class="row">
-            <label>Restart count</label>
-            <span>
-              {{ container.RestartCount }}
-            </span>
-          </span>
+        <label>Restart count</label>
+        <span>
+          {{ container.RestartCount }}
+        </span>
+      </span>
+
+      <span class="row" *ngIf="container.State.Health != null">
+        <label>Health</label>
+        <span>
+          <div class="label-table vertical">
+            <div class="row">
+              <label>Status</label>
+              <span>{{container.State.Health.Status}}</span>
+            </div>
+             <div class="row">
+              <label>Failing streak</label>
+              <span>{{container.State.Health.FailingStreak}}</span>
+            </div>
+            <div class="row">
+              <label>Log</label>
+              <span>
+                <div *ngFor="let log of container.State.Health.Log">
+                  <span>{{log.Start | date:'HH:mm'}}</span>
+                  <span>{{log.End | date:'HH:mm'}}</span>
+                  <span>{{log.ExitCode }}</span>
+                  <span>{{log.Output}}</span>
+                </div>
+              </span>
+            </div>
+          </div>
+        </span>
+      </span>
 
     </div>
 
