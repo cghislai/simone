@@ -5,6 +5,14 @@
   </span>
   <span class="updated date" *ngSwitchCase="taskColumn.UPDATED_AT">
     {{task.updatedAt | date:'medium' }}
+<<<<<<< HEAD
+  </span>
+  <span class="state" *ngSwitchCase="taskColumn.DESIRED_STATE">
+    <app-task-status-icon [task]="task"
+    ></app-task-status-icon>
+    {{task.desiredState}}
+=======
+>>>>>>> 90ae2cfb3f77811365ab0177e14caab072673767
   </span>
    <span class="state" *ngSwitchCase="taskColumn.STATE">
     {{task.status.State}}
@@ -24,14 +32,18 @@
     <app-unique-id [id]="task.id" [routerLink]="['/docker/tasks', task.id]"></app-unique-id>
   </span>
   <span *ngSwitchCase="taskColumn.SERVICE_ID">
-    <app-unique-id [id]="task.serviceID" [routerLink]="['/docker/services', task.serviceID]"></app-unique-id>
+    <app-unique-id [id]="serviceLabel | async"
+                   [trimWidthEm]="12"
+                   [routerLink]="['/docker/services', task.serviceID]"></app-unique-id>
   </span>
    <span *ngSwitchCase="taskColumn.CONTAINER">
     <app-unique-id [id]="task.status.ContainerStatus.ContainerID"
                    [routerLink]="['/docker/containers',task.status.ContainerStatus.ContainerID]"></app-unique-id>
   </span>
   <span *ngSwitchCase="taskColumn.NODE_ID">
-    <app-unique-id [id]="task.nodeID" [routerLink]="['/docker/nodes',task.nodeID]"></app-unique-id>
+    <app-unique-id [id]="nodeLabel | async"
+                   [trimWidthEm]="12"
+                   [routerLink]="['/docker/nodes',task.nodeID]"></app-unique-id>
   </span>
   <span *ngSwitchDefault>
       {{ task[columnData.field] }}

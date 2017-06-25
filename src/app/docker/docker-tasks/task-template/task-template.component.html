@@ -20,6 +20,30 @@
     </div>
 
     <div class="row">
+      <label>Networks</label>
+      <app-editable-field [ngModel]="template.Networks"
+                          (ngModelChange)="onNetworksChange($event)"
+                          (rollback)="onNetworksRollback()"
+                          (touched)="onTouched()"
+                          [rollbackVisible]="true"
+                          [showEditButton]="true"
+                          [editable]="editable"
+                          [class.changed]="networksDiffer()"
+                          name="networks" class="networks" #networksField>
+            <span input>
+              <app-networks-spec [(ngModel)]="networksField.value"
+                                 [editable]="true"
+              ></app-networks-spec>
+            </span>
+        <span button-output>
+               <app-networks-spec [(ngModel)]="networksField.value"
+                                  [editable]="false"
+               ></app-networks-spec>
+            </span>
+      </app-editable-field>
+    </div>
+
+    <div class="row">
       <label>Placement constraints</label>
       <app-editable-field [ngModel]="template.Placement?.Constraints"
                           (ngModelChange)="onConstraintsChange($event)"

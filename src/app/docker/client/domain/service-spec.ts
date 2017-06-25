@@ -14,7 +14,6 @@ export interface ServiceSpec {
   Labels: { [key: string]: string };
   TaskTemplate: TaskTemplateJson;
   Mode: ServiceMode;
-  Networks: NetworkSpec[];
   EndpointSpec: EndpointSpec;
   UpdateConfig: ServiceUpdateConfig;
   RollbackConfig: ServiceUpdateConfig;

@@ -4,6 +4,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {SingleActiveEditableFieldProvider} from '../../../utils/editable-field/SingleActiveEditableFieldProvider';
 import {ObjectUtils} from '../../../utils/ObjectUtils';
 import {ArrayUtils} from '../../../utils/array-utils';
+import {NetworkSpec} from '../../client/domain/network-spec';
 
 @Component({
   selector: 'app-task-template',
@@ -74,6 +75,30 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
 
   forceUpdateDiffer() {
     return this.originalSpec.ForceUpdate !== this.template.ForceUpdate;
+  }
+
+  onNetworksChange(networks: NetworkSpec[]) {
+    let newSpec = ObjectUtils.jsonClone(this.template);
+    newSpec.Networks = networks;
+    this.setSpec(newSpec);
+  }
+
+
+  onNetworksRollback() {
+    let newSpec = ObjectUtils.jsonClone(this.template);
+    newSpec.Networks = this.originalSpec.Networks;
+    this.setSpec(newSpec);
+  }
+
+  networksDiffer() {
+    if (this.template == null || this.originalSpec == null) {
+      return true;
+    }
+    return ArrayUtils.arrayContentDiffer(this.template.Networks, this.originalSpec.Networks,
+      (net1: NetworkSpec, net2: NetworkSpec) => {
+        return net1.Target === net2.Target
+          && !ArrayUtils.arrayContentDiffer(net1.Aliases, net2.Aliases);
+      });
   }
 
   onConstraintsChange(constraints: string[]) {

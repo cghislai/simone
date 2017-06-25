@@ -3,6 +3,8 @@
  */
 
 export interface SimoneDockerOptions {
+  label: string;
+
   mode: 'tcp' | 'socket';
   url: string;
   socketPath: string;

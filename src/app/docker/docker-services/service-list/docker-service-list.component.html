@@ -17,7 +17,8 @@
     </span>
   </div>
 
-  <p-dataTable [value]="services | async">
+  <p-dataTable [value]="services | async"
+               sortField="Name">
     <p-column *ngFor="let column of columns"
               [sortable]="true"
               [sortField]="getColumnField(column)"

@@ -92,7 +92,7 @@ export class HealthcheckConfigComponent implements OnInit, ControlValueAccessor 
       return false;
     }
     if (this.rollbackConfig == null) {
-      return true;
+      return false;
     }
     let thisValue = this.config[field];
     let otherValue = this.rollbackConfig[field];

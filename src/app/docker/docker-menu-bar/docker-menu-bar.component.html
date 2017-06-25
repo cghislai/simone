@@ -1,15 +1,37 @@
 <div class="menubar">
   <span class="group-left">
+     <a routerLink="/docker/nodes" class="action"
+        [class.disabled]="!(hasSwarmControl | async)"
+        routerLinkActive="active">
+      <i class="fa fa-anchor"></i>
+      Nodes
+    </a>
     <a [routerLink]="['/docker/services']"
        class="action"
+       [class.disabled]="!(hasSwarmControl | async)"
        routerLinkActive="active">
       <i class="fa fa-anchor"></i>
       Services
     </a>
      <a routerLink="/docker/tasks" class="action"
+        [class.disabled]="!(hasSwarmControl | async)"
         routerLinkActive="active">
       <i class="fa fa-anchor"></i>
       Tasks
+    </a>
+    <a routerLink="/docker/secrets" class="action"
+       [class.disabled]="!(hasSwarmControl | async)"
+       routerLinkActive="active">
+      <i class="fa fa-anchor"></i>
+      Secrets
+    </a>
+
+    <span class="h-separator"></span>
+
+    <a routerLink="/docker/networks" class="action"
+       routerLinkActive="active">
+      <i class="fa fa-anchor"></i>
+      Networks
     </a>
     <a routerLink="/docker/containers" class="action"
        routerLinkActive="active">
@@ -21,21 +43,6 @@
       <i class="fa fa-anchor"></i>
       Volumes
     </a>
-    <a routerLink="/docker/secrets" class="action"
-       routerLinkActive="active">
-      <i class="fa fa-anchor"></i>
-      Secrets
-    </a>
-    <a routerLink="/docker/networks" class="action"
-       routerLinkActive="active">
-      <i class="fa fa-anchor"></i>
-      Networks
-    </a>
-    <a routerLink="/docker/nodes" class="action"
-       routerLinkActive="active">
-      <i class="fa fa-anchor"></i>
-      Nodes
-    </a>
   </span>
   <span class="group-right">
     <span class="icon-link tasks-icon action"
@@ -45,6 +52,17 @@
       <i class="fa fa-tasks"></i>
     </span>
 
+<<<<<<< HEAD
+    <span class="options-choice">
+      <p-dropdown [ngModel]="(dockerOptions | async).label"
+                  (ngModelChange)="activeOptionsChanged($event)"
+                  [options]="dockerOptionsChoices | async"
+                  [autoWidth]="false" [style]="{'width':'10em'}"
+      ></p-dropdown>
+    </span>
+
+=======
+>>>>>>> 90ae2cfb3f77811365ab0177e14caab072673767
     <span class="icon-link options-icon action"
           [class.active]="optionsOverlay.visible"
           (click)="optionsOverlay.toggle($event)">
@@ -53,8 +71,16 @@
 
     <app-docker-ping-status></app-docker-ping-status>
   </span>
+
   <p-overlayPanel #optionsOverlay>
-    <app-docker-options-page></app-docker-options-page>
+    <app-docker-options-page
+    ></app-docker-options-page>
+  </p-overlayPanel>
+
+  <p-overlayPanel #tasksOverlay>
+    <div *ngFor="let task of backgroundTasks | async ">
+      {{ task.label }} : {{ task.status | async }}
+    </div>
   </p-overlayPanel>
   <p-overlayPanel #tasksOverlay>
     <div *ngFor="let task of backgroundTasks | async ">

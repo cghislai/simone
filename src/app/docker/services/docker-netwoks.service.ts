@@ -4,13 +4,21 @@ import {NetworkFilter} from '../client/domain/network-filter';
 import {Network} from '../client/domain/network';
 import {Observable} from 'rxjs/Observable';
 import {FilterJson} from '../client/domain/filter';
+import {CachedValue} from '../../utils/cached-value';
+import {DockerOptionsService} from './docker-options.service';
 
 @Injectable()
 export class DockerNetworksService {
 
-  constructor(private client: DockerClient) {
-  }
+  private allNetworks: CachedValue<Network[]>;
 
+  constructor(private client: DockerClient,
+              private optionsService: DockerOptionsService) {
+    this.allNetworks = new CachedValue(() => this.listAll(), 300);
+    this.optionsService.getCurrentOptionsObservable()
+      .distinctUntilChanged()
+      .subscribe(o => this.allNetworks.invalidate());
+  }
 
   list(filter?: NetworkFilter): Observable<Network[]> {
     let filterJson = this.mapNetworkFilterJson(filter);
@@ -21,7 +29,11 @@ export class DockerNetworksService {
     return this.client.inspectNetwork(id);
   }
 
-  mapNetworkFilterJson(filter: NetworkFilter): FilterJson {
+  getAll(): Observable<Network[]> {
+    return this.allNetworks.getValue();
+  }
+
+  private mapNetworkFilterJson(filter: NetworkFilter): FilterJson {
     if (filter == null) {
       return {filters: {}};
     }
@@ -33,4 +45,9 @@ export class DockerNetworksService {
     filters['type'] = filter.type;
     return {filters: filters};
   }
+
+  private listAll(): Observable<Network[]> {
+    return this.list();
+  }
+
 }

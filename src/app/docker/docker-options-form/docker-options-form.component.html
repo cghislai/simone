@@ -1,4 +1,12 @@
-<form class="ui-widget">
+<form class="ui-widget" ngForm #optionsForm="ngForm">
+  <div class="row">
+    <label>Name</label>
+    <span>
+      <input pInputText required
+             name="label-input"
+             [(ngModel)]="options.label">
+    </span>
+  </div>
   <div class="row">
     <label>ServiceMode</label>
     <p-selectButton [ngModel]="optionsMode"
@@ -85,9 +93,9 @@
 
   </div>
   <div class="action-row">
-
     <button type="text" pButton
             label="Save"
+            [disabled]="!optionsForm.valid"
             (click)="onSubmit()"
     ></button>
 

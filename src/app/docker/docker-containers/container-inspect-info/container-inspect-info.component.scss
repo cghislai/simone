@@ -23,4 +23,34 @@
     overflow: hidden;
     direction: rtl;
   }
+
+  .log {
+    max-width: 25em;
+  }
+
+  .log-line {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+
+    > * {
+      flex: 0 1 auto;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      font-size: .9em;
+      margin: .2em;
+
+      &.time, &.code {
+        font-size: .9em;
+      }
+      &.code {
+        font-weight: bold;
+      }
+      &.output {
+        flex: 1 1 10em;
+      }
+    }
+
+  }
 }

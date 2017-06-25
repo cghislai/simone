@@ -41,6 +41,7 @@ export class ServiceDetailsComponent implements OnInit {
       TaskColumn.ID,
       TaskColumn.CONTAINER,
       TaskColumn.NODE_ID,
+      TaskColumn.IMAGE,
       TaskColumn.DESIRED_STATE,
       TaskColumn.STATE,
       TaskColumn.MESSAGE,

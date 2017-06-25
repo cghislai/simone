@@ -4,7 +4,9 @@
   </span>
 
   <span class="name" *ngSwitchCase="serviceColumn.NAME">
-    {{service.spec.Name}}
+    <app-unique-id [id]="service.spec.Name"
+                   [noTrim]="true"
+                   [routerLink]="['/docker/services', service.id]"></app-unique-id>
   </span>
   <span class="mode" *ngSwitchCase="serviceColumn.MODE">
     <app-service-mode [ngModel]="service.spec.Mode"

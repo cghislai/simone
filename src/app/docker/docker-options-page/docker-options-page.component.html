@@ -18,7 +18,30 @@
     </div>
   </p-panel>
 
-  <p-panel header="Options" styleClass="options-panel" *ngIf="dockerOptions != null">
+  <p-panel styleClass="options-panel" *ngIf="dockerOptions != null">
+    <p-header>
+      <div class="ui-helper-clearfix options-header">
+        <span class="ui-panel-title title">
+          Options
+        </span>
+        <span>
+           <p-dropdown [ngModel]="(dockerOptions | async).label"
+                       (ngModelChange)="activeOptionsChanged($event)"
+                       [options]="dockerOptionsChoices | async"
+                       [autoWidth]="false" [style]="{'width':'10em'}"
+           ></p-dropdown>
+        </span>
+        <span class="actions">
+          <button pButton type="button"
+                  (click)="onNewOptionsClicked()"
+                  label="New"></button>
+          <button pButton type="button"
+                  (click)="onRemoveOptionsClicked()"
+                  [hidden]="(dockerOptions | async).label === 'default'"
+                  label="Delete"></button>
+        </span>
+      </div>
+    </p-header>
     <app-docker-options-form [ngModel]="dockerOptions | async"
                              (ngModelChange)="onOptionsChange($event)"
                              (cancel)="onOptionsCancelled()"

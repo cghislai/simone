@@ -24,6 +24,15 @@ import {Version} from './domain/version';
 import {ServiceSpec} from './domain/service-spec';
 import {ContainerInspectInfo} from './domain/container-inspect-info';
 
+<<<<<<< HEAD
+import {Info} from './domain/info';
+
+======
+=
+>>>>>>>
+90
+ae2cfb3f77811365ab0177e14caab072673767
+
 
 @Injectable()
 export class DockerClient {
@@ -225,7 +234,7 @@ export class DockerClient {
     });
   }
 
-  info(): Observable<any> {
+  info(): Observable<Info> {
     return this.request(`info`, {
       method: 'GET',
     }).map(response => response.json());
@@ -282,9 +291,12 @@ export class DockerClient {
       // TODO: tls
       let request = this.http.request(url, options);
       return this.wrapRequest(request);
+    } else if (dockerOptions.mode == 'socket') {
+      let socket = dockerOptions.socketPath;
+      let request = this.http.request(socket, options);
+      return this.wrapRequest(request);
     } else {
-      // todo: socket
-      return Observable.throw('Docker client: Unix socket not supported yet');
+      return Observable.throw('Docker client mode not supported:' + dockerOptions.mode);
     }
   }
 
@@ -351,6 +363,7 @@ export class DockerClient {
     this.runningRequests = this.runningRequests
       .filter(rid => rid !== id);
     this.runningRequestCountChanged.next(this.runningRequests.length);
+    subscription.unsubscribe();
   }
 
   private createSearchParams(filter: any): URLSearchParams {

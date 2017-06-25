@@ -5,6 +5,8 @@ import {DockerOptionsService} from './docker-options.service';
 import {Subject} from 'rxjs/Subject';
 import {SimoneDockerOptions} from '../domain/docker-options';
 import {Response} from '@angular/http';
+import {Info} from '../client/domain/info';
+import {CachedValue} from '../../utils/cached-value';
 
 /**
  * Created by cghislai on 11/02/17.
@@ -24,6 +26,8 @@ export class DockerService {
   private heartbeatSource = new Subject<any>();
   private clientStarted: boolean;
   private heartBeatSubscription: Subscription;
+
+  private dockerInfo: CachedValue<Info>;
 
   constructor(private client: DockerClient,
               private optionsService: DockerOptionsService) {
@@ -45,7 +49,10 @@ export class DockerService {
     this.heartbeat = this.heartbeatSource
       .throttleTime(100)
       .share();
-    this.optionsService.getOptions()
+    this.dockerInfo = new CachedValue(() => {
+      return this.client.info().take(1);
+    }, 300);
+    this.optionsService.getCurrentOptionsObservable()
       .subscribe(options => this.onOptionsChanged(options));
   }
 
@@ -88,6 +95,9 @@ export class DockerService {
     return this.clientStarted;
   }
 
+  getInfoObservable(): Observable<Info> {
+    return this.dockerInfo.getValue();
+  }
 
   private isReachable(successOrError: boolean | Error): boolean {
     if (successOrError === true) {
@@ -113,6 +123,7 @@ export class DockerService {
 
   private onOptionsChanged(options: SimoneDockerOptions) {
     this.heartBeatDelayMs = options.heartbeatDelay;
+    this.dockerInfo.invalidate();
     this.initHeartbeat();
     this.beat();
   }
@@ -151,6 +162,7 @@ export class DockerService {
       .subscribe(a => this.resetPingBackOff(),
         error => this.increasePingBackOff());
   }
+
 
   private increasePingBackOff() {
     if (this.pingBackOffMs == null) {

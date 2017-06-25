@@ -4,11 +4,21 @@ import {DockerClient} from '../client/docker.client';
 import {VolumeFilter} from '../client/domain/volume-filter';
 import {Volume} from '../client/domain/volume';
 import {FilterJson} from '../client/domain/filter';
+import {CachedValue} from '../../utils/cached-value';
+import {DockerOptionsService} from './docker-options.service';
 
 @Injectable()
 export class DockerVolumesService {
 
-  constructor(private client: DockerClient) {
+
+  private allVolumes: CachedValue<Volume[]>;
+
+  constructor(private client: DockerClient,
+              private optionsService: DockerOptionsService) {
+    this.allVolumes = new CachedValue(() => this.list(), 300);
+    this.optionsService.getCurrentOptionsObservable()
+      .distinctUntilChanged()
+      .subscribe(o => this.allVolumes.invalidate());
   }
 
   list(filter?: VolumeFilter): Observable<Volume[]> {
@@ -20,8 +30,15 @@ export class DockerVolumesService {
     return this.client.inspectVolume(name);
   }
 
+  getAll(): Observable<Volume[]> {
+    return this.allVolumes.getValue();
+  }
+
   private mapVolumeFilterJson(filter: VolumeFilter) {
     let json: FilterJson = {filters: {}};
+    if (filter == null) {
+      return json;
+    }
     json.filters['name'] = filter.name;
     json.filters['driver'] = filter.driver;
     json.filters['label'] = this.client.mapFilterLabels(filter.label);

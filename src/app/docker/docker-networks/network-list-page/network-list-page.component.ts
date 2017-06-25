@@ -109,6 +109,7 @@ export class NetworkListPageComponent implements OnInit, OnDestroy {
       NetworkColumn.DRIVER,
       NetworkColumn.SCOPE,
       NetworkColumn.ATTACHABLE,
+      NetworkColumn.GATEWAY,
     ];
   }
 }

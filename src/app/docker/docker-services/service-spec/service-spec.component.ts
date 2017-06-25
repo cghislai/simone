@@ -158,30 +158,6 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  onNetworksChange(networks: NetworkSpec[]) {
-    let newSpec = ObjectUtils.jsonClone(this.spec);
-    newSpec.Networks = networks;
-    this.setSpec(newSpec);
-  }
-
-
-  onNetworksRollback() {
-    let newSpec = ObjectUtils.jsonClone(this.spec);
-    newSpec.Networks = this.originalSpec.Networks;
-    this.setSpec(newSpec);
-  }
-
-  networksDiffer() {
-    if (this.spec == null || this.originalSpec == null) {
-      return true;
-    }
-    return ArrayUtils.arrayContentDiffer(this.spec.Networks, this.originalSpec.Networks,
-      (net1: NetworkSpec, net2: NetworkSpec) => {
-        return net1.Target === net2.Target
-          && !ArrayUtils.arrayContentDiffer(net1.Aliases, net2.Aliases);
-      });
-  }
-
 
   onRollbackConfigChange(rollbackConfig: ServiceUpdateConfig) {
     let newSpec = ObjectUtils.jsonClone(this.spec);

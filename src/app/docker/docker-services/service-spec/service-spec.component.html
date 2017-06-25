@@ -1,6 +1,13 @@
-<div class="spec label-table" *ngIf="spec != null">
+<div class="service-spec" *ngIf="spec != null">
+  <div class="actions">
+    <button pButton type="button"
+            label="Apply" class="apply-button"
+            (click)="onApplyChangesClicked()"></button>
+    <button pButton type="button"
+            label="Cancel" class="cancel-button"
+            (click)="onCancelChangesClicked()"></button>
+  </div>
   <div class="spec">
-
     <div class="col label-table vertical">
       <div class="title">
         Service
@@ -96,30 +103,6 @@
       </div>
 
       <div class="row">
-        <label>Networks</label>
-        <app-editable-field [ngModel]="spec.Networks"
-                            (ngModelChange)="onNetworksChange($event)"
-                            (rollback)="onNetworksRollback()"
-                            (touched)="onTouched()"
-                            [rollbackVisible]="true"
-                            [showEditButton]="true"
-                            [editable]="editable"
-                            [class.changed]="networksDiffer()"
-                            name="networks" class="networks" #networksField>
-            <span input>
-              <app-networks-spec [(ngModel)]="networksField.value"
-                                 [editable]="true"
-              ></app-networks-spec>
-            </span>
-          <span button-output>
-               <app-networks-spec [(ngModel)]="networksField.value"
-                                  [editable]="false"
-               ></app-networks-spec>
-            </span>
-        </app-editable-field>
-      </div>
-
-      <div class="row">
         <label>Update Config</label>
         <app-update-config [(ngModel)]="spec.UpdateConfig"
                            (touched)="onTouched()"
@@ -160,14 +143,5 @@
       ></app-container-spec>
     </div>
   </div>
-  <div class="actions">
-    <button pButton type="button"
-            label="Apply" class="apply-button"
-            [disabled]="!specTouched"
-            (click)="onApplyChangesClicked()"></button>
-    <button pButton type="button"
-            label="Cancel" class="cancel-button"
-            [disabled]="!specTouched"
-            (click)="onCancelChangesClicked()"></button>
-  </div>
+
 </div>

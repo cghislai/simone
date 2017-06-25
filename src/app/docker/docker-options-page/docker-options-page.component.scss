@@ -16,4 +16,20 @@ div.options {
       display: none;
     }
   }
+
+  .options-header {
+    display: flex;
+
+    > * {
+      flex: 1 1 auto;
+
+      &.actions {
+        text-align: right;
+      }
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+  }
 }

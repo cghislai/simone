@@ -82,6 +82,11 @@
                          name="task-template"
                          [editable]="false"
       ></app-task-template>
+
+      <app-container-spec [ngModel]="task.spec.ContainerSpec"
+                          name="container-spec"
+                          [editable]="false"
+      ></app-container-spec>
     </p-tabPanel>
   </p-tabView>
 </div>

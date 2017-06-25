@@ -28,6 +28,12 @@
     {{ network.IPAM.Driver }}
   </span>
 
+  <span class="gateway" *ngSwitchCase="networkColumns.GATEWAY">
+    <div *ngFor="let config of network.IPAM.Config">
+      {{ config.Gateway }}
+    </div>
+  </span>
+
 
   <span *ngSwitchDefault>
       {{network[columnData.field]}}

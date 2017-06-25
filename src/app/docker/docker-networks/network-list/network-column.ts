@@ -5,6 +5,7 @@ export enum NetworkColumn {
   NAME,
   DRIVER,
   CREATED,
+  GATEWAY,
   ENABLE_IPV6,
   CONTAINERS,
   CONTAINERS_AMOUNT,
@@ -28,6 +29,7 @@ export const NETWORK_COLUMNS: NetworkColumn[] = [
   NetworkColumn.INTERNAL,
   NetworkColumn.ATTACHABLE,
   NetworkColumn.INGRESS,
+  NetworkColumn.GATEWAY,
 ];
 
 export const NETWORK_COLUMN_DATA: { [column: number]: ColumnData } = {};
@@ -78,6 +80,10 @@ NETWORK_COLUMN_DATA[NetworkColumn.ATTACHABLE] = {
 NETWORK_COLUMN_DATA[NetworkColumn.INGRESS] = {
   label: {'en': 'Ingress'},
   field: 'Ingress',
+};
+NETWORK_COLUMN_DATA[NetworkColumn.GATEWAY] = {
+  label: {'en': 'Gateway'},
+  field: 'Gateway',
 };
 
 

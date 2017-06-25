@@ -3,6 +3,15 @@ import {MountSettingsJson} from './mount-settings';
 import {HostConfig} from 'dockerode';
 import {HealthStatus} from './health-status';
 
+<<<<<<< HEAD
+import {HealthConfig} from './health-config';
+
+======
+=
+>>>>>>>
+90
+ae2cfb3f77811365ab0177e14caab072673767
+
 export interface ContainerInspectInfo {
   Id: string;
   Created: string;
@@ -52,6 +61,10 @@ export interface ContainerInspectInfo {
     AttachStdout: boolean;
     AttachStderr: boolean;
     ExposedPorts: { [portAndProtocol: string]: {} };
+    <<<<<<< HEAD
+    Healthcheck?: HealthConfig;
+    =======
+    >>>>>>> 90ae2cfb3f77811365ab0177e14caab072673767
     Tty: boolean;
     OpenStdin: boolean;
     StdinOnce: boolean;

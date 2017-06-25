@@ -77,12 +77,24 @@
             </div>
             <div class="row">
               <label>Log</label>
+<<<<<<< HEAD
+              <span class="log">
+                <div *ngFor="let log of container.State.Health.Log" class="log-line"
+                     [title]="log.Output">
+                  <span class="time">{{log.Start | date:'mediumTime'}}</span>
+                  <span class="time">{{log.End | date:'mediumTime'}}</span>
+                  <span class="code">{{log.ExitCode }}</span>
+                  <span class="output">
+                      {{log.Output}}
+                  </span>
+=======
               <span>
                 <div *ngFor="let log of container.State.Health.Log">
                   <span>{{log.Start | date:'HH:mm'}}</span>
                   <span>{{log.End | date:'HH:mm'}}</span>
                   <span>{{log.ExitCode }}</span>
                   <span>{{log.Output}}</span>
+>>>>>>> 90ae2cfb3f77811365ab0177e14caab072673767
                 </div>
               </span>
             </div>
@@ -305,6 +317,16 @@
               </app-expand-box>
             </span>
           </span>
+
+      <span class="row">
+        <label>Healthcheck</label>
+        <span>
+          <app-healthcheck-config [ngModel]="container.Config.Healthcheck"
+                                  [editable]="false"
+                                  name="healthcheck"
+          ></app-healthcheck-config>
+        </span>
+      </span>
 
     </div>
 

@@ -24,18 +24,30 @@
   > .group-right {
     justify-content: flex-end;
   }
+  .h-separator {
+    display: inline-block;
+    width: 2em;
+  }
 
   .action:not([hidden]) {
-    &:hover {
-      background-color: rgba(255, 255, 255, .4);
-      cursor: pointer;
-      transform: scale(1.2);
+    &:not(.disabled) {
+      &:hover {
+        background-color: rgba(255, 255, 255, .4);
+        cursor: pointer;
+        transform: scale(1.2);
+      }
+      &.active {
+        background-color: yellow;
+        color: black;
+      }
     }
-    &.active {
-      background-color: yellow;
-      color: black;
+    &.disabled {
+      opacity: .7;
+      cursor: default;
+      pointer-events: none;
     }
   }
+
   .icon-link:not([hidden]) {
     font-size: 1.1em;
 

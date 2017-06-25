@@ -112,6 +112,16 @@ import {UpdateConfigComponent} from './docker-services/update-config/update-conf
 import {HealthcheckConfigComponent} from './docker-containers/healthcheck-config/healthcheck-config.component';
 import {TasksService} from './services/tasks.service';
 
+<<<<<<< HEAD
+import {DockerHostService} from './services/docker-host.service';
+import {TaskStatusIconComponent} from './docker-tasks/task-status-icon/task-status-icon.component';
+
+======
+=
+>>>>>>>
+90
+ae2cfb3f77811365ab0177e14caab072673767
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -215,6 +225,7 @@ import {TasksService} from './services/tasks.service';
     RestartConditionComponent,
     UpdateConfigComponent,
     HealthcheckConfigComponent,
+    TaskStatusIconComponent,
   ],
   exports: [
     RouterModule,
@@ -234,6 +245,7 @@ import {TasksService} from './services/tasks.service';
     DockerNetworksService,
     DockerNodesService,
     DockerStacksService,
+    DockerHostService,
     ErrorService,
     TasksService,
   ],
