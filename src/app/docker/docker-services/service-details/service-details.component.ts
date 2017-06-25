@@ -4,10 +4,7 @@ import {TaskFilter} from '../../client/domain/task-filter';
 import {TaskColumn} from '../../docker-tasks/task-list/taskColumn';
 import {ServiceSpec} from '../../client/domain/service-spec';
 import {DockerServicesService} from '../../services/docker-services.service';
-import {BackgroundTask} from '../../domain/background-task';
 import {TasksService} from '../../services/tasks.service';
-import {Observable} from 'rxjs/Observable';
-import {ServiceUpdateStatus} from '../../client/domain/service-update-status';
 
 @Component({
   selector: 'app-service-details',
@@ -24,8 +21,7 @@ export class ServiceDetailsComponent implements OnInit {
   taskFilter: TaskFilter;
   taskColumns: TaskColumn[];
 
-  constructor(private dockerService: DockerServicesService,
-              private tasksService: TasksService) {
+  constructor(private dockerService: DockerServicesService) {
   }
 
   ngOnInit() {
@@ -55,22 +51,7 @@ export class ServiceDetailsComponent implements OnInit {
   }
 
   onSpecChanged(spec: ServiceSpec) {
-    let pollTask = this.dockerService.pollServiceUpdate(this.service.id)
-      .share();
-    let taskContent = Observable.concat(
-      this.dockerService.update(this.service.id, this.service.version, spec),
-      pollTask,
-    );
-    let labels = pollTask.map(s => s.Message)
-      .distinctUntilChanged();
-
-    let task: BackgroundTask = {
-      label: `Update service ${spec.Name}`,
-      content: taskContent,
-      cancellable: false,
-      status: labels,
-    };
-    this.tasksService.add(task)
+    this.dockerService.update(this.service.id, this.service.version, spec)
       .subscribe(r => this.serviceChanged.next(true));
   }
 

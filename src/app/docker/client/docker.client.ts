@@ -24,14 +24,7 @@ import {Version} from './domain/version';
 import {ServiceSpec} from './domain/service-spec';
 import {ContainerInspectInfo} from './domain/container-inspect-info';
 
-<<<<<<< HEAD
 import {Info} from './domain/info';
-
-======
-=
->>>>>>>
-90
-ae2cfb3f77811365ab0177e14caab072673767
 
 
 @Injectable()

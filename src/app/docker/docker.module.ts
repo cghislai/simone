@@ -12,8 +12,10 @@ import {
   BlockUIModule,
   CheckboxModule,
   ChipsModule,
-  DataTableModule, DropdownModule,
-  GrowlModule, InplaceModule,
+  DataTableModule,
+  DropdownModule,
+  GrowlModule,
+  InplaceModule,
   InputTextareaModule,
   InputTextModule,
   MessagesModule,
@@ -96,31 +98,23 @@ import {NetworkColumnComponent} from './docker-networks/network-list/network-col
 import {NetworkFilterComponent} from './docker-networks/network-list/network-filter/network-filter.component';
 import {DockerNetworksService} from './services/docker-netwoks.service';
 import {DockerStacksService} from './services/docker-stacks.service';
-import { NodeListComponent } from './docker-nodes/node-list/node-list.component';
-import { NodeListPageComponent } from './docker-nodes/node-list-page/node-list-page.component';
-import { NodeDetailsComponent } from './docker-nodes/node-details/node-details.component';
-import { NodeDetailsPageComponent } from './docker-nodes/node-details-page/node-details-page.component';
-import { NodeColumnComponent } from './docker-nodes/node-list/node-column/node-column.component';
-import { NodeFilterComponent } from './docker-nodes/node-list/node-filter/node-filter.component';
+import {NodeListComponent} from './docker-nodes/node-list/node-list.component';
+import {NodeListPageComponent} from './docker-nodes/node-list-page/node-list-page.component';
+import {NodeDetailsComponent} from './docker-nodes/node-details/node-details.component';
+import {NodeDetailsPageComponent} from './docker-nodes/node-details-page/node-details-page.component';
+import {NodeColumnComponent} from './docker-nodes/node-list/node-column/node-column.component';
+import {NodeFilterComponent} from './docker-nodes/node-list/node-filter/node-filter.component';
 import {DockerNodesService} from './services/docker-nodes.service';
-import { NodeSpecComponent } from './docker-nodes/node-spec/node-spec.component';
-import { EditableFieldComponent } from '../utils/editable-field/editable-field.component';
-import { NetworksSpecComponent } from './docker-networks/networks-spec/networks-spec.component';
-import { PlacementConstraintComponent } from './docker-tasks/placement-constraint/placement-constraint.component';
-import { RestartConditionComponent } from './docker-tasks/restart-condition/restart-condition.component';
+import {NodeSpecComponent} from './docker-nodes/node-spec/node-spec.component';
+import {EditableFieldComponent} from '../utils/editable-field/editable-field.component';
+import {NetworksSpecComponent} from './docker-networks/networks-spec/networks-spec.component';
+import {PlacementConstraintComponent} from './docker-tasks/placement-constraint/placement-constraint.component';
+import {RestartConditionComponent} from './docker-tasks/restart-condition/restart-condition.component';
 import {UpdateConfigComponent} from './docker-services/update-config/update-config.component';
 import {HealthcheckConfigComponent} from './docker-containers/healthcheck-config/healthcheck-config.component';
 import {TasksService} from './services/tasks.service';
-
-<<<<<<< HEAD
 import {DockerHostService} from './services/docker-host.service';
 import {TaskStatusIconComponent} from './docker-tasks/task-status-icon/task-status-icon.component';
-
-======
-=
->>>>>>>
-90
-ae2cfb3f77811365ab0177e14caab072673767
 
 @NgModule({
   imports: [

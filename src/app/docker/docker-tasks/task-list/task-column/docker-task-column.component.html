@@ -5,14 +5,11 @@
   </span>
   <span class="updated date" *ngSwitchCase="taskColumn.UPDATED_AT">
     {{task.updatedAt | date:'medium' }}
-<<<<<<< HEAD
   </span>
   <span class="state" *ngSwitchCase="taskColumn.DESIRED_STATE">
     <app-task-status-icon [task]="task"
     ></app-task-status-icon>
     {{task.desiredState}}
-=======
->>>>>>> 90ae2cfb3f77811365ab0177e14caab072673767
   </span>
    <span class="state" *ngSwitchCase="taskColumn.STATE">
     {{task.status.State}}

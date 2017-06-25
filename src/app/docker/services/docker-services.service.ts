@@ -9,17 +9,8 @@ import {Service} from '../domain/services/service';
 import {DockerOptionsService} from './docker-options.service';
 import {ServiceSpec} from '../client/domain/service-spec';
 import {Version} from '../client/domain/version';
-
-<<<<<<< HEAD
 import {CachedValue} from '../../utils/cached-value';
 
-======
-=
-import {ServiceUpdateStatus} from '../client/domain/service-update-status';
-
->>>>>>>
-90
-ae2cfb3f77811365ab0177e14caab072673767
 
 /**
  * Created by cghislai on 11/02/17.
@@ -55,54 +46,33 @@ export class DockerServicesService {
     return this.client.updateService(id, version, spec);
   }
 
-<<<<<<<
-  HEAD
 
   getAll(): Observable<Service[]> {
     return this.allServices.getValue();
-  ======
-    =
-      pollServiceUpdate(id: string): Observable<ServiceUpdateStatus> {
-      let pollTask = Observable.timer(1000, 1000)
-        .mergeMap(a => this.inspect(id))
-        .share();
-    return pollTask
-      .takeUntil(
-        pollTask.map(s => s.updateStatus)
-          .skipWhile(s => s == null)
-          .skipWhile(s => s.State !== 'updating')
-          .filter(s => s.State !== 'updating')
-          .delay(2000),
-      )
-      .map(s => s.updateStatus)
-      .filter(s => s != null);
-  >>>>>>>
-    90
-    ae2cfb3f77811365ab0177e14caab072673767
   }
 
   private mapServiceJson(json: ServiceJson): Service {
-      return {
-        id: json.ID,
-        endPoint: json.Endpoint,
-        spec: json.Spec,
-        previousSpec: json.PreviousSpec,
-        updatedAt: moment(json.UpdatedAt),
-        updateStatus: json.UpdateStatus,
-        version: json.Version,
-        createdAt: moment(json.CreatedAt),
-      };
-    }
+    return {
+      id: json.ID,
+      endPoint: json.Endpoint,
+      spec: json.Spec,
+      previousSpec: json.PreviousSpec,
+      updatedAt: moment(json.UpdatedAt),
+      updateStatus: json.UpdateStatus,
+      version: json.Version,
+      createdAt: moment(json.CreatedAt),
+    };
+  }
 
   private mapServiceFilterJson(filter: ServiceFilter): FilterJson {
-      let json: FilterJson = {filters: {}};
-      if (filter == null) {
-        return json;
-      }
-      json.filters['id'] = filter.id;
-      json.filters['name'] = filter.name;
-      json.filters['label'] = this.client.mapFilterLabels(filter.label);
+    let json: FilterJson = {filters: {}};
+    if (filter == null) {
       return json;
     }
-
+    json.filters['id'] = filter.id;
+    json.filters['name'] = filter.name;
+    json.filters['label'] = this.client.mapFilterLabels(filter.label);
+    return json;
   }
+
+}
