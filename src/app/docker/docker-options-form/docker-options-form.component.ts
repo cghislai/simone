@@ -22,7 +22,6 @@ export class DockerOptionsFormComponent implements OnInit, ControlValueAccessor 
   options: SimoneDockerOptions;
   isModeSocket: boolean;
   isModeHttp: boolean;
-  tlsEnabled: boolean;
   optionsMode: OptionMode;
   optionsModes: SelectItem[];
   protocols: SelectItem[];
@@ -66,36 +65,6 @@ export class DockerOptionsFormComponent implements OnInit, ControlValueAccessor 
     this.options.mode = mode === OptionMode.REMOTE_HTTP ? 'tcp' : 'socket';
   }
 
-
-  onCaChange(event) {
-    let files: FileList = event.srcElement.files;
-    let reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.options.ca = e.target.result;
-    };
-    reader.readAsText(files.item(0));
-  }
-
-
-  onCertChange(event) {
-    let files: FileList = event.srcElement.files;
-    let reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.options.cert = e.target.result;
-    };
-    reader.readAsText(files.item(0));
-  }
-
-  onKeyChange(event) {
-    let files: FileList = event.srcElement.files;
-    let reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.options.key = e.target.result;
-    };
-    reader.readAsText(files.item(0));
-  }
-
-
   onSubmit() {
     this.onTouchedFn();
     this.onChangeFn(this.options);
@@ -109,7 +78,6 @@ export class DockerOptionsFormComponent implements OnInit, ControlValueAccessor 
     let options = this.optionsService.getCurrentOptions();
     this.options = Object.assign({}, options);
     this.optionsMode = OptionMode.REMOTE_HTTP;
-    this.tlsEnabled = false;
   }
 
 

@@ -281,7 +281,6 @@ export class DockerClient {
     let dockerOptions = this.optionsService.getCurrentOptions();
     if (dockerOptions.mode == 'tcp') {
       let url = `${dockerOptions.url}/${dockerOptions.version}/${path}`;
-      // TODO: tls
       let request = this.http.request(url, options);
       return this.wrapRequest(request);
     } else if (dockerOptions.mode == 'socket') {
@@ -297,7 +296,6 @@ export class DockerClient {
     let dockerOptions = this.optionsService.getCurrentOptions();
     if (dockerOptions.mode == 'tcp') {
       let url = `${dockerOptions.url}/${dockerOptions.version}/${path}?${searchParams.toString()}`;
-      // TODO: tls
       let request = this.httpClient.requestWebSocketStream(url);
       return this.wrapRequest(request);
     } else {

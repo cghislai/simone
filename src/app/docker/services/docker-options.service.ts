@@ -59,9 +59,6 @@ export class DockerOptionsService {
       timeout: 6,
       heartbeatDelay: 0,
       socketPath: '',
-      ca: '',
-      cert: '',
-      key: '',
       version: 'v1.29',
     };
     return options;

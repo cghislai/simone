@@ -9,9 +9,6 @@ export interface SimoneDockerOptions {
   url: string;
   socketPath: string;
 
-  ca?: string,
-  cert?: string,
-  key?: string,
   version?: string,
 
   timeout?: number,
