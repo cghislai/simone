@@ -57,9 +57,10 @@
   </span>
 
 
-  <span *ngSwitchCase="containerColumn.STATUS_ICON">
+  <span *ngSwitchCase="containerColumn.STATE">
     <app-container-status-icon [status]="container.state"
     ></app-container-status-icon>
+    {{ container.state }}
   </span>
 
 

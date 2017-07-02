@@ -135,7 +135,6 @@ export class ContainerListComponent implements OnInit, OnDestroy {
 
   private initColumns() {
     return [
-      ContainerColumn.STATUS_ICON,
       ContainerColumn.ID,
       ContainerColumn.NAMES,
       ContainerColumn.IMAGE,

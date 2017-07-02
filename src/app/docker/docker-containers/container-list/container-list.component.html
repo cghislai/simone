@@ -14,7 +14,8 @@
     </span>
   </div>
 
-  <p-dataTable [value]="containers | async">
+  <p-dataTable [value]="containers | async"
+               [responsive]="true">
     <p-column *ngFor="let column of columns"
               [sortable]="true"
               [sortField]="getColumnField(column)"
