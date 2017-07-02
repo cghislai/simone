@@ -1,23 +1,6 @@
 <div class="options ui-widget">
   <p-growl [(value)]="messages" [life]="800"></p-growl>
 
-  <p-panel header="Client">
-    <div class="client-panel">
-      <label>Client {{ isClientStarted() ? 'started' : 'stopped'}}</label>
-      <button type="text" pButton
-              label="Stop"
-              (click)="onStopClicked()"
-              [hidden]="!isClientStarted()"
-      ></button>
-
-      <button type="text" pButton
-              label="Start"
-              (click)="onStartClicked()"
-              [hidden]="isClientStarted()"
-      ></button>
-    </div>
-  </p-panel>
-
   <p-panel styleClass="options-panel" *ngIf="dockerOptions != null">
     <p-header>
       <div class="ui-helper-clearfix options-header">

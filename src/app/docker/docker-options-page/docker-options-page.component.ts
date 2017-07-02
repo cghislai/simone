@@ -20,8 +20,7 @@ export class DockerOptionsPageComponent implements OnInit {
   subscription: Subscription;
   dockerOptionsChoices: Observable<SelectItem[]>;
 
-  constructor(private dockerService: DockerService,
-              private optionsService: DockerOptionsService) {
+  constructor(private optionsService: DockerOptionsService) {
   }
 
   ngOnInit() {
@@ -71,36 +70,6 @@ export class DockerOptionsPageComponent implements OnInit {
       severity: 'info',
       summary: 'Restored',
       detail: 'Options have been restored',
-    });
-  }
-
-  onStartClicked() {
-    this.startClient();
-  }
-
-  onStopClicked() {
-    this.stopClient();
-  }
-
-  isClientStarted() {
-    return this.dockerService.isClientStarted();
-  }
-
-  private startClient() {
-    this.dockerService.startClient();
-    this.messages.push({
-      severity: 'info',
-      summary: 'Started',
-      detail: 'Client has started',
-    });
-  }
-
-  private stopClient() {
-    this.dockerService.stopClient();
-    this.messages.push({
-      severity: 'info',
-      summary: 'Stopped',
-      detail: 'Client has stopped',
     });
   }
 }
