@@ -56,7 +56,6 @@ export class DockerOptionsService {
       label: 'default',
       mode: 'tcp',
       url: 'http://hosta:4242',
-      timeout: 6,
       heartbeatDelay: 0,
       socketPath: '',
       version: 'v1.29',

@@ -11,6 +11,5 @@ export interface SimoneDockerOptions {
 
   version?: string,
 
-  timeout?: number,
   heartbeatDelay: number,
 }
