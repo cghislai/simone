@@ -40,9 +40,6 @@ export class DockerClient {
               private errorService: ErrorService,
               private httpClient: HttpClient,
               private zone: NgZone, private http: Http) {
-    // Attempt a request directly on new options
-    this.optionsService.getOptions()
-      .subscribe(options => this.ping());
   }
 
   listContainers(filter?: FilterJson): Observable<ContainerJson[]> {
