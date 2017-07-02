@@ -2,11 +2,11 @@ import {ColumnData} from '../../domain/column-data';
 
 export enum TaskColumn {
   ID,
-  SERVICE_ID,
+  SERVICE,
   SLOT,
   CREATED_AT,
   UPDATED_AT,
-  NODE_ID,
+  NODE,
   DESIRED_STATE,
   STATE,
   MESSAGE,
@@ -17,10 +17,10 @@ export enum TaskColumn {
 
 export const TASK_COLUMNS = [
   TaskColumn.ID,
-  TaskColumn.SERVICE_ID,
+  TaskColumn.SERVICE,
   TaskColumn.IMAGE,
   TaskColumn.CONTAINER,
-  TaskColumn.NODE_ID,
+  TaskColumn.NODE,
   TaskColumn.DESIRED_STATE,
   TaskColumn.STATE,
   TaskColumn.CREATED_AT,
@@ -33,9 +33,9 @@ TASK_COLUMN_DATA[TaskColumn.ID] = {
   label: {'en': 'Id'},
   field: 'id',
 };
-TASK_COLUMN_DATA[TaskColumn.SERVICE_ID] = {
+TASK_COLUMN_DATA[TaskColumn.SERVICE] = {
   label: {'en': 'Service'},
-  field: 'serviceID',
+  field: 'serviceName',
 };
 TASK_COLUMN_DATA[TaskColumn.SLOT] = {
   label: {'en': 'Slot'},
@@ -57,9 +57,9 @@ TASK_COLUMN_DATA[TaskColumn.CONTAINER] = {
   label: {'en': 'Container'},
   field: 'status.ContainerStatus.ContainerID',
 };
-TASK_COLUMN_DATA[TaskColumn.NODE_ID] = {
+TASK_COLUMN_DATA[TaskColumn.NODE] = {
   label: {'en': 'Node'},
-  field: 'nodeID',
+  field: 'nodeName',
 };
 TASK_COLUMN_DATA[TaskColumn.DESIRED_STATE] = {
   label: {'en': 'Desired state'},

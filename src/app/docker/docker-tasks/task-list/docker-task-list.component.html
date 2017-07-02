@@ -1,6 +1,7 @@
 <div class="task-list ui-widget">
 
-  <p-dataTable [value]="tasks | async">
+  <p-dataTable [value]="tasks | async"
+               [responsive]="true">
     <p-column *ngFor="let column of columns"
               [sortable]="true"
               [sortField]="getColumnField(column)"

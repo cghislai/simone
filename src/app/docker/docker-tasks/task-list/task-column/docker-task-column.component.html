@@ -28,8 +28,8 @@
   <span *ngSwitchCase="taskColumn.ID">
     <app-unique-id [id]="task.id" [routerLink]="['/docker/tasks', task.id]"></app-unique-id>
   </span>
-  <span *ngSwitchCase="taskColumn.SERVICE_ID">
-    <app-unique-id [id]="serviceLabel | async"
+  <span *ngSwitchCase="taskColumn.SERVICE">
+    <app-unique-id [id]="task.serviceName"
                    [trimWidthEm]="12"
                    [routerLink]="['/docker/services', task.serviceID]"></app-unique-id>
   </span>
@@ -37,8 +37,8 @@
     <app-unique-id [id]="task.status.ContainerStatus.ContainerID"
                    [routerLink]="['/docker/containers',task.status.ContainerStatus.ContainerID]"></app-unique-id>
   </span>
-  <span *ngSwitchCase="taskColumn.NODE_ID">
-    <app-unique-id [id]="nodeLabel | async"
+  <span *ngSwitchCase="taskColumn.NODE">
+    <app-unique-id [id]="task.nodeName"
                    [trimWidthEm]="12"
                    [routerLink]="['/docker/nodes',task.nodeID]"></app-unique-id>
   </span>

@@ -1,6 +1,7 @@
 import * as moment from 'moment';
 import {TaskSpecJson} from '../../client/domain/task-spec';
 import {NetworkAttachmentJson} from '../../client/domain/network-attachment';
+import {Observable} from 'rxjs/Observable';
 
 /**
  * Created by cghislai on 5/23/17.
@@ -27,4 +28,7 @@ export interface Task {
   };
   desiredState: string;
   networksAttachments: NetworkAttachmentJson[];
+
+  serviceName: string;
+  nodeName: string;
 }

@@ -6,6 +6,8 @@ import {TaskJson} from '../client/domain/task';
 import {FilterJson} from '../client/domain/filter';
 import {Task} from '../domain/tasks/task';
 import {TaskFilter} from '../client/domain/task-filter';
+import {DockerServicesService} from './docker-services.service';
+import {DockerNodesService} from './docker-nodes.service';
 
 /**
  * Created by cghislai on 11/02/17.
@@ -14,7 +16,9 @@ import {TaskFilter} from '../client/domain/task-filter';
 @Injectable()
 export class DockerTasksService {
 
-  constructor(private client: DockerClient) {
+  constructor(private client: DockerClient,
+              private nodeService: DockerNodesService,
+              private serviceService: DockerServicesService) {
   }
 
   list(filter?: TaskFilter): Observable<Task[]> {
@@ -30,7 +34,7 @@ export class DockerTasksService {
   }
 
   private mapTaskJson(json: TaskJson): Task {
-    return {
+    let task = {
       id: json.ID,
       version: json.Version,
       createdAt: moment(json.CreatedAt),
@@ -42,7 +46,14 @@ export class DockerTasksService {
       status: json.Status,
       desiredState: json.DesiredState,
       networksAttachments: json.NetworksAttachments,
+      nodeName: json.NodeID,
+      serviceName: json.ServiceID,
     };
+    this.getServiceLabel(task.serviceID)
+      .subscribe(label => task.serviceName = label);
+    this.getNodeLabel(task.nodeID)
+      .subscribe(label => task.nodeName = label);
+    return task;
   }
 
   private mapTaskFilterJson(filter: TaskFilter): FilterJson {
@@ -54,5 +65,24 @@ export class DockerTasksService {
     json.filters['service'] = filter.service;
     json.filters['node'] = filter.node;
     return json;
+  }
+
+
+  private getNodeLabel(id: string): Observable<string> {
+    return Observable.concat(Observable.of(id),
+      this.nodeService.getAll()
+        .map(nodes => nodes.find(n => n.ID === id))
+        .filter(node => node != null)
+        .map(node => node.Description.Hostname),
+    );
+  }
+
+  private getServiceLabel(id: string): Observable<string> {
+    return Observable.concat(Observable.of(id),
+      this.serviceService.getAll()
+        .map(services => services.find(s => s.id === id))
+        .filter(service => service != null)
+        .map(service => service.spec.Name),
+    );
   }
 }
