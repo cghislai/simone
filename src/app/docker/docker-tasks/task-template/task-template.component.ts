@@ -133,6 +133,12 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
   }
 
   memoryBytesLimitDiffer() {
+    if (this.template == null || this.template.Resources == null || this.template.Resources.Limits == null) {
+      return false;
+    }
+    if (this.originalSpec == null || this.originalSpec.Resources == null || this.originalSpec.Resources.Limits == null) {
+      return false;
+    }
     return this.template.Resources.Limits.MemoryBytes !== this.originalSpec.Resources.Limits.MemoryBytes;
   }
 
@@ -150,6 +156,12 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
   }
 
   cpuLimitDiffer() {
+    if (this.template == null || this.template.Resources == null || this.template.Resources.Limits == null) {
+      return false;
+    }
+    if (this.originalSpec == null || this.originalSpec.Resources == null || this.originalSpec.Resources.Limits == null) {
+      return false;
+    }
     return this.template.Resources.Limits.NanoCPUs !== this.originalSpec.Resources.Limits.NanoCPUs;
   }
 
