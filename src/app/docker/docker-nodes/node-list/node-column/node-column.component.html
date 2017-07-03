@@ -42,10 +42,10 @@
   </span>
 
   <span *ngSwitchCase="nodeColumns.RESOURCES_CPU">
-    {{ node.Description.Resources.NanoCPUs}}
+    {{ node.Description?.Resources?.NanoCPUs}}
   </span>
   <span *ngSwitchCase="nodeColumns.RESOURCES_MEM">
-    {{ node.Description.Resources.MemoryBytes }}
+    {{ node.Description?.Resources?.MemoryBytes }}
   </span>
 
   <span *ngSwitchCase="nodeColumns.ENGINE_VERSION">

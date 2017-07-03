@@ -59,7 +59,7 @@
           ></app-labels>
         </span>
 
-        <span class="row">
+        <span class="row" *ngIf="node.Description?.Resources != null">
           <label>Resources</label>
           <span class="label-table vertical">
             <span class="row">
