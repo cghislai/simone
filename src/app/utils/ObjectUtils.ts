@@ -1,6 +1,9 @@
 export class ObjectUtils {
 
   static jsonClone(obj: any): any {
+    if (obj == null) {
+      return null;
+    }
     let json = JSON.stringify(obj);
     let parsed = JSON.parse(json);
     return parsed;

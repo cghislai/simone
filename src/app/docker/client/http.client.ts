@@ -2,7 +2,6 @@ import {Observable} from 'rxjs/Observable';
 import {DemuxedStream} from './domain/demuxedStream';
 import {Subject} from 'rxjs/Subject';
 import {Injectable} from '@angular/core';
-import {RequestOptionsArgs} from '@angular/http';
 
 @Injectable()
 export class HttpClient {
@@ -18,7 +17,7 @@ export class HttpClient {
       let ws = new WebSocket(wsUrl);
       let hasStream = false;
 
-      let messageOutSource = new Subject();
+      let messageOutSource = new Subject<string>();
       let messageInObservable = this.createWsMessageInObservable(ws, messageOutSource);
 
       ws.addEventListener('open', e => {

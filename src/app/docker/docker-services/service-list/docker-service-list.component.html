@@ -24,11 +24,11 @@
               [sortField]="getColumnField(column)"
               [field]="getColumnField(column)"
               [header]="getColumnLabel(column)">
-      <template let-col let-service="rowData" let-rowIndex="rowIndex" pTemplate="body">
+      <ng-template let-col let-service="rowData" let-rowIndex="rowIndex" pTemplate="body">
         <app-docker-service-column [service]="service"
                                    [column]="column"
         ></app-docker-service-column>
-      </template>
+      </ng-template>
     </p-column>
   </p-dataTable>
 </div>

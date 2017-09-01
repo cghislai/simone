@@ -1,11 +1,7 @@
+import {CusterInfo} from './custer-info';
+
 export interface SwarmInfo {
-  Cluster: {
-    CreatedAt: string;
-    ID: string;
-    Spec: any;
-    UpdatedAt: string;
-    Version: any;
-  };
+  Cluster: CusterInfo;
   ControlAvailable: boolean;
   Error: string;
   LocalNodeState: string;

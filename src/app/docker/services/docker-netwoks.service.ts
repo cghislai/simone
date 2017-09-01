@@ -5,7 +5,7 @@ import {Network} from '../client/domain/network';
 import {Observable} from 'rxjs/Observable';
 import {FilterJson} from '../client/domain/filter';
 import {CachedValue} from '../../utils/cached-value';
-import {DockerOptionsService} from './docker-options.service';
+import {DockerClientConfigService} from './docker-client.service';
 
 @Injectable()
 export class DockerNetworksService {
@@ -13,9 +13,9 @@ export class DockerNetworksService {
   private allNetworks: CachedValue<Network[]>;
 
   constructor(private client: DockerClient,
-              private optionsService: DockerOptionsService) {
+              private configService: DockerClientConfigService) {
     this.allNetworks = new CachedValue(() => this.listAll(), 300);
-    this.optionsService.getCurrentOptionsObservable()
+    this.configService.getActiveConfig()
       .distinctUntilChanged()
       .subscribe(o => this.allNetworks.invalidate());
   }

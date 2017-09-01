@@ -1,12 +1,10 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {DockerOptionsFormComponent} from './docker-options-form/docker-options-form.component';
 import {DockerOptionsPageComponent} from './docker-options-page/docker-options-page.component';
 import {DockerService} from './services/docker.service';
 import {ButtonModule} from 'primeng/components/button/button';
 import {FormsModule} from '@angular/forms';
 import {DockerClient} from './client/docker.client';
-import {DockerOptionsService} from './services/docker-options.service';
 import {
   AutoCompleteModule,
   BlockUIModule,
@@ -113,8 +111,10 @@ import {RestartConditionComponent} from './docker-tasks/restart-condition/restar
 import {UpdateConfigComponent} from './docker-services/update-config/update-config.component';
 import {HealthcheckConfigComponent} from './docker-containers/healthcheck-config/healthcheck-config.component';
 import {TasksService} from './services/tasks.service';
-import {DockerHostService} from './services/docker-host.service';
 import {TaskStatusIconComponent} from './docker-tasks/task-status-icon/task-status-icon.component';
+import {DockerClientConfigService} from './services/docker-client.service';
+import {DockerOptionsFormComponent} from './docker-client-config-form/docker-client-config-form.component';
+import {SwarmControlRouteGuard} from './services/guards/SwarmControlRouteGuard';
 
 @NgModule({
   imports: [
@@ -229,7 +229,7 @@ import {TaskStatusIconComponent} from './docker-tasks/task-status-icon/task-stat
   providers: [
     HttpClient,
     DockerClient,
-    DockerOptionsService,
+    DockerClientConfigService,
     DockerService,
     DockerServicesService,
     DockerTasksService,
@@ -239,9 +239,10 @@ import {TaskStatusIconComponent} from './docker-tasks/task-status-icon/task-stat
     DockerNetworksService,
     DockerNodesService,
     DockerStacksService,
-    DockerHostService,
     ErrorService,
     TasksService,
+
+    SwarmControlRouteGuard,
   ],
 })
 export class DockerModule {

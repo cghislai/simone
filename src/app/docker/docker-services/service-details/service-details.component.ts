@@ -4,7 +4,6 @@ import {TaskFilter} from '../../client/domain/task-filter';
 import {TaskColumn} from '../../docker-tasks/task-list/taskColumn';
 import {ServiceSpec} from '../../client/domain/service-spec';
 import {DockerServicesService} from '../../services/docker-services.service';
-import {TasksService} from '../../services/tasks.service';
 
 @Component({
   selector: 'app-service-details',
@@ -27,7 +26,7 @@ export class ServiceDetailsComponent implements OnInit {
   ngOnInit() {
     this.taskFilter = {
       service: [this.service.id],
-      desiredState: [],
+      desiredState: ['running'],
       id: [],
       label: [],
       name: [],

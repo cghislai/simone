@@ -5,7 +5,7 @@ import {VolumeFilter} from '../client/domain/volume-filter';
 import {Volume} from '../client/domain/volume';
 import {FilterJson} from '../client/domain/filter';
 import {CachedValue} from '../../utils/cached-value';
-import {DockerOptionsService} from './docker-options.service';
+import {DockerClientConfigService} from './docker-client.service';
 
 @Injectable()
 export class DockerVolumesService {
@@ -14,9 +14,9 @@ export class DockerVolumesService {
   private allVolumes: CachedValue<Volume[]>;
 
   constructor(private client: DockerClient,
-              private optionsService: DockerOptionsService) {
+              private configService: DockerClientConfigService) {
     this.allVolumes = new CachedValue(() => this.list(), 300);
-    this.optionsService.getCurrentOptionsObservable()
+    this.configService.getActiveConfig()
       .distinctUntilChanged()
       .subscribe(o => this.allVolumes.invalidate());
   }

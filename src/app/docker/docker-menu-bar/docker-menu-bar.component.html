@@ -1,26 +1,26 @@
 <div class="menubar">
   <span class="group-left">
      <a routerLink="/docker/nodes" class="action"
-        [class.disabled]="!(hasSwarmControl | async)"
+        [class.disabled]="!(swarmControl | async)"
         routerLinkActive="active">
       <i class="fa fa-anchor"></i>
       Nodes
     </a>
     <a [routerLink]="['/docker/services']"
        class="action"
-       [class.disabled]="!(hasSwarmControl | async)"
+       [class.disabled]="!(swarmControl | async)"
        routerLinkActive="active">
       <i class="fa fa-anchor"></i>
       Services
     </a>
      <a routerLink="/docker/tasks" class="action"
-        [class.disabled]="!(hasSwarmControl | async)"
+        [class.disabled]="!(swarmControl | async)"
         routerLinkActive="active">
       <i class="fa fa-anchor"></i>
       Tasks
     </a>
     <a routerLink="/docker/secrets" class="action"
-       [class.disabled]="!(hasSwarmControl | async)"
+       [class.disabled]="!(swarmControl | async)"
        routerLinkActive="active">
       <i class="fa fa-anchor"></i>
       Secrets
@@ -53,11 +53,25 @@
     </span>
 
     <span class="options-choice">
-      <p-dropdown [ngModel]="(dockerOptions | async).label"
+      <p-dropdown [ngModel]="(configLabel | async)"
                   (ngModelChange)="activeOptionsChanged($event)"
-                  [options]="dockerOptionsChoices | async"
+                  [options]="configList | async"
                   [autoWidth]="false" [style]="{'width':'10em'}"
-      ></p-dropdown>
+      >
+        <ng-template let-config pTemplate="item">
+          {{ config.label }}
+          <span *ngIf="config.serverInfo != null">
+            <span *ngIf="config.serverInfo.swarm">
+              <span *ngIf="config.serverInfo.swarmControl">
+                (manager)
+              </span>
+              <span>
+                (node)
+              </span>
+            </span>
+          </span>
+        </ng-template>
+      </p-dropdown>
     </span>
 
     <span class="icon-link options-icon action"

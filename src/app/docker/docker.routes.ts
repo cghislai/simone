@@ -15,6 +15,7 @@ import {NetworkListPageComponent} from './docker-networks/network-list-page/netw
 import {NetworkDetailsPageComponent} from './docker-networks/network-details-page/network-details-page.component';
 import {NodeListPageComponent} from './docker-nodes/node-list-page/node-list-page.component';
 import {NodeDetailsPageComponent} from './docker-nodes/node-details-page/node-details-page.component';
+import {SwarmControlRouteGuard} from './services/guards/SwarmControlRouteGuard';
 
 export const DOCKER_ROUTES: Route[] = [
   {
@@ -27,7 +28,7 @@ export const DOCKER_ROUTES: Route[] = [
           {
             path: '',
             pathMatch: 'full',
-            redirectTo: 'services',
+            redirectTo: 'containers',
           },
           {
             path: 'dashboard',
@@ -35,6 +36,7 @@ export const DOCKER_ROUTES: Route[] = [
           },
           {
             path: 'services',
+            canActivate: [SwarmControlRouteGuard],
             children: [
               {
                 path: '',
@@ -82,6 +84,7 @@ export const DOCKER_ROUTES: Route[] = [
           },
           {
             path: 'secrets',
+            canActivate: [SwarmControlRouteGuard],
             children: [{
               path: '',
               pathMatch: 'full',
@@ -104,6 +107,7 @@ export const DOCKER_ROUTES: Route[] = [
           },
           {
             path: 'nodes',
+            canActivate: [SwarmControlRouteGuard],
             children: [{
               path: '',
               pathMatch: 'full',

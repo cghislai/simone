@@ -172,7 +172,7 @@ export class NodeSpecComponent implements OnInit, ControlValueAccessor {
       return [];
     }
     let keys = Reflect.ownKeys(labels);
-    return keys.map(key => {
+    return [...keys].map(key => {
       let value = labels[key];
       if (value == null || value.length === 0) {
         return `${key}`;

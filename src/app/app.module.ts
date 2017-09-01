@@ -7,6 +7,7 @@ import {AppComponent} from './app.component';
 import {DockerModule} from './docker/docker.module';
 import {RouterModule} from '@angular/router';
 import {APP_ROUTES} from './app.routes';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import {APP_ROUTES} from './app.routes';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpModule,
     RouterModule.forRoot(APP_ROUTES),

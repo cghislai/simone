@@ -1,11 +1,12 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {DockerService} from '../services/docker.service';
-import {DockerOptionsService} from '../services/docker-options.service';
 import {Message, SelectItem} from 'primeng/primeng';
 import {Observable} from 'rxjs/Observable';
-import {SimoneDockerOptions} from '../domain/docker-options';
-import {Subscription} from 'rxjs/Subscription';
 import {ObjectUtils} from '../../utils/ObjectUtils';
+import {DockerClientConfigService} from '../services/docker-client.service';
+import {DockerClientConfig} from '../domain/docker-client-config';
+import {DockerServerInfo} from '../domain/docker-server-info';
+import {DockerClient} from '../client/docker.client';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'app-docker-options-page',
@@ -15,61 +16,108 @@ import {ObjectUtils} from '../../utils/ObjectUtils';
 })
 export class DockerOptionsPageComponent implements OnInit {
 
+  newConfigSource: Subject<DockerClientConfig>;
   messages: Message[] = [];
-  dockerOptions: Observable<SimoneDockerOptions>;
-  subscription: Subscription;
-  dockerOptionsChoices: Observable<SelectItem[]>;
+  config: Observable<DockerClientConfig>;
+  configLabel: Observable<string>;
+  configRemovable: Observable<boolean>;
+  configList: Observable<SelectItem[]>;
 
-  constructor(private optionsService: DockerOptionsService) {
+  hasconfigServer: Observable<boolean>;
+  configServer: Observable<DockerServerInfo>;
+  configServerName: Observable<string>;
+  configServerSwarmMode: Observable<boolean>;
+  configServerSwarmControl: Observable<boolean>;
+  configServerSwarmNodeId: Observable<string>;
+  configServerSwarmNodeLink: Observable<any[]>;
+
+  constructor(private configService: DockerClientConfigService,
+              private client: DockerClient) {
   }
 
   ngOnInit() {
-    this.dockerOptionsChoices = this.optionsService.getOptions()
+    this.newConfigSource = new Subject<DockerClientConfig>();
+    this.configList = this.configService.getConfigList()
       .filter(o => o != null)
       .map(options => options.map(o => <SelectItem>{
         label: o.label,
         value: o.label,
-      }));
-    this.dockerOptions = this.optionsService.getCurrentOptionsObservable()
-      .map(options => ObjectUtils.jsonClone(options));
-    this.subscription = new Subscription();
-
+      }))
+      .map(list => [{
+        label: 'Select config',
+        value: null,
+      }, ...list]);
+    this.config = Observable.merge(
+      Observable.of(this.configService.createDefaultConfig()),
+      this.newConfigSource,
+      this.configService.getActiveConfig(),
+    )
+      .map(config => ObjectUtils.jsonClone(config))
+      .filter(c => c != null)
+      .share();
+    this.configLabel = this.config
+      .map(config => config == null ? null : config.label);
+    this.configRemovable = this.config
+      .map(c => c.label === DockerClientConfigService.DEFAULT_CONFIG_LABEL);
+    this.configServer = this.configService
+      .getActiveConfig()
+      .map(c => c.serverInfo)
+      .share();
+    this.hasconfigServer = this.configServer
+      .map(s => s != null);
+    this.configServerName = this.configServer
+      .map(s => s.name);
+    this.configServerSwarmMode = this.configServer
+      .map(s => s.swarm);
+    this.configServerSwarmControl = this.configServer
+      .map(s => s.swarmControl);
+    this.configServerSwarmNodeId = this.configServer
+      .map(s => s.swarmNodeId);
+    this.configServerSwarmNodeLink = this.configServer
+      .map(s => ['/docker/nodes', s.swarmNodeId]);
   }
 
   activeOptionsChanged(label: string) {
-    this.optionsService.getOptions()
+    this.configService.getConfigList()
       .map(o => o.find(op => op.label === label))
       .filter(o => o != null)
       .take(1)
-      .subscribe(o => this.optionsService.setCurrentOptions(o));
+      .subscribe(o => this.configService.setActiveConfig(o));
   }
 
   onNewOptionsClicked() {
-    let options = this.optionsService.createDefaultOptions();
-    this.optionsService.setCurrentOptions(options);
+    let config = this.configService.createDefaultConfig();
+    this.newConfigSource.next(config);
   }
 
   onRemoveOptionsClicked() {
-    let curOptions = this.optionsService.getCurrentOptions();
-    this.optionsService.removeOptions(curOptions.label);
+    let config = this.configService.getActiveConfigNow();
+    this.configService.removeConfig(config.label);
   }
 
-  onOptionsChange(options: SimoneDockerOptions) {
-    this.optionsService.setCurrentOptions(options);
-    this.messages.push({
-      severity: 'success',
-      summary: 'Saved',
-      detail: 'Options have been saved',
-    });
+  onConfigEditChange(config: DockerClientConfig) {
+    this.client.info(config)
+      .map(info => this.configService.updateConfigServer(config, info))
+      .subscribe(conf => {
+        this.configService.savetoStorage(conf);
+        this.configService.setActiveConfig(conf);
+        this.messages.push({
+          severity: 'success',
+          summary: 'Saved',
+          detail: 'Options have been saved',
+        });
+      }, error => {
+        this.messages.push({
+          severity: 'error',
+          summary: 'Server unreachable',
+          detail: 'Unable to contact the server',
+        });
+        console.error(error);
+      });
   }
 
-  onOptionsCancelled() {
-    let options = this.optionsService.getCurrentOptions();
-    this.optionsService.setCurrentOptions(options);
-    this.messages.push({
-      severity: 'info',
-      summary: 'Restored',
-      detail: 'Options have been restored',
-    });
+  onConfigEditCancel() {
+    let config = this.configService.getActiveConfigNow();
+    this.configService.setActiveConfig(config);
   }
 }

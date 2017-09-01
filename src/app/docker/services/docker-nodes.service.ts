@@ -7,7 +7,8 @@ import {Node} from '../client/domain/node';
 import {NodeSpec} from '../client/domain/node-spec';
 import {Version} from '../client/domain/version';
 import {CachedValue} from '../../utils/cached-value';
-import {DockerOptionsService} from './docker-options.service';
+import {DockerClientConfigService} from './docker-client.service';
+import {DockerClientConfig} from '../domain/docker-client-config';
 
 @Injectable()
 export class DockerNodesService {
@@ -15,16 +16,23 @@ export class DockerNodesService {
   private allNodes: CachedValue<Node[]>;
 
   constructor(private client: DockerClient,
-              private optionsService: DockerOptionsService) {
+              private configService: DockerClientConfigService) {
     this.allNodes = new CachedValue(() => this.list(), 300);
-    this.optionsService.getCurrentOptionsObservable()
+    this.configService.getActiveConfig()
       .distinctUntilChanged()
       .subscribe(o => this.allNodes.invalidate());
   }
 
   list(filter?: NodeFilter): Observable<Node[]> {
-    let filterJson = this.createFilterJson(filter);
-    return this.client.listNodes(filterJson);
+    return this.configService.getActiveConfig()
+      .take(1)
+      .mergeMap((config: DockerClientConfig) => {
+        if (config.serverInfo != null && !config.serverInfo.swarmControl) {
+          return [];
+        }
+        let filterJson = this.createFilterJson(filter);
+        return this.client.listNodes(filterJson);
+      });
   }
 
   inspect(id: string): Observable<Node> {

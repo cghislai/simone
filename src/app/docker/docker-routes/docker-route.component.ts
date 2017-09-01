@@ -23,7 +23,7 @@ export class DockerRouteComponent implements OnInit {
     this.dockerService.startClient();
     this.errorMessages = this.errorService
       .getErrorMessages()
-      .map(messages => this.reduceMessagesWithCount(messages))
+      .map(messages => this.countDuplicates(messages))
       .map(messages => this.createMessages(messages))
       .share();
   }
@@ -40,7 +40,7 @@ export class DockerRouteComponent implements OnInit {
     });
   }
 
-  private reduceMessagesWithCount(messages: ErrorMessage[]): ErrorMessage[] {
+  private countDuplicates(messages: ErrorMessage[]): ErrorMessage[] {
     let messagesWithCount: { message: ErrorMessage, count: number }[] =
       messages.reduce((cur, next) => {
         let existing = cur.find(m => this.isSameMessage(m.message, next));

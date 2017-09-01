@@ -1,7 +1,6 @@
 import {Observable} from 'rxjs';
 import {Http, RequestOptionsArgs, Response, URLSearchParams} from '@angular/http';
 import {Injectable, NgZone} from '@angular/core';
-import {DockerOptionsService} from '../services/docker-options.service';
 import {ServiceJson} from './domain/service';
 import {TaskJson} from './domain/task';
 import {FilterJson} from './domain/filter';
@@ -25,6 +24,8 @@ import {ServiceSpec} from './domain/service-spec';
 import {ContainerInspectInfo} from './domain/container-inspect-info';
 
 import {Info} from './domain/info';
+import {DockerClientConfigService} from '../services/docker-client.service';
+import {DockerClientConfig} from '../domain/docker-client-config';
 
 
 @Injectable()
@@ -36,7 +37,7 @@ export class DockerClient {
   private runningRequestCountChanged = new BehaviorSubject<number>(0);
   private requestsSuccesses = new Subject<boolean | Error>();
 
-  constructor(private optionsService: DockerOptionsService,
+  constructor(private configService: DockerClientConfigService,
               private errorService: ErrorService,
               private httpClient: HttpClient,
               private zone: NgZone, private http: Http) {
@@ -224,10 +225,18 @@ export class DockerClient {
     });
   }
 
-  info(): Observable<Info> {
-    return this.request(`info`, {
+  info(config?: DockerClientConfig): Observable<Info> {
+    if (config == null) {
+      return this.request(`info`, {
+        method: 'GET',
+      }).map(response => response.json());
+    }
+    let url = `${config.api.endPointUrl}/${config.api.version}/info`;
+    let request = this.http.request(url, {
       method: 'GET',
-    }).map(response => response.json());
+    });
+    return this.wrapRequest(request)
+      .map(response => response.json());
   }
 
   ping(): Observable<Response> {
@@ -241,7 +250,8 @@ export class DockerClient {
   }
 
   getRequestSucessObservable(): Observable<boolean> {
-    return this.requestsSuccesses.asObservable();
+    return this.requestsSuccesses.asObservable()
+      .map(o => o === true);
   }
 
 
@@ -275,30 +285,25 @@ export class DockerClient {
   }
 
   private request(path: string, options: RequestOptionsArgs): Observable<Response> {
-    let dockerOptions = this.optionsService.getCurrentOptions();
-    if (dockerOptions.mode == 'tcp') {
-      let url = `${dockerOptions.url}/${dockerOptions.version}/${path}`;
-      let request = this.http.request(url, options);
-      return this.wrapRequest(request);
-    } else if (dockerOptions.mode == 'socket') {
-      let socket = dockerOptions.socketPath;
-      let request = this.http.request(socket, options);
-      return this.wrapRequest(request);
-    } else {
-      return Observable.throw('Docker client mode not supported:' + dockerOptions.mode);
+    let clientConfig = this.configService.getActiveConfigNow();
+    if (clientConfig == null) {
+      console.warn('no config');
+      return Observable.empty();
     }
+    let url = `${clientConfig.api.endPointUrl}/${clientConfig.api.version}/${path}`;
+    let request = this.http.request(url, options);
+    return this.wrapRequest(request);
   }
 
   private requestWsStream(path: string, searchParams: URLSearchParams): Observable<DemuxedStream> {
-    let dockerOptions = this.optionsService.getCurrentOptions();
-    if (dockerOptions.mode == 'tcp') {
-      let url = `${dockerOptions.url}/${dockerOptions.version}/${path}?${searchParams.toString()}`;
-      let request = this.httpClient.requestWebSocketStream(url);
-      return this.wrapRequest(request);
-    } else {
-      // todo: socket
-      return Observable.throw('Docker client: Unix socket not supported yet');
+    let clientConfig = this.configService.getActiveConfigNow();
+    if (clientConfig == null) {
+      console.warn('no config');
+      return Observable.empty();
     }
+    let url = `${clientConfig.api.endPointUrl}/${clientConfig.api.version}/${path}?${searchParams.toString()}`;
+    let request = this.httpClient.requestWebSocketStream(url);
+    return this.wrapRequest(request);
   }
 
   private wrapRequest<T>(request: Observable<T>): Observable<T> {
@@ -371,9 +376,9 @@ export class DockerClient {
 
 
   private getResponseRelativeUrl(error: any): string {
-    let options = this.optionsService.getCurrentOptions();
-    let wsUrl = options.url;
-    let version = options.version;
+    let config = this.configService.getActiveConfigNow();
+    let wsUrl = config.api.endPointUrl;
+    let version = config.api.version;
     if (error.url != null) {
       let relUrl = error.url.replace(wsUrl, '')
         .replace(`/${version}`, '')

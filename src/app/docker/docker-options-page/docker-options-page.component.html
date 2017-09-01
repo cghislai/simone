@@ -1,16 +1,16 @@
 <div class="options ui-widget">
   <p-growl [(value)]="messages" [life]="800"></p-growl>
 
-  <p-panel styleClass="options-panel" *ngIf="dockerOptions != null">
+  <p-panel styleClass="config-panel" *ngIf="config != null">
     <p-header>
       <div class="ui-helper-clearfix options-header">
         <span class="ui-panel-title title">
-          Options
+          Config
         </span>
         <span>
-           <p-dropdown [ngModel]="(dockerOptions | async).label"
+           <p-dropdown [ngModel]="(configLabel | async)"
                        (ngModelChange)="activeOptionsChanged($event)"
-                       [options]="dockerOptionsChoices | async"
+                       [options]="configList | async"
                        [autoWidth]="false" [style]="{'width':'10em'}"
            ></p-dropdown>
         </span>
@@ -20,15 +20,35 @@
                   label="New"></button>
           <button pButton type="button"
                   (click)="onRemoveOptionsClicked()"
-                  [hidden]="(dockerOptions | async).label === 'default'"
+                  [hidden]="configRemovable | async"
                   label="Delete"></button>
         </span>
       </div>
     </p-header>
-    <app-docker-options-form [ngModel]="dockerOptions | async"
-                             (ngModelChange)="onOptionsChange($event)"
-                             (cancel)="onOptionsCancelled()"
-    ></app-docker-options-form>
+    <app-docker-client-config-form [ngModel]="config | async"
+                                   (ngModelChange)="onConfigEditChange($event)"
+                                   (cancel)="onConfigEditCancel()"
+    ></app-docker-client-config-form>
+    <div class="active-config" *ngIf="hasconfigServer | async">
+      <div class="row">
+        <label>Server:</label>
+        <span>{{ configServerName | async }}</span>
+      </div>
+      <div class="row">
+        <label>Swarm mode:</label>
+        <span>{{ configServerSwarmMode | async }}</span>
+      </div>
+      <div class="row">
+        <label>Swarm control:</label>
+        <span>{{ configServerSwarmControl | async }}</span>
+      </div>
+      <div class="row">
+        <label>Swarm node:</label>
+        <app-unique-id [id]="configServerSwarmNodeId | async"
+                       [routerLink]="configServerSwarmNodeLink | async"
+        ></app-unique-id>
+      </div>
+    </div>
   </p-panel>
 
 </div>

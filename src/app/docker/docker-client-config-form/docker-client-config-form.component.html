@@ -1,0 +1,48 @@
+<form class="ui-widget" ngForm #optionsForm="ngForm" *ngIf="config != null">
+  <div class="row">
+    <label>Name</label>
+    <span>
+      <input pInputText required
+             name="label-input"
+             [(ngModel)]="config.label">
+    </span>
+  </div>
+
+  <div class="row" *ngIf="config.api != null">
+    <label>Api Url</label>
+    <input type="text" pInputText
+           [(ngModel)]="config.api.endPointUrl"
+           name="url">
+  </div>
+
+  <div class="row" *ngIf="config.api != null">
+    <label>API Version</label>
+    <input pInputText [(ngModel)]="config.api.version"
+           name="version">
+  </div>
+
+  <div class="row">
+    <label>Heartbeat
+      <div [hidden]="config.heartbeatDelay > 0">(Inactive)</div>
+    </label>
+    <p-spinner [(ngModel)]="config.heartbeatDelay"
+               name="heartbeat"
+               [min]="0" [step]="100"
+    ></p-spinner>
+    ms
+  </div>
+
+  <div class="action-row">
+    <button type="text" pButton
+            label="Save"
+            [disabled]="!optionsForm.valid"
+            (click)="onSubmit()"
+    ></button>
+
+    <button type="text" pButton
+            label="Cancel"
+            (click)="onCancel()"
+    ></button>
+
+  </div>
+</form>

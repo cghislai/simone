@@ -1,4 +1,12 @@
 .column {
+  display: inline-block;
+  overflow: hidden;
+  max-width: 100%;
+
+  > span {
+    display: inline-block;
+  }
+
   .port-mapping {
     margin: .3em;
     display: inline-block;
@@ -13,7 +21,7 @@
   }
   .mounts {
     white-space: nowrap;
-    >* {
+    > * {
       display: inline-block;
     }
   }

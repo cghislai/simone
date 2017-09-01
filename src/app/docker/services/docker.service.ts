@@ -1,12 +1,13 @@
 import {DockerClient} from '../client/docker.client';
 import {Injectable} from '@angular/core';
 import {Observable, Subscription} from 'rxjs';
-import {DockerOptionsService} from './docker-options.service';
 import {Subject} from 'rxjs/Subject';
-import {SimoneDockerOptions} from '../domain/docker-options';
 import {Response} from '@angular/http';
 import {Info} from '../client/domain/info';
 import {CachedValue} from '../../utils/cached-value';
+import {DockerClientConfigService} from './docker-client.service';
+import {DockerClientConfig} from '../domain/docker-client-config';
+import {Router} from '@angular/router';
 
 /**
  * Created by cghislai on 11/02/17.
@@ -30,7 +31,8 @@ export class DockerService {
   private dockerInfo: CachedValue<Info>;
 
   constructor(private client: DockerClient,
-              private optionsService: DockerOptionsService) {
+              private router: Router,
+              private configService: DockerClientConfigService) {
 
     this.subscription = new Subscription();
     this.clientBusy = Observable.of(false)
@@ -52,7 +54,7 @@ export class DockerService {
     this.dockerInfo = new CachedValue(() => {
       return this.client.info().take(1);
     }, 300);
-    this.optionsService.getCurrentOptionsObservable()
+    this.configService.getActiveConfig()
       .subscribe(options => this.onOptionsChanged(options));
   }
 
@@ -121,11 +123,13 @@ export class DockerService {
     return false;
   }
 
-  private onOptionsChanged(options: SimoneDockerOptions) {
+  private onOptionsChanged(options: DockerClientConfig) {
     this.heartBeatDelayMs = options.heartbeatDelay;
     this.dockerInfo.invalidate();
-    this.initHeartbeat();
-    this.beat();
+    this.router.navigateByUrl(this.router.routerState.snapshot.url, {}).then(() => {
+      this.initHeartbeat();
+      this.beat();
+    });
   }
 
   private initClientPing() {

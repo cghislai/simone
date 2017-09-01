@@ -20,12 +20,12 @@
               [sortable]="true"
               [sortField]="getColumnField(column)"
               [header]="getColumnLabel(column)">
-      <template let-col let-container="rowData" let-rowIndex="rowIndex" pTemplate="body">
+      <ng-template let-col let-container="rowData" let-rowIndex="rowIndex" pTemplate="body">
         <app-container-column [column]="column"
                               [container]="container"
                               (containerChanged)="onContainerChange()"
         ></app-container-column>
-      </template>
+      </ng-template>
     </p-column>
   </p-dataTable>
 </div>

@@ -90,7 +90,7 @@ export class EditableFieldComponent implements OnInit, ControlValueAccessor {
       this.value == null;
       return;
     }
-    if (typeof obj === 'array' || obj instanceof Array) {
+    if (obj instanceof Array) {
       this.value = [...obj];
     } else if (typeof obj === 'object') {
       this.value = Object.assign({}, obj);
