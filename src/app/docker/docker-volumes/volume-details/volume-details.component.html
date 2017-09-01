@@ -8,7 +8,7 @@
         <label>Name</label>
         <span>
           <app-unique-id [id]="volume.Name"
-                         [routerLink]="['/docker/volumes', volume.Name]"
+                         type="volume"
                          [noTrim]="true"
           ></app-unique-id>
         </span>

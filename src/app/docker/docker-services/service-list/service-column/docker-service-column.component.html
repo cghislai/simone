@@ -6,7 +6,8 @@
   <span class="name" *ngSwitchCase="serviceColumn.NAME">
     <app-unique-id [id]="service.spec.Name"
                    [noTrim]="true"
-                   [routerLink]="['/docker/services', service.id]"></app-unique-id>
+                   type="service"
+    ></app-unique-id>
   </span>
   <span class="mode" *ngSwitchCase="serviceColumn.MODE">
     <app-service-mode [ngModel]="service.spec.Mode"
@@ -25,7 +26,9 @@
     {{service.updatedAt | date:medium }}
   </span>
   <span *ngSwitchCase="serviceColumn.ID">
-    <app-unique-id [id]="service.id" [routerLink]="['/docker/services', service.id]"></app-unique-id>
+    <app-unique-id [id]="service.id"
+                   type="service"
+    ></app-unique-id>
   </span>
   <span *ngSwitchCase="serviceColumn.PORTS">
     <app-port-mappings [ngModel]="service.endPoint.Ports"></app-port-mappings>

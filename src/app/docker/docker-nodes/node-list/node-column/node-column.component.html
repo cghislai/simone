@@ -2,7 +2,7 @@
 
   <span class="id" *ngSwitchCase="nodeColumns.ID">
     <app-unique-id [id]="node.ID"
-                   [routerLink]="['/docker/nodes', node.ID]"
+                   type="node"
     ></app-unique-id>
   </span>
 

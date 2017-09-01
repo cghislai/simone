@@ -5,8 +5,8 @@
   <span class="source">
     <span *ngIf="mountSpec.Type === 'volume'">
       <app-unique-id [id]="mountSpec.Source"
+                     type="volume"
                      [trimWidthEm]="12"
-                     [routerLink]="['/docker/volumes', mountSpec.Source]"
       ></app-unique-id>
     </span>
     <span *ngIf="mountSpec.Type !== 'volume'">

@@ -9,8 +9,8 @@
         <label>Id</label>
         <span>
           <app-unique-id [id]="service.id"
+                         type="service"
                          [noTrim]="true"
-                         [routerLink]="['/docker/services', service.id]"
           ></app-unique-id>
         </span>
       </span>

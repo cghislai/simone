@@ -8,7 +8,7 @@
         <label>Id</label>
         <span>
           <app-unique-id [id]="network.Id"
-                         [routerLink]="['/docker/networks', network.Id]"
+                         type="network"
                          [noTrim]="true"
           ></app-unique-id>
         </span>
@@ -40,7 +40,7 @@
                  class="label-table vertical">
               <label>
                 <app-unique-id [id]="containerId"
-                               [routerLink]="['/docker/containers', containerId]"
+                               type="container"
                 ></app-unique-id>
               </label>
               <span>

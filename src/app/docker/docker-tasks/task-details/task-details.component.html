@@ -8,7 +8,7 @@
         <label>Id</label>
         <span>
           <app-unique-id [id]="task.id"
-                         [routerLink]="['/docker/tasks', task.id]"
+                         type="task"
                          [noTrim]="true"
           ></app-unique-id>
         </span>
@@ -17,7 +17,7 @@
         <label>Service id</label>
         <span>
           <app-unique-id [id]="task.serviceID"
-                         [routerLink]="['/docker/services', task.serviceID]"
+                         type="service"
           ></app-unique-id>
         </span>
       </span>
@@ -29,7 +29,7 @@
         <label>Node id</label>
         <span>
           <app-unique-id [id]="task.nodeID"
-                         [routerLink]="['/docker/nodes', task.nodeID]"
+                         type="node"
           ></app-unique-id>
         </span>
       </span>
@@ -65,7 +65,8 @@
               <label>Container</label>
               <span>
                 <app-unique-id [id]="task.status.ContainerStatus.ContainerID"
-                               [routerLink]="['/docker/containers', task.status.ContainerStatus.ContainerID]"
+                               [nodeId]="task.nodeID"
+                               type="container"
                 ></app-unique-id>
               </span>
             </span>

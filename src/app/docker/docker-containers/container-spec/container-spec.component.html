@@ -134,8 +134,8 @@
         <span *ngIf="secretsField.value?.length === 0">None</span>
         <div *ngFor="let secret of spec.Secrets" class="secrets">
           <app-unique-id [id]="secret.SecretName"
+                         type="secret"
                          [noTrim]="true"
-                         [routerLink]="['/docker/secrets', secret.SecretID]"
           ></app-unique-id>
           <span>:</span>
           <span>{{secret.File.Name}}</span>

@@ -26,21 +26,28 @@
     <app-docker-image-label [label]="task.spec.ContainerSpec.Image"></app-docker-image-label>
   </span>
   <span *ngSwitchCase="taskColumn.ID">
-    <app-unique-id [id]="task.id" [routerLink]="['/docker/tasks', task.id]"></app-unique-id>
+    <app-unique-id [id]="task.id"
+                   type="task"
+    ></app-unique-id>
   </span>
   <span *ngSwitchCase="taskColumn.SERVICE">
-    <app-unique-id [id]="task.serviceName"
+    <app-unique-id [id]="task.serviceID"
+                   [label]="task.serviceName"
+                   type="service"
                    [trimWidthEm]="12"
-                   [routerLink]="['/docker/services', task.serviceID]"></app-unique-id>
+    ></app-unique-id>
   </span>
    <span *ngSwitchCase="taskColumn.CONTAINER">
     <app-unique-id [id]="task.status.ContainerStatus.ContainerID"
-                   [routerLink]="['/docker/containers',task.status.ContainerStatus.ContainerID]"></app-unique-id>
+                   [nodeId]="task.nodeID"
+                   type="container"
+    ></app-unique-id>
   </span>
   <span *ngSwitchCase="taskColumn.NODE">
     <app-unique-id [id]="task.nodeName"
+                   type="node"
                    [trimWidthEm]="12"
-                   [routerLink]="['/docker/nodes',task.nodeID]"></app-unique-id>
+    ></app-unique-id>
   </span>
   <span *ngSwitchDefault>
       {{ task[columnData.field] }}

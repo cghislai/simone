@@ -25,8 +25,8 @@
             <label>Id</label>
             <span>
               <app-unique-id [id]="container.Id"
+                             type="container"
                              [noTrim]="true"
-                             [routerLink]="['/docker/containers', container.Id]"
               ></app-unique-id>
             </span>
           </span>
@@ -35,8 +35,8 @@
             <label>Image</label>
             <span>
               <app-unique-id [id]="container.Image"
+                             type="image"
                              [noTrim]="true"
-                             [routerLink]="['/docker/images', container.Id]"
               ></app-unique-id>
             </span>
           </span>

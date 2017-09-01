@@ -1,6 +1,7 @@
 <a class="id ui-widget" [title]="id"
    [class.no-trim]="noTrim"
    [style.max-width]="getMaxWidthCss()"
-   [routerLink]="routerLink">
-  {{ id }}
+   (click)="onClick($event)">
+  <span *ngIf="label == null">{{ id }}</span>
+  <span *ngIf="label != null">{{ label }}</span>
 </a>

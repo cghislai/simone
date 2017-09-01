@@ -4,7 +4,7 @@
       <label class="target">
         <app-unique-id [id]="getNetworkname(network.Target)"
                        [noTrim]="true"
-                       [routerLink]="['/docker/networks', network.Target]"
+                       type="network"
         ></app-unique-id>
       </label>
       <span class="aliases">
@@ -22,7 +22,7 @@
         <label class="target">
           <app-unique-id [id]="getNetworkname(spec.Target)"
                          [noTrim]="true"
-                         [routerLink]="['/docker/networks', spec.Target]"
+                         type="network"
           ></app-unique-id>
         </label>
         <span class="aliases">
