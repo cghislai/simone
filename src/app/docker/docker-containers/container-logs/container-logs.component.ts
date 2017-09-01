@@ -30,7 +30,7 @@ export class ContainerLogsComponent implements OnInit, OnDestroy {
   filter: LogFilter;
   data: Observable<LogLine[]>;
   streams = Stream;
-  linesBuffer: number = 500;
+  linesBuffer: number = 250;
 
   constructor(private containerService: DockerContainersService,
               private zone: NgZone) {
@@ -39,6 +39,7 @@ export class ContainerLogsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.filter = {
       stdIn: false, stdOut: true, stdErr: true,
+      tail: this.linesBuffer,
     };
     this.data = this.source.asObservable().share();
     this.initConnection();
@@ -118,6 +119,7 @@ export class ContainerLogsComponent implements OnInit, OnDestroy {
       stderr: this.filter.stdErr,
       stdout: this.filter.stdOut,
       stdin: this.filter.stdIn,
+      tail: this.filter.tail,
       logs: true,
       stream: true,
       detachKeys: null,

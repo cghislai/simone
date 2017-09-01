@@ -5,4 +5,5 @@ export interface ContainerAttachOptions {
   stdin: boolean;
   stdout: boolean;
   stderr: boolean;
+  tail: number;
 }
