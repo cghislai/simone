@@ -23,7 +23,6 @@ pipeline {
                 }
                 sh "rm -rf dist"
                 nodejs(nodeJSInstallationName: 'node 7', configId: '') {
-                    sh "sed -i 's@^#.*\$@@' node_modules/JSONStream/index.js"
                     sh "npm install"
                     sh "ng build --base-href /simone/"
                 }
