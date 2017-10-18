@@ -22,6 +22,7 @@ export class DockerTaskListComponent implements OnInit, OnChanges {
   tasksChange = new EventEmitter<Task[]>();
 
   tasks: Observable<Task[]>;
+  columnStyleCss: string[];
 
 
   constructor(private dockerService: DockerService,
@@ -35,11 +36,15 @@ export class DockerTaskListComponent implements OnInit, OnChanges {
       .concat(heartbeatTasks)
       .do(tasks => this.tasksChange.next(tasks))
       .share();
+    this.updateColumnsWidths();
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['filter'] != null) {
       this.dockerService.beat();
+    }
+    if (changes['columns'] != null) {
+      this.updateColumnsWidths();
     }
   }
 
@@ -50,6 +55,21 @@ export class DockerTaskListComponent implements OnInit, OnChanges {
 
   getColumnField(column: TaskColumn): string {
     return TASK_COLUMN_DATA[column].field
+  }
+
+  getColumnWeight(column: TaskColumn): number {
+    return TASK_COLUMN_DATA[column].weight
+  }
+
+  updateColumnsWidths() {
+    let colWeights = this.columns
+      .map(c => this.getColumnWeight(c));
+    let totWeight = colWeights
+      .reduce((cur, next) => cur + next, 0);
+    this.columnStyleCss = this.columns
+      .map(c => this.getColumnWeight(c))
+      .map(w => w * 100 / totWeight)
+      .map(p => `${p}%`);
   }
 
   private fetchTasks() {

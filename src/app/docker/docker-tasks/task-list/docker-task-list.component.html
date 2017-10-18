@@ -2,10 +2,12 @@
 
   <p-dataTable [value]="tasks | async"
                [responsive]="true">
-    <p-column *ngFor="let column of columns"
+    <p-column *ngFor="let column of columns; let i = index"
               [sortable]="true"
               [sortField]="getColumnField(column)"
-              [header]="getColumnLabel(column)">
+              [header]="getColumnLabel(column)"
+              [style]="{width: columnStyleCss[i]}"
+    >
       <ng-template let-col let-task="rowData" let-rowIndex="rowIndex" pTemplate="body">
         <app-docker-task-column [task]="task"
                                 [column]="column"
