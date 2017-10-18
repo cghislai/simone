@@ -62,7 +62,9 @@ export class DockerOptionsFormComponent implements OnInit, ControlValueAccessor 
 
   private createDefaultOptions() {
     let config = this.configService.getActiveConfigNow();
-    this.config = Object.assign({}, config);
+    this.config = Object.assign({}, config, {
+      api: {},
+    });
   }
 
 
