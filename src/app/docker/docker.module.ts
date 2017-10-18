@@ -115,6 +115,7 @@ import {TaskStatusIconComponent} from './docker-tasks/task-status-icon/task-stat
 import {DockerClientConfigService} from './services/docker-client.service';
 import {DockerOptionsFormComponent} from './docker-client-config-form/docker-client-config-form.component';
 import {SwarmControlRouteGuard} from './services/guards/SwarmControlRouteGuard';
+import {ServiceStatusComponent} from './docker-services/service-status/service-status.component';
 
 @NgModule({
   imports: [
@@ -220,6 +221,7 @@ import {SwarmControlRouteGuard} from './services/guards/SwarmControlRouteGuard';
     UpdateConfigComponent,
     HealthcheckConfigComponent,
     TaskStatusIconComponent,
+    ServiceStatusComponent,
   ],
   exports: [
     RouterModule,

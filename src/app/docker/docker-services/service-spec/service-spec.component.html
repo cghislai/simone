@@ -102,7 +102,7 @@
         </app-editable-field>
       </div>
 
-      <div class="row">
+      <div class="row" *ngIf="spec.UpdateConfig != null">
         <label>Update Config</label>
         <app-update-config [(ngModel)]="spec.UpdateConfig"
                            (touched)="onTouched()"
@@ -111,7 +111,7 @@
         ></app-update-config>
       </div>
 
-      <div class="row">
+      <div class="row" *ngIf="spec.RollbackConfig != null">
         <label>Rollback Config</label>
         <app-update-config [(ngModel)]="spec.RollbackConfig"
                            (touched)="onTouched()"

@@ -1,5 +1,6 @@
 import {MountSpec} from '../client/domain/mount-spec';
 import {ContainerSecretSpec} from '../client/domain/container-secret-spec';
+import {ContainerConfigSpec} from '../client/domain/container-config-spec';
 
 export class ContainerUtils {
 
@@ -39,8 +40,25 @@ export class ContainerUtils {
     return spec;
   }
 
+  static parseContainerConfigSpec(specString: string): ContainerConfigSpec {
+    let splitted = specString.split(':');
+    let path = splitted.length > 1 ? splitted[1] : splitted[0];
+    let spec: ContainerConfigSpec = {
+      File: {
+        Name: path,
+      },
+      ConfigName: splitted[0],
+    };
+    return spec;
+  }
+
+
   static stringifyContainerSecretSpec(spec: ContainerSecretSpec): string {
     return `${spec.SecretName}:${spec.File.Name}`;
+  }
+
+  static stringifyContainerConfigSpec(spec: ContainerConfigSpec): string {
+    return `${spec.ConfigName}:${spec.File.Name}`;
   }
 
 }

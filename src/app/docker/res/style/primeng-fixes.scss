@@ -3,3 +3,9 @@
     box-shadow: none;
   }
 }
+
+.ui-datatable .ui-datatable-thead > tr > th,
+.ui-datatable .ui-datatable-tfoot > tr > td,
+.ui-datatable .ui-datatable-data > tr > td {
+  overflow: hidden;
+}

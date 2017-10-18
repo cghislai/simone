@@ -24,9 +24,11 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
 
   spec: ContainerSpecJson;
 
-  specLabels: string[];
-  mountsSpecs: string[];
-  secretSpecs: string[];
+  envLines: string;
+  specLabels: string;
+  mountsSpecs: string;
+  secretSpecs: string;
+  configSpecs: string;
 
   private specTouched: boolean;
   private originalSpec: ContainerSpecJson;
@@ -83,9 +85,10 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
   }
 
 
-  onEnvChange(env: string[]) {
+  onEnvChange(env: string) {
+    let envLines = env.split('\n');
     let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
-    newSpec.Env = env; // TODO move in service
+    newSpec.Env = envLines; // TODO move in service
     this.setSpec(newSpec);
   }
 
@@ -116,15 +119,15 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
     return this.spec.Image != this.originalSpec.Image;
   }
 
-  onLabelsChange(labels: string[]) {
-    let labelsDict = ObjectUtils.arrayToDict(labels);
+  onLabelsChange(labels: string) {
+    let labelsDict = ObjectUtils.stringLinesToDict(labels);
     let newSpec = ObjectUtils.jsonClone(this.spec);
     newSpec.Labels = labelsDict;
     this.setSpec(newSpec);
   }
 
   onLabelsRollback() {
-    this.specLabels = ObjectUtils.dictToArray(this.originalSpec.Labels);
+    this.specLabels = ObjectUtils.dictToLinesString(this.originalSpec.Labels);
     this.spec.Labels = this.originalSpec.Labels;
   }
 
@@ -132,14 +135,14 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
     if (this.originalSpec == null) {
       return true;
     }
-    return ArrayUtils.arrayContentDiffer(
-      this.specLabels, ObjectUtils.dictToArray(this.originalSpec.Labels),
-    );
+    return this.specLabels != ObjectUtils.dictToLinesString(this.originalSpec.Labels)
   }
 
 
-  onMountsChange(mounts: string[]) {
-    let mountSpecs = mounts.map(m => ContainerUtils.parseMountSpec(m));
+  onMountsChange(mounts: string) {
+    let mountSpecs = mounts
+      .split('\n')
+      .map(m => ContainerUtils.parseMountSpec(m));
     let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
     newSpec.Mounts = mountSpecs;
     this.setSpec(newSpec);
@@ -160,8 +163,10 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
   }
 
 
-  onSecretsChange(secrets: string[]) {
-    let secretSpecs = secrets.map(s => ContainerUtils.parseContainerSecretSpec(s));
+  onSecretsChange(secrets: string) {
+    let secretSpecs = secrets
+      .split('\n')
+      .map(s => ContainerUtils.parseContainerSecretSpec(s));
     let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
     newSpec.Secrets = secretSpecs; // TODO move in service
     this.setSpec(newSpec);
@@ -181,6 +186,29 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
       });
   }
 
+
+  onConfigsChange(configs: string) {
+    let configSpecs = configs
+      .split('\n')
+      .map(s => ContainerUtils.parseContainerConfigSpec(s));
+    let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
+    newSpec.Configs = configSpecs; // TODO move in service
+    this.setSpec(newSpec);
+  }
+
+  onConfigsRollback() {
+    let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
+    newSpec.Configs = this.originalSpec.Configs;
+    this.setSpec(newSpec);
+  }
+
+  configsDiffer() {
+    return ArrayUtils.arrayContentDiffer(this.spec.Configs, this.originalSpec.Configs,
+      (s1, s2) => {
+        return ContainerUtils.stringifyContainerConfigSpec(s1)
+          === ContainerUtils.stringifyContainerConfigSpec(s2);
+      });
+  }
 
   onUserChange(user: string) {
     let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
@@ -290,7 +318,6 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
   }
 
 
-
   private firetouched() {
     this.specTouched = true;
     this.onTouchedFunction();
@@ -311,11 +338,18 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
     if (spec == null) {
       return;
     }
-    this.specLabels = ObjectUtils.dictToArray(spec.Labels);
-    this.mountsSpecs = spec.Mounts == null ? [] : spec.Mounts
-      .map(m => ContainerUtils.stringifyMountSpec(m));
-    this.secretSpecs = spec.Secrets == null ? [] : spec.Secrets
-      .map(s => ContainerUtils.stringifyContainerSecretSpec(s));
+    this.specLabels = ObjectUtils.dictToLinesString(spec.Labels);
+    this.envLines = spec.Env
+      .reduce((cur, next) => cur == null ? next : cur + '\n' + next, null);
+    this.mountsSpecs = spec.Mounts == null ? '' : spec.Mounts
+      .map(m => ContainerUtils.stringifyMountSpec(m))
+      .reduce((cur, next) => cur == null ? next : cur + '\n' + next, null);
+    this.secretSpecs = spec.Secrets == null ? '' : spec.Secrets
+      .map(s => ContainerUtils.stringifyContainerSecretSpec(s))
+      .reduce((cur, next) => cur == null ? next : cur + '\n' + next, null);
+    this.configSpecs = spec.Configs == null ? '' : spec.Configs
+      .map(s => ContainerUtils.stringifyContainerConfigSpec(s))
+      .reduce((cur, next) => cur == null ? next : cur + '\n' + next, null);
     this.fireChange(spec);
   }
 

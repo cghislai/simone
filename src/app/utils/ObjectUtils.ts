@@ -28,6 +28,10 @@ export class ObjectUtils {
     });
   }
 
+  static dictToLinesString(dict: any): string {
+    return ObjectUtils.dictToArray(dict)
+      .reduce((cur, next) => cur == null ? next : cur + '\n' + next, null);
+  }
 
   /**
    *  `${key}=${value}` string array to [key:string]:string dict
@@ -44,6 +48,10 @@ export class ObjectUtils {
     return dict;
   }
 
+  static stringLinesToDict(value: string): any {
+    let lines = value.split('\n');
+    return ObjectUtils.arrayToDict(lines);
+  }
 
   static applyValue(obj: any, field: string, value: any): any {
     let clone = ObjectUtils.jsonClone(obj);

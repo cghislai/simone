@@ -24,7 +24,7 @@
 
   <div class="row">
     <label>env</label>
-    <app-editable-field [ngModel]="spec.Env"
+    <app-editable-field [ngModel]="envLines"
                         (ngModelChange)="onEnvChange($event)"
                         (rollback)="onEnvRollback()"
                         (touched)="onTouched()"
@@ -33,12 +33,14 @@
                         [class.changed]="envDiffer()"
                         name="env" class="env" #envField>
       <span input>
-        <p-chips pInputText [(ngModel)]="envField.value"
-                 styleClass="vertical"
-                 name="env-input"></p-chips>
+        <textarea [rows]="5" [cols]="60" pInputTextarea
+                  class="list-input"
+                  autoResize="true"
+                  name="env-input"
+                  [(ngModel)]="envField.value"></textarea>
       </span>
       <span output>
-        <div *ngFor="let envValue of envField.value">{{envValue}}</div>
+        <div *ngFor="let envValue of spec.Env">{{envValue}}</div>
         <span *ngIf="envField.value == null">None</span>
       </span>
     </app-editable-field>
@@ -78,9 +80,11 @@
                         [class.changed]="labelsDiffer()"
                         name="labels" class="labels" #labelsField>
       <span input>
-        <p-chips pInputText [(ngModel)]="labelsField.value"
-                 styleClass="vertical"
-                 name="labels-input"></p-chips>
+        <textarea [rows]="5" [cols]="60" pInputTextarea
+                  class="list-input"
+                  autoResize="true"
+                  name="labels-input"
+                  [(ngModel)]="labelsField.value"></textarea>
       </span>
       <span output>
         <span *ngIf="spec.Labels == null">None</span>
@@ -101,9 +105,11 @@
                         [class.changed]="mountsDiffer()"
                         name="mounts" class="mounts" #mountsField>
       <span input>
-        <p-chips pInputText [(ngModel)]="mountsField.value"
-                 styleClass="vertical"
-                 name="mounts-input"></p-chips>
+        <textarea [rows]="5" [cols]="60" pInputTextarea
+                  class="list-input"
+                  autoResize="true"
+                  name="mounts-input"
+                  [(ngModel)]="mountsField.value"></textarea>
       </span>
       <span output>
         <span *ngIf="mountsField.value == null">None</span>
@@ -126,9 +132,11 @@
                         [class.changed]="secretsDiffer()"
                         name="secrets" class="secrets" #secretsField>
       <span input>
-        <p-chips pInputText [(ngModel)]="secretsField.value"
-                 styleClass="vertical"
-                 name="secrets-input"></p-chips>
+        <textarea [rows]="5" [cols]="60" pInputTextarea
+                  class="list-input"
+                  autoResize="true"
+                  name="secrets-input"
+                  [(ngModel)]="secretsField.value"></textarea>
       </span>
       <span output>
         <span *ngIf="secretsField.value?.length === 0">None</span>
@@ -139,6 +147,39 @@
           ></app-unique-id>
           <span>:</span>
           <span>{{secret.File.Name}}</span>
+        </div>
+      </span>
+    </app-editable-field>
+  </div>
+
+  <div class="row">
+    <label>Configs</label>
+    <app-editable-field [ngModel]="configSpecs"
+                        (ngModelChange)="onConfigsChange($event)"
+                        (rollback)="onConfigsRollback()"
+                        (touched)="onTouched()"
+                        [rollbackVisible]="true"
+                        [editable]="editable"
+                        [class.changed]="configsDiffer()"
+                        name="configs" class="configs" #configsField>
+      <span input>
+        <div>
+          <textarea [rows]="5" [cols]="60" pInputTextarea
+                    class="list-input"
+                    autoResize="true"
+                    name="configs-input"
+                    [(ngModel)]="configsField.value"></textarea>
+        </div>
+      </span>
+      <span output>
+        <span *ngIf="configsField.value?.length === 0">None</span>
+        <div *ngFor="let config of spec.Configs" class="configs">
+          <app-unique-id [id]="config.ConfigName"
+                         type="config"
+                         [noTrim]="true"
+          ></app-unique-id>
+          <span>:</span>
+          <span>{{config.File.Name}}</span>
         </div>
       </span>
     </app-editable-field>
@@ -232,7 +273,7 @@
   </div>
 
 
-  <div class="row">
+  <div class="row" *ngIf="spec.StopGracePeriod != null  || editable">
     <label>StopGracePeriod</label>
     <app-editable-field [ngModel]="spec.StopGracePeriod / 1000000000"
                         (ngModelChange)="onStopGracePeriodSecondChange($event)"
@@ -256,7 +297,7 @@
   </div>
 
 
-  <div class="row">
+  <div class="row" *ngIf="spec.Healthcheck != null || editable">
     <label>Healthcheck</label>
     <app-healthcheck-config [ngModel]="spec.Healthcheck"
                             (ngModelChange)="onHealthCheckChange($event)"

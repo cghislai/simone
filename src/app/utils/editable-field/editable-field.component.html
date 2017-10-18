@@ -1,10 +1,10 @@
 <div class="editing-field">
-  <span *ngIf="showEditButton && !editing"
-        class="with-output-button">
+  <span class="with-output-button" *ngIf="showEditButton">
     <span class="output">
       <ng-content select="[button-output]"></ng-content>
     </span>
     <span class="output-button"
+          *ngIf="editable && !editing"
           (click)="onStartEdit()">
       <i class="fa fa-edit"></i>
     </span>
@@ -15,7 +15,8 @@
         [class.disabled]="!editable"
         [class.active]="editing">
 
-      <div class="input-content">
+
+      <div class="input-content" *ngIf="editing">
           <div class="input">
             <span class="control">
               <ng-content select="[input]"></ng-content>
@@ -41,7 +42,6 @@
           <ng-content select="[output]"></ng-content>
          </div>
       </div>
-
   </span>
 
 </div>

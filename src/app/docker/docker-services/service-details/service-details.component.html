@@ -4,50 +4,15 @@
     <h1>
       {{ service.spec.Name }}
     </h1>
-    <div class="info label-table">
-      <span class="row">
-        <label>Id</label>
-        <span>
-          <app-unique-id [id]="service.id"
-                         type="service"
-                         [noTrim]="true"
-          ></app-unique-id>
-        </span>
-      </span>
-      <span class="col row">
-        <label>Created</label>
-        <span>{{service.createdAt | date:'medium' }}</span>
-      </span>
-      <span class="col row">
-        <label>Updated</label>
-        <span>{{service.updatedAt | date:'medium'}}</span>
-      </span>
-    </div>
   </header>
 
-  <div>
-    <div class="title">Update status</div>
-    <div class="label-table" *ngIf="service.updateStatus != null">
-      <span class="row">
-          <label>Started at</label>
-          <span>{{service.updateStatus?.StartedAt | date:'medium'}}</span>
-        </span>
-      <span class="row" [hidden]="service.updateStatus?.CompletedAt == null">
-          <label>Completed at</label>
-          <span>{{service.updateStatus.CompletedAt | date:'medium'}}</span>
-        </span>
-      <span class="row" [hidden]="service.updateStatus?.State == null">
-          <label>State</label>
-          <span>{{service.updateStatus.State}}</span>
-        </span>
-      <span class="row" [hidden]="service.updateStatus?.Message == null">
-          <label>Message</label>
-          <span>{{service.updateStatus.Message}}</span>
-        </span>
-    </div>
-  </div>
 
   <p-tabView>
+    <p-tabPanel header="Status">
+      <app-service-status [service]="service"
+      ></app-service-status>
+    </p-tabPanel>
+
     <p-tabPanel header="Current spec">
       <app-service-spec [ngModel]="service.spec" name="spec"
                         (ngModelChange)="onSpecChanged($event)"
