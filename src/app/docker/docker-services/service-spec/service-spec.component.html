@@ -1,12 +1,4 @@
 <div class="service-spec" *ngIf="spec != null">
-  <div class="actions">
-    <button pButton type="button"
-            label="Apply" class="apply-button"
-            (click)="onApplyChangesClicked()"></button>
-    <button pButton type="button"
-            label="Cancel" class="cancel-button"
-            (click)="onCancelChangesClicked()"></button>
-  </div>
   <div class="spec">
     <div class="col label-table vertical">
       <div class="title">
@@ -126,6 +118,7 @@
         Task template
       </div>
       <app-task-template [(ngModel)]="spec.TaskTemplate"
+                         [highlightDiffTo]="getComparisonSpec().TaskTemplate"
                          [editable]="editable"
                          name="task-template"
                          (touched)="onTouched()"
@@ -137,6 +130,7 @@
         Container spec
       </div>
       <app-container-spec [(ngModel)]="spec.TaskTemplate.ContainerSpec"
+                          [highlightDiffTo]="getComparisonSpec().TaskTemplate.ContainerSpec"
                           [editable]="editable"
                           name="container-spec"
                           (touched)="onTouched()"

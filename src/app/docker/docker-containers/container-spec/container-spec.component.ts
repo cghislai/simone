@@ -21,6 +21,8 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
 
   @Input()
   editable: boolean;
+  @Input()
+  highlightDiffTo: ContainerSpecJson;
 
   spec: ContainerSpecJson;
 
@@ -76,12 +78,12 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
 
   onArgsRollback() {
     let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
-    newSpec.Args = [...this.originalSpec.Args];
+    newSpec.Args = [...this.getComparisonSpec().Args];
     this.setSpec(newSpec);
   }
 
   argsDiffer() {
-    return ArrayUtils.arrayContentDiffer(this.spec.Args, this.originalSpec.Args);
+    return ArrayUtils.arrayContentDiffer(this.spec.Args, this.getComparisonSpec().Args);
   }
 
 
@@ -94,12 +96,12 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
 
   onEnvRollback() {
     let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
-    newSpec.Env = [...this.originalSpec.Env];
+    newSpec.Env = [...this.getComparisonSpec().Env];
     this.setSpec(newSpec);
   }
 
   envDiffer() {
-    return ArrayUtils.arrayContentDiffer(this.spec.Env, this.originalSpec.Env);
+    return ArrayUtils.arrayContentDiffer(this.spec.Env, this.getComparisonSpec().Env);
   }
 
 
@@ -111,12 +113,12 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
 
   onImageRollback() {
     let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
-    newSpec.Image = this.originalSpec.Image;
+    newSpec.Image = this.getComparisonSpec().Image;
     this.setSpec(newSpec);
   }
 
   imageDiffer() {
-    return this.spec.Image != this.originalSpec.Image;
+    return this.spec.Image != this.getComparisonSpec().Image;
   }
 
   onLabelsChange(labels: string) {
@@ -127,15 +129,15 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
   }
 
   onLabelsRollback() {
-    this.specLabels = ObjectUtils.dictToLinesString(this.originalSpec.Labels);
-    this.spec.Labels = this.originalSpec.Labels;
+    this.specLabels = ObjectUtils.dictToLinesString(this.getComparisonSpec().Labels);
+    this.spec.Labels = this.getComparisonSpec().Labels;
   }
 
   labelsDiffer() {
-    if (this.originalSpec == null) {
+    if (this.getComparisonSpec() == null) {
       return true;
     }
-    return this.specLabels != ObjectUtils.dictToLinesString(this.originalSpec.Labels)
+    return this.specLabels != ObjectUtils.dictToLinesString(this.getComparisonSpec().Labels)
   }
 
 
@@ -150,12 +152,12 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
 
   onMountsRollback() {
     let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
-    newSpec.Mounts = [...this.originalSpec.Mounts];
+    newSpec.Mounts = [...this.getComparisonSpec().Mounts];
     this.setSpec(newSpec);
   }
 
   mountsDiffer() {
-    return ArrayUtils.arrayContentDiffer(this.spec.Mounts, this.originalSpec.Mounts,
+    return ArrayUtils.arrayContentDiffer(this.spec.Mounts, this.getComparisonSpec().Mounts,
       (s1, s2) => {
         return ContainerUtils.stringifyMountSpec(s1)
           === ContainerUtils.stringifyMountSpec(s2);
@@ -174,12 +176,12 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
 
   onSecretsRollback() {
     let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
-    newSpec.Secrets = [...this.originalSpec.Secrets];
+    newSpec.Secrets = [...this.getComparisonSpec().Secrets];
     this.setSpec(newSpec);
   }
 
   secretsDiffer() {
-    return ArrayUtils.arrayContentDiffer(this.spec.Secrets, this.originalSpec.Secrets,
+    return ArrayUtils.arrayContentDiffer(this.spec.Secrets, this.getComparisonSpec().Secrets,
       (s1, s2) => {
         return ContainerUtils.stringifyContainerSecretSpec(s1)
           === ContainerUtils.stringifyContainerSecretSpec(s2);
@@ -198,12 +200,12 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
 
   onConfigsRollback() {
     let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
-    newSpec.Configs = this.originalSpec.Configs;
+    newSpec.Configs = this.getComparisonSpec().Configs;
     this.setSpec(newSpec);
   }
 
   configsDiffer() {
-    return ArrayUtils.arrayContentDiffer(this.spec.Configs, this.originalSpec.Configs,
+    return ArrayUtils.arrayContentDiffer(this.spec.Configs, this.getComparisonSpec().Configs,
       (s1, s2) => {
         return ContainerUtils.stringifyContainerConfigSpec(s1)
           === ContainerUtils.stringifyContainerConfigSpec(s2);
@@ -218,12 +220,12 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
 
   onUserRollback() {
     let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
-    newSpec.User = this.originalSpec.User;
+    newSpec.User = this.getComparisonSpec().User;
     this.setSpec(newSpec);
   }
 
   userDiffer() {
-    return this.spec.User !== this.originalSpec.User;
+    return this.spec.User !== this.getComparisonSpec().User;
   }
 
   onGroupsChange(groups: string[]) {
@@ -234,12 +236,12 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
 
   onGroupsRollback() {
     let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
-    newSpec.Groups = this.originalSpec.Groups;
+    newSpec.Groups = this.getComparisonSpec().Groups;
     this.setSpec(newSpec);
   }
 
   groupsDiffer() {
-    return ArrayUtils.arrayContentDiffer(this.spec.Groups, this.originalSpec.Groups);
+    return ArrayUtils.arrayContentDiffer(this.spec.Groups, this.getComparisonSpec().Groups);
   }
 
 
@@ -251,12 +253,12 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
 
   onDirRollback() {
     let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
-    newSpec.Dir = this.originalSpec.Dir;
+    newSpec.Dir = this.getComparisonSpec().Dir;
     this.setSpec(newSpec);
   }
 
   dirDiffer() {
-    return this.spec.Dir !== this.originalSpec.Dir;
+    return this.spec.Dir !== this.getComparisonSpec().Dir;
   }
 
 
@@ -268,12 +270,12 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
 
   onStopSignalRollback() {
     let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
-    newSpec.StopSignal = this.originalSpec.StopSignal;
+    newSpec.StopSignal = this.getComparisonSpec().StopSignal;
     this.setSpec(newSpec);
   }
 
   stopSignalDiffer() {
-    return this.spec.StopSignal !== this.originalSpec.StopSignal;
+    return this.spec.StopSignal !== this.getComparisonSpec().StopSignal;
   }
 
 
@@ -286,12 +288,12 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
 
   onStopGracePeriodRollback() {
     let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
-    newSpec.StopGracePeriod = this.originalSpec.StopGracePeriod;
+    newSpec.StopGracePeriod = this.getComparisonSpec().StopGracePeriod;
     this.setSpec(newSpec);
   }
 
   stopGracePeriodDiffer() {
-    return this.spec.StopGracePeriod !== this.originalSpec.StopGracePeriod;
+    return this.spec.StopGracePeriod !== this.getComparisonSpec().StopGracePeriod;
   }
 
 
@@ -304,7 +306,7 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
 
   onHealthCheckRollback() {
     let newSpec: ContainerSpecJson = ObjectUtils.jsonClone(this.spec);
-    newSpec.Healthcheck = this.originalSpec.Healthcheck;
+    newSpec.Healthcheck = this.getComparisonSpec().Healthcheck;
     this.setSpec(newSpec);
   }
 
@@ -313,7 +315,7 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
       return false;
     }
     let newCheckJSON = JSON.stringify(this.spec.Healthcheck);
-    let originalCheckJSON = JSON.stringify(this.originalSpec.Healthcheck);
+    let originalCheckJSON = JSON.stringify(this.getComparisonSpec().Healthcheck);
     return newCheckJSON !== originalCheckJSON;
   }
 
@@ -351,6 +353,14 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
       .map(s => ContainerUtils.stringifyContainerConfigSpec(s))
       .reduce((cur, next) => cur == null ? next : cur + '\n' + next, null);
     this.fireChange(spec);
+  }
+
+
+  getComparisonSpec() {
+    if (this.highlightDiffTo != null) {
+      return this.highlightDiffTo;
+    }
+    return this.originalSpec;
   }
 
 }

@@ -26,6 +26,7 @@ import {ContainerInspectInfo} from './domain/container-inspect-info';
 import {Info} from './domain/info';
 import {DockerClientConfigService} from '../services/docker-client.service';
 import {DockerClientConfig} from '../domain/docker-client-config';
+import {LogFilter} from './domain/log-filter';
 
 
 @Injectable()
@@ -160,6 +161,22 @@ export class DockerClient {
       search: queryParams,
       body: spec,
     });
+  }
+
+  rollbackService(id: string, version: Version, spec: ServiceSpec): Observable<any> {
+    let queryParams: URLSearchParams = new URLSearchParams();
+    queryParams.append('version', `${version.Index}`);
+    queryParams.append('rollback', 'previous');
+    return this.request(`services/${id}/update`, {
+      method: 'POST',
+      search: queryParams,
+      body: spec,
+    });
+  }
+
+  getServiceLogs(id: string, filter: LogFilter): Observable<DemuxedStream> {
+    let queryParams: URLSearchParams = new URLSearchParams();
+    return this.requestWsStream(`services/${id}/logs/ws`, queryParams);
   }
 
   listVolumes(filter?: FilterJson): Observable<Volume[]> {

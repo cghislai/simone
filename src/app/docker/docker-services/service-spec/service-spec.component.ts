@@ -26,6 +26,8 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
 
   @Input()
   editable: boolean;
+  @Input()
+  highlightDiffTo: ServiceSpec;
 
   spec: ServiceSpec;
   specLabels: string[];
@@ -48,7 +50,7 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
 
   writeValue(obj: any): void {
     this.originalSpec = obj;
-    if (!this.specTouched && obj != null) {
+    if (obj != null) {
       this.setSpec(ObjectUtils.jsonClone(this.originalSpec));
     }
   }
@@ -69,35 +71,37 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
 
   onNameRollback() {
     let newSpec = ObjectUtils.jsonClone(this.spec);
-    newSpec.Name = this.originalSpec.Name;
+    newSpec.Name = this.getComparisonSpec().Name;
     this.setSpec(newSpec);
   }
 
   namesDiffer() {
-    if (this.spec == null || this.originalSpec == null) {
+    if (this.spec == null || this.getComparisonSpec() == null) {
       return true;
     }
-    return this.spec.Name !== this.originalSpec.Name;
+    return this.spec.Name !== this.getComparisonSpec().Name;
   }
 
   onModeChange(mode: ServiceMode) {
-    this.spec.Mode = mode;
+    let newSpec = ObjectUtils.jsonClone(this.spec);
+    newSpec.Mode = mode;
+    this.setSpec(newSpec);
   }
 
   onModeRollback() {
     let newSpec = ObjectUtils.jsonClone(this.spec);
-    newSpec.Mode = this.originalSpec.Mode;
+    newSpec.Mode = this.getComparisonSpec().Mode;
     this.setSpec(newSpec);
   }
 
   modesDiffer() {
-    if (this.spec == null || this.originalSpec == null) {
+    if (this.spec == null || this.getComparisonSpec() == null) {
       return true;
     }
-    return this.spec.Mode.Replicated != null && this.originalSpec.Mode.Replicated != null
+    return this.spec.Mode.Replicated != null && this.getComparisonSpec().Mode.Replicated != null
       && (
-        (this.spec.Mode.Global == null) !== (this.originalSpec.Mode.Global == null)
-        || (this.spec.Mode.Replicated.Replicas) !== (this.originalSpec.Mode.Replicated.Replicas));
+        (this.spec.Mode.Global == null) !== (this.getComparisonSpec().Mode.Global == null)
+        || (this.spec.Mode.Replicated.Replicas) !== (this.getComparisonSpec().Mode.Replicated.Replicas));
   }
 
   onLabelsChange(labels: string[]) {
@@ -108,16 +112,16 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
   }
 
   onLabelsRollback() {
-    this.specLabels = ObjectUtils.dictToArray(this.originalSpec.Labels);
-    this.spec.Labels = this.originalSpec.Labels;
+    this.specLabels = ObjectUtils.dictToArray(this.getComparisonSpec().Labels);
+    this.spec.Labels = this.getComparisonSpec().Labels;
   }
 
   labelsDiffer() {
-    if (this.originalSpec == null) {
+    if (this.getComparisonSpec() == null) {
       return true;
     }
     return ArrayUtils.arrayContentDiffer(
-      this.specLabels, ObjectUtils.dictToArray(this.originalSpec.Labels),
+      this.specLabels, ObjectUtils.dictToArray(this.getComparisonSpec().Labels),
     );
   }
 
@@ -136,20 +140,20 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
 
   onPortsRollback() {
     let newSpec = ObjectUtils.jsonClone(this.spec);
-    newSpec.EndpointSpec = this.originalSpec.EndpointSpec;
+    newSpec.EndpointSpec = this.getComparisonSpec().EndpointSpec;
     this.setSpec(newSpec);
   }
 
   portsDiffer() {
-    if (this.spec == null || this.originalSpec == null) {
+    if (this.spec == null || this.getComparisonSpec() == null) {
       return true;
     }
-    if ((this.spec.EndpointSpec == null) != (this.originalSpec.EndpointSpec == null)) {
+    if ((this.spec.EndpointSpec == null) != (this.getComparisonSpec().EndpointSpec == null)) {
       return true;
     }
     if (this.spec.EndpointSpec != null) {
       return ArrayUtils.arrayContentDiffer(this.spec.EndpointSpec.Ports,
-        this.originalSpec.EndpointSpec.Ports,
+        this.getComparisonSpec().EndpointSpec.Ports,
         (port1: PortBinding, port2: PortBinding) => {
           return port1.TargetPort == port2.TargetPort
             && port1.PublishedPort == port2.PublishedPort
@@ -167,15 +171,15 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
 
   onRollbackConfigRollback() {
     let newSpec = ObjectUtils.jsonClone(this.spec);
-    newSpec.RollbackConfig = this.originalSpec.RollbackConfig;
+    newSpec.RollbackConfig = this.getComparisonSpec().RollbackConfig;
     this.setSpec(newSpec);
   }
 
   rollbackConfigDiffer() {
-    if (this.spec == null || this.originalSpec == null) {
+    if (this.spec == null || this.getComparisonSpec() == null) {
       return true;
     }
-    return this.spec.RollbackConfig !== this.originalSpec.RollbackConfig;
+    return this.spec.RollbackConfig !== this.getComparisonSpec().RollbackConfig;
   }
 
 
@@ -187,31 +191,20 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
 
   onUpdateConfigUpdate() {
     let newSpec = ObjectUtils.jsonClone(this.spec);
-    newSpec.UpdateConfig = this.originalSpec.UpdateConfig;
+    newSpec.UpdateConfig = this.getComparisonSpec().UpdateConfig;
     this.setSpec(newSpec);
   }
 
   updateConfigDiffer() {
-    if (this.spec == null || this.originalSpec == null) {
+    if (this.spec == null || this.getComparisonSpec() == null) {
       return true;
     }
-    return this.spec.UpdateConfig !== this.originalSpec.UpdateConfig;
+    return this.spec.UpdateConfig !== this.getComparisonSpec().UpdateConfig;
   }
 
 
   onTouched() {
     this.firetouched();
-  }
-
-  onApplyChangesClicked() {
-    this.fireChange(this.spec);
-    this.specTouched = false;
-  }
-
-  onCancelChangesClicked() {
-    let newSpec = Object.assign({}, this.originalSpec);
-    this.setSpec(newSpec);
-    this.specTouched = false;
   }
 
   private firetouched() {
@@ -243,5 +236,12 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
     } else if (this.spec.EndpointSpec.Ports == null) {
       this.spec.EndpointSpec.Ports = [];
     }
+  }
+
+  getComparisonSpec() {
+    if (this.highlightDiffTo != null) {
+      return this.highlightDiffTo;
+    }
+    return this.originalSpec;
   }
 }

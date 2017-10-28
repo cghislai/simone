@@ -21,6 +21,8 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
 
   @Input()
   editable: boolean;
+  @Input()
+  highlightDiffTo: TaskTemplateJson;
 
   template: TaskTemplateJson;
 
@@ -69,12 +71,12 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
 
   onForceUpdateRollback() {
     let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
-    newSpec.ForceUpdate = this.originalSpec.ForceUpdate;
+    newSpec.ForceUpdate = this.getComparisonSpec().ForceUpdate;
     this.setSpec(newSpec);
   }
 
   forceUpdateDiffer() {
-    return this.originalSpec.ForceUpdate !== this.template.ForceUpdate;
+    return this.getComparisonSpec().ForceUpdate !== this.template.ForceUpdate;
   }
 
   onNetworksChange(networks: NetworkSpec[]) {
@@ -86,15 +88,15 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
 
   onNetworksRollback() {
     let newSpec = ObjectUtils.jsonClone(this.template);
-    newSpec.Networks = this.originalSpec.Networks;
+    newSpec.Networks = this.getComparisonSpec().Networks;
     this.setSpec(newSpec);
   }
 
   networksDiffer() {
-    if (this.template == null || this.originalSpec == null) {
+    if (this.template == null || this.getComparisonSpec() == null) {
       return true;
     }
-    return ArrayUtils.arrayContentDiffer(this.template.Networks, this.originalSpec.Networks,
+    return ArrayUtils.arrayContentDiffer(this.template.Networks, this.getComparisonSpec().Networks,
       (net1: NetworkSpec, net2: NetworkSpec) => {
         return net1.Target === net2.Target
           && !ArrayUtils.arrayContentDiffer(net1.Aliases, net2.Aliases);
@@ -110,12 +112,12 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
 
   onConstraintsRollback() {
     let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
-    newSpec.Placement.Constraints = [...this.originalSpec.Placement.Constraints];
+    newSpec.Placement.Constraints = [...this.getComparisonSpec().Placement.Constraints];
     this.setSpec(newSpec);
   }
 
   constraintsDiffer() {
-    return ArrayUtils.arrayContentDiffer(this.originalSpec.Placement.Constraints,
+    return ArrayUtils.arrayContentDiffer(this.getComparisonSpec().Placement.Constraints,
       this.template.Placement.Constraints);
   }
 
@@ -128,7 +130,7 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
 
   onMemoryBytesLimitRollback() {
     let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
-    newSpec.Resources.Limits.MemoryBytes = this.originalSpec.Resources.Limits.MemoryBytes;
+    newSpec.Resources.Limits.MemoryBytes = this.getComparisonSpec().Resources.Limits.MemoryBytes;
     this.setSpec(newSpec);
   }
 
@@ -136,10 +138,10 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
     if (this.template == null || this.template.Resources == null || this.template.Resources.Limits == null) {
       return false;
     }
-    if (this.originalSpec == null || this.originalSpec.Resources == null || this.originalSpec.Resources.Limits == null) {
+    if (this.getComparisonSpec() == null || this.getComparisonSpec().Resources == null || this.getComparisonSpec().Resources.Limits == null) {
       return false;
     }
-    return this.template.Resources.Limits.MemoryBytes !== this.originalSpec.Resources.Limits.MemoryBytes;
+    return this.template.Resources.Limits.MemoryBytes !== this.getComparisonSpec().Resources.Limits.MemoryBytes;
   }
 
   onCPULimitChange(cpu: number) {
@@ -151,7 +153,7 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
 
   onNanoCPUsLimitRollback() {
     let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
-    newSpec.Resources.Limits.NanoCPUs = this.originalSpec.Resources.Limits.NanoCPUs;
+    newSpec.Resources.Limits.NanoCPUs = this.getComparisonSpec().Resources.Limits.NanoCPUs;
     this.setSpec(newSpec);
   }
 
@@ -159,10 +161,10 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
     if (this.template == null || this.template.Resources == null || this.template.Resources.Limits == null) {
       return false;
     }
-    if (this.originalSpec == null || this.originalSpec.Resources == null || this.originalSpec.Resources.Limits == null) {
+    if (this.getComparisonSpec() == null || this.getComparisonSpec().Resources == null || this.getComparisonSpec().Resources.Limits == null) {
       return false;
     }
-    return this.template.Resources.Limits.NanoCPUs !== this.originalSpec.Resources.Limits.NanoCPUs;
+    return this.template.Resources.Limits.NanoCPUs !== this.getComparisonSpec().Resources.Limits.NanoCPUs;
   }
 
 
@@ -174,12 +176,12 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
 
   onRestartConditionRollback() {
     let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
-    newSpec.RestartPolicy.Condition = this.originalSpec.RestartPolicy.Condition;
+    newSpec.RestartPolicy.Condition = this.getComparisonSpec().RestartPolicy.Condition;
     this.setSpec(newSpec);
   }
 
   restartConditionDiffer() {
-    return this.template.RestartPolicy.Condition !== this.originalSpec.RestartPolicy.Condition;
+    return this.template.RestartPolicy.Condition !== this.getComparisonSpec().RestartPolicy.Condition;
   }
 
 
@@ -191,12 +193,12 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
 
   onRestartMaxAttemptsRollback() {
     let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
-    newSpec.RestartPolicy.MaxAttempts = this.originalSpec.RestartPolicy.MaxAttempts;
+    newSpec.RestartPolicy.MaxAttempts = this.getComparisonSpec().RestartPolicy.MaxAttempts;
     this.setSpec(newSpec);
   }
 
   restartMaxAttemptsDiffer() {
-    return this.template.RestartPolicy.MaxAttempts !== this.originalSpec.RestartPolicy.MaxAttempts;
+    return this.template.RestartPolicy.MaxAttempts !== this.getComparisonSpec().RestartPolicy.MaxAttempts;
   }
 
 
@@ -209,12 +211,12 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
 
   onRestartDelayRollback() {
     let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
-    newSpec.RestartPolicy.Delay = this.originalSpec.RestartPolicy.Delay;
+    newSpec.RestartPolicy.Delay = this.getComparisonSpec().RestartPolicy.Delay;
     this.setSpec(newSpec);
   }
 
   restartDelayDiffer() {
-    return this.template.RestartPolicy.Delay !== this.originalSpec.RestartPolicy.Delay;
+    return this.template.RestartPolicy.Delay !== this.getComparisonSpec().RestartPolicy.Delay;
   }
 
 
@@ -226,12 +228,12 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
 
   onRestartWindowRollback() {
     let newSpec: TaskTemplateJson = ObjectUtils.jsonClone(this.template);
-    newSpec.RestartPolicy.Window = this.originalSpec.RestartPolicy.Window;
+    newSpec.RestartPolicy.Window = this.getComparisonSpec().RestartPolicy.Window;
     this.setSpec(newSpec);
   }
 
   restartWindowDiffer() {
-    return this.template.RestartPolicy.Window !== this.originalSpec.RestartPolicy.Window;
+    return this.template.RestartPolicy.Window !== this.getComparisonSpec().RestartPolicy.Window;
   }
 
 
@@ -270,5 +272,12 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
       return;
     }
     this.fireChange(spec);
+  }
+
+  private getComparisonSpec() {
+    if (this.highlightDiffTo != null) {
+      return this.highlightDiffTo;
+    }
+    return this.originalSpec;
   }
 }

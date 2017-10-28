@@ -14,34 +14,34 @@
     </p-tabPanel>
 
     <p-tabPanel header="Current spec">
-      <app-service-spec [ngModel]="service.spec" name="spec"
-                        (ngModelChange)="onSpecChanged($event)"
+      <div class="actions">
+        <button pButton type="button" [disabled]="isUpdating()"
+                label="Update" class="apply-button"
+                (click)="onUpdateClicked()"></button>
+        <button pButton type="button" [disabled]="!specTouched"
+                label="Revert" class="cancel-button"
+                (click)="onRevertClicked()"></button>
+      </div>
+
+      <app-service-spec [(ngModel)]="editingSpec" name="spec"
                         [editable]="true"
+                        (touched)="onSpecTouched()"
       ></app-service-spec>
     </p-tabPanel>
 
     <p-tabPanel header="Previous spec">
-      <app-service-spec [ngModel]="service.previousSpec" name="spec"
+      <div class="actions">
+        <button pButton type="button" [disabled]="isUpdating()"
+                label="Rollback" class="apply-button"
+                (click)="onRollbackClicked()"></button>
+      </div>
+
+      <app-service-spec [ngModel]="previousSpec" name="spec"
                         [editable]="false"
+                        [highlightDiffTo]="originalSpec"
       ></app-service-spec>
     </p-tabPanel>
 
-    <p-tabPanel header="Tasks">
-      <div class="task-filter label-table">
-        <span class="row">
-          <label>Deisred state</label>
-          <span>
-            <app-task-filter-state [desired]="true"
-                                   [ngModel]="taskFilter.desiredState"
-                                   (ngModelChange)="onTaskFilterDesiredStateChange($event)"
-            ></app-task-filter-state>
-          </span>
-        </span>
-      </div>
-      <app-docker-task-list [filter]="taskFilter"
-                            [columns]="taskColumns"
-      ></app-docker-task-list>
-    </p-tabPanel>
   </p-tabView>
 
 </div>

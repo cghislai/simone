@@ -10,11 +10,11 @@ import {NetworkInfo} from 'dockerode';
 import {ContainerJson} from '../client/domain/container';
 import {ContainerStatsOptions} from '../client/domain/container-stats-options';
 import {DockerService} from './docker.service';
-import {DemuxedStream} from '../client/domain/demuxedStream';
-import {ContainerAttachOptions} from '../client/domain/container-attach-options';
 import {ContainerStats} from '../client/domain/container-stats';
 import {ContainerRemoveOptions} from '../client/domain/container-remove-options';
 import {ContainerInspectInfo} from '../client/domain/container-inspect-info';
+import {ContainerAttachOptions} from '../client/domain/container-attach-options';
+import {DemuxedStream} from '../client/domain/demuxedStream';
 
 /**
  * Created by cghislai on 11/02/17.
@@ -143,4 +143,5 @@ export class DockerContainersService {
     json.size = filter.includeSizes;
     return json;
   }
+
 }

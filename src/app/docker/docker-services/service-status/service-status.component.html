@@ -1,0 +1,68 @@
+<div class="info ">
+  <div>
+    <div class="title">
+      Info
+    </div>
+    <div class=" label-table">
+    <span class="row">
+      <label>Id</label>
+      <span>
+        <app-unique-id [id]="service.id"
+                       type="service"
+                       [noTrim]="true"
+        ></app-unique-id>
+      </span>
+    </span>
+      <span class="col row">
+        <label>Created</label>
+        <span>{{service.createdAt | date:'medium' }}</span>
+    </span>
+      <span class="col row">
+        <label>Updated</label>
+        <span>{{service.updatedAt | date:'medium'}}</span>
+    </span>
+    </div>
+  </div>
+
+  <div *ngIf="service.updateStatus != null">
+    <div class="title">
+      Update status
+    </div>
+    <div class=" label-table">
+      <span class="row">
+            <label>Started at</label>
+            <span>{{service.updateStatus?.StartedAt | date:'medium'}}</span>
+      </span>
+      <span class="row" [hidden]="service.updateStatus?.CompletedAt == null">
+          <label>Completed at</label>
+          <span>{{service.updateStatus.CompletedAt | date:'medium'}}</span>
+    </span>
+      <span class="row" [hidden]="service.updateStatus?.State == null">
+          <label>State</label>
+          <span>{{service.updateStatus.State}}</span>
+    </span>
+      <span class="row" [hidden]="service.updateStatus?.Message == null">
+          <label>Message</label>
+          <span>{{service.updateStatus.Message}}</span>
+    </span>
+    </div>
+  </div>
+</div>
+
+<header>
+  Tasks
+</header>
+<div class="task-filter label-table">
+    <span class="row">
+      <label>Deisred state</label>
+      <span>
+        <app-task-filter-state [desired]="true"
+                               [ngModel]="taskFilter.desiredState"
+                               (ngModelChange)="onTaskFilterDesiredStateChange($event)"
+        ></app-task-filter-state>
+      </span>
+    </span>
+  <app-docker-task-list [filter]="taskFilter"
+                        [columns]="taskColumns"
+  ></app-docker-task-list>
+</div>

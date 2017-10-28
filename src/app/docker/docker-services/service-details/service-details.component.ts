@@ -1,16 +1,17 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Service} from '../../domain/services/service';
 import {TaskFilter} from '../../client/domain/task-filter';
 import {TaskColumn} from '../../docker-tasks/task-list/taskColumn';
 import {ServiceSpec} from '../../client/domain/service-spec';
 import {DockerServicesService} from '../../services/docker-services.service';
+import {ObjectUtils} from '../../../utils/ObjectUtils';
 
 @Component({
   selector: 'app-service-details',
   templateUrl: './service-details.component.html',
   styleUrls: ['./service-details.component.scss'],
 })
-export class ServiceDetailsComponent implements OnInit {
+export class ServiceDetailsComponent implements OnInit, OnChanges {
 
   @Input()
   service: Service;
@@ -19,6 +20,11 @@ export class ServiceDetailsComponent implements OnInit {
 
   taskFilter: TaskFilter;
   taskColumns: TaskColumn[];
+
+  originalSpec: ServiceSpec;
+  editingSpec: ServiceSpec;
+  previousSpec: ServiceSpec;
+  specTouched: boolean = false;
 
   constructor(private dockerService: DockerServicesService) {
   }
@@ -43,16 +49,48 @@ export class ServiceDetailsComponent implements OnInit {
     ]
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['service'] != null) {
+      this.originalSpec = ObjectUtils.jsonClone(this.service.spec);
+      this.previousSpec = this.service.previousSpec;
+      if (!this.specTouched) {
+        this.editingSpec = ObjectUtils.jsonClone(this.service.spec);
+      }
+    }
+  }
+
   onTaskFilterDesiredStateChange(states: string[]) {
     let newFilter = Object.assign({}, this.taskFilter);
     newFilter.desiredState = states;
     this.taskFilter = newFilter;
   }
 
-  onSpecChanged(spec: ServiceSpec) {
-    this.dockerService.update(this.service.id, this.service.version, spec)
+  onUpdateClicked() {
+    this.dockerService.update(this.service.id, this.service.version, this.editingSpec)
       .subscribe(r => this.serviceChanged.next(true));
   }
 
+  onRevertClicked() {
+    let newSpec = ObjectUtils.jsonClone(this.originalSpec);
+    this.editingSpec = newSpec;
+    this.specTouched = false;
+  }
+
+  onRollbackClicked() {
+    this.dockerService.rollback(this.service.id, this.service.version, this.originalSpec)
+      .subscribe(r => this.serviceChanged.next(true));
+  }
+
+  isUpdating() {
+    let updateStatus = this.service.updateStatus;
+    if (updateStatus == null) {
+      return false;
+    }
+    return updateStatus.StartedAt != null && updateStatus.CompletedAt == null;
+  }
+
+  onSpecTouched() {
+    this.specTouched = true;
+  }
 
 }

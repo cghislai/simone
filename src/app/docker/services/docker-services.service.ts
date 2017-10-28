@@ -55,6 +55,10 @@ export class DockerServicesService {
     return this.client.updateService(id, version, spec);
   }
 
+  rollback(id: string, version: Version, spec: ServiceSpec): Observable<any> {
+    return this.client.rollbackService(id, version, spec);
+  }
+
 
   getAll(): Observable<Service[]> {
     return this.allServices.getValue();
