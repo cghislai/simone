@@ -36,7 +36,7 @@ export class ContainerStatsComponent implements OnInit, OnDestroy {
 
   private initConnection() {
     this.statsSubscription = this.containerService.stats(this.containerId, {
-      stream: true
+      stream: true,
     }).subscribe(stats => {
       this.source.next(stats);
     });

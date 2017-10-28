@@ -4,6 +4,8 @@ import {Message} from 'primeng/primeng';
 import {Observable} from 'rxjs/Observable';
 import {ErrorService} from '../services/error.service';
 import {ErrorMessage} from '../domain/error-message';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/share';
 
 @Component({
   selector: 'app-docker-route',

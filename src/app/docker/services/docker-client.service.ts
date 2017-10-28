@@ -4,6 +4,9 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 import {Info} from '../client/domain/info';
 import {DockerServerInfo} from '../domain/docker-server-info';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/filter';
 
 @Injectable()
 export class DockerClientConfigService {

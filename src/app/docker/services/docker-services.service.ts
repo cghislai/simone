@@ -11,6 +11,10 @@ import {Version} from '../client/domain/version';
 import {CachedValue} from '../../utils/cached-value';
 import {DockerClientConfigService} from './docker-client.service';
 import {DockerClientConfig} from '../domain/docker-client-config';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/map';
 
 
 /**

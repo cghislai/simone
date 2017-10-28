@@ -5,6 +5,10 @@ import {DockerService} from '../../services/docker.service';
 import {TASK_COLUMN_DATA, TaskColumn} from './taskColumn';
 import {Task} from '../../domain/tasks/task';
 import {TaskFilter} from '../../client/domain/task-filter';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/share';
+import 'rxjs/add/operator/catch';
 
 @Component({
   selector: 'app-docker-task-list',
@@ -32,8 +36,8 @@ export class DockerTaskListComponent implements OnInit, OnChanges {
   ngOnInit() {
     let heartbeatTasks = this.dockerService.getHeartBeatObservable()
       .mergeMap(r => this.fetchTasks());
-    this.tasks = this.fetchTasks()
-      .concat(heartbeatTasks)
+    this.tasks = Observable.concat(
+      this.fetchTasks(), heartbeatTasks)
       .do(tasks => this.tasksChange.next(tasks))
       .share();
     this.updateColumnsWidths();

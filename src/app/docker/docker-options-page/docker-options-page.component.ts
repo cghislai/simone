@@ -7,6 +7,11 @@ import {DockerClientConfig} from '../domain/docker-client-config';
 import {DockerServerInfo} from '../domain/docker-server-info';
 import {DockerClient} from '../client/docker.client';
 import {Subject} from 'rxjs/Subject';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/share';
+import 'rxjs/add/observable/merge'
+import 'rxjs/add/operator/take';
 
 @Component({
   selector: 'app-docker-options-page',

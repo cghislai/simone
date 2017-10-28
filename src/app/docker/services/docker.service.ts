@@ -1,6 +1,6 @@
 import {DockerClient} from '../client/docker.client';
 import {Injectable} from '@angular/core';
-import {Observable, Subscription} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import {Response} from '@angular/http';
 import {Info} from '../client/domain/info';
@@ -8,6 +8,18 @@ import {CachedValue} from '../../utils/cached-value';
 import {DockerClientConfigService} from './docker-client.service';
 import {DockerClientConfig} from '../domain/docker-client-config';
 import {Router} from '@angular/router';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/share';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/throttleTime';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/withLatestFrom';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/observable/timer';
+import 'rxjs/add/observable/empty';
+import 'rxjs/add/observable/concat';
+import {Subscription} from 'rxjs/Subscription';
 
 /**
  * Created by cghislai on 11/02/17.
@@ -35,12 +47,12 @@ export class DockerService {
               private configService: DockerClientConfigService) {
 
     this.subscription = new Subscription();
-    this.clientBusy = Observable.of(false)
-      .concat(this.client.getRunningRequestCountObservable())
+    this.clientBusy = Observable.concat(
+      Observable.of(false), this.client.getRunningRequestCountObservable())
       .map(count => count > 0)
       .share();
-    this.clientReachable = Observable.of(false)
-      .concat(this.client.getRequestSucessObservable())
+    this.clientReachable = Observable.concat(
+      Observable.of(false), this.client.getRequestSucessObservable())
       .map((successOrError: boolean | Error) => this.isReachable(successOrError))
       .do(reachable => {
           if (reachable) {

@@ -5,6 +5,11 @@ import {Config} from '../../client/domain/config';
 import {Observable} from 'rxjs/Observable';
 import {DockerConfigsService} from '../../services/docker-configs.service';
 import {DockerService} from '../../services/docker.service';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/concat';
+import 'rxjs/add/operator/share';
+import 'rxjs/add/operator/catch';
 
 @Component({
   selector: 'app-config-list',

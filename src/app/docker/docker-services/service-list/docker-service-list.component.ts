@@ -9,6 +9,10 @@ import {ServiceFilter} from '../../domain/services/service-filter';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import {DockerStacksService} from '../../services/docker-stacks.service';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/share';
+import 'rxjs/add/operator/concat';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-docker-service-list',

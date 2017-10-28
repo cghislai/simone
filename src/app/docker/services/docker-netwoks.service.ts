@@ -6,6 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import {FilterJson} from '../client/domain/filter';
 import {CachedValue} from '../../utils/cached-value';
 import {DockerClientConfigService} from './docker-client.service';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 @Injectable()
 export class DockerNetworksService {

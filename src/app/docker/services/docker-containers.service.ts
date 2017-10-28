@@ -15,6 +15,7 @@ import {ContainerRemoveOptions} from '../client/domain/container-remove-options'
 import {ContainerInspectInfo} from '../client/domain/container-inspect-info';
 import {ContainerAttachOptions} from '../client/domain/container-attach-options';
 import {DemuxedStream} from '../client/domain/demuxedStream';
+import 'rxjs/add/operator/map';
 
 /**
  * Created by cghislai on 11/02/17.

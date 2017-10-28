@@ -5,6 +5,12 @@ import {DockerService} from '../../services/docker.service';
 import {Observable} from 'rxjs/Observable';
 import {DockerServicesService} from '../../services/docker-services.service';
 import {Service} from '../../domain/services/service';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/concat';
+import 'rxjs/add/operator/combineLatest';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/observable/of';
 
 @Component({
   selector: 'app-service-details-page',
@@ -32,7 +38,7 @@ export class ServiceDetailsPageComponent implements OnInit, OnDestroy {
     let heartbeats = Observable.of(true)
       .concat(this.dockerService.getHeartBeatObservable());
     this.subscription = heartbeats.combineLatest(id)
-      .subscribe(results=>this.fetchService(results[1]));
+      .subscribe(results => this.fetchService(results[1]));
   }
 
   ngOnDestroy() {

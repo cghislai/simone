@@ -5,6 +5,12 @@ import {DockerContainersService} from '../../services/docker-containers.service'
 import {DockerService} from '../../services/docker.service';
 import {Observable} from 'rxjs/Observable';
 import {ContainerInspectInfo} from '../../client/domain/container-inspect-info';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/combineLatest';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/concat';
 
 @Component({
   selector: 'app-container-details-page',
@@ -30,9 +36,8 @@ export class ContainerDetailsPageComponent implements OnInit, OnDestroy {
       .filter(param => param != null)
       .distinctUntilChanged();
 
-    let heartbeats = Observable.of(true)
-      .concat(this.dockerService.getHeartBeatObservable());
-
+    let heartbeats = Observable.concat(
+      Observable.of(true), this.dockerService.getHeartBeatObservable());
     this.subscription = id.combineLatest(heartbeats)
       .subscribe(results => this.fetchContainer(results[0]));
   }

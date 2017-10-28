@@ -5,6 +5,12 @@ import {DockerNetworksService} from '../../services/docker-netwoks.service';
 import {ActivatedRoute} from '@angular/router';
 import {DockerService} from '../../services/docker.service';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/concat';
+import 'rxjs/add/operator/combineLatest';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-network-details-page',

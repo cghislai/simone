@@ -2,9 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {TASK_COLUMN_DATA, TaskColumn} from '../taskColumn';
 import {Task} from '../../../domain/tasks/task';
 import {ColumnData} from '../../../domain/column-data';
-import {DockerNodesService} from '../../../services/docker-nodes.service';
-import {DockerServicesService} from '../../../services/docker-services.service';
-import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-docker-task-column',

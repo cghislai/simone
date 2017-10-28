@@ -4,6 +4,9 @@ import {BackgroundTask} from '../domain/background-task';
 import {Observable} from 'rxjs/Observable';
 import {SelectItem} from 'primeng/primeng';
 import {DockerClientConfigService} from '../services/docker-client.service';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/take';
 
 
 @Component({

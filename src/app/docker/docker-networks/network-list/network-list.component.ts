@@ -5,6 +5,11 @@ import {NetworkFilter} from '../../client/domain/network-filter';
 import {Observable} from 'rxjs/Observable';
 import {DockerNetworksService} from '../../services/docker-netwoks.service';
 import {DockerService} from '../../services/docker.service';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/share';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/concat'
 
 @Component({
   selector: 'app-network-list',
@@ -32,8 +37,8 @@ export class NetworkListComponent implements OnInit, OnChanges {
   ngOnInit() {
     let heartbeatTasks = this.dockerService.getHeartBeatObservable()
       .mergeMap(r => this.fetchNetworks());
-    this.networks = this.fetchNetworks()
-      .concat(heartbeatTasks)
+    this.networks = Observable.concat(
+      this.fetchNetworks(), heartbeatTasks)
       .do(networks => this.networksChange.next(networks))
       .share();
   }

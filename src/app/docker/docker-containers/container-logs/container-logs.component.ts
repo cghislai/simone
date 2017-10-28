@@ -6,6 +6,9 @@ import {LogFilter} from './log-filter';
 import {LogLine, Stream} from './log-line';
 import {Subscription} from 'rxjs/Subscription';
 import {DemuxedStream} from '../../client/domain/demuxedStream';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/share';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-container-logs',

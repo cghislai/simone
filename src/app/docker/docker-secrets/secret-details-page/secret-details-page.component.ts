@@ -1,3 +1,4 @@
+///<reference path="../../../../../node_modules/rxjs/add/operator/filter.d.ts"/>
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Secret} from '../../client/domain/secret';
 import {Subscription} from 'rxjs/Subscription';
@@ -5,6 +6,12 @@ import {DockerSecretsService} from '../../services/docker-secrets.service';
 import {ActivatedRoute} from '@angular/router';
 import {DockerService} from '../../services/docker.service';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/concat';
+import 'rxjs/add/operator/combineLatest';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/observable/of';
 
 @Component({
   selector: 'app-secret-details-page',

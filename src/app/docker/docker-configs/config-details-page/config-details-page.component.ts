@@ -5,6 +5,11 @@ import {DockerConfigsService} from '../../services/docker-configs.service';
 import {ActivatedRoute} from '@angular/router';
 import {DockerService} from '../../services/docker.service';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/concat';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/observable/of';
 
 @Component({
   selector: 'app-config-details-page',

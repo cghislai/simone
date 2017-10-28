@@ -5,6 +5,12 @@ import {Node} from '../../client/domain/node';
 import {Observable} from 'rxjs/Observable';
 import {DockerNodesService} from '../../services/docker-nodes.service';
 import {DockerService} from '../../services/docker.service';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/concat';
+import 'rxjs/add/operator/share';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/catch';
 
 @Component({
   selector: 'app-node-list',

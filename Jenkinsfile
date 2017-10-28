@@ -19,7 +19,6 @@ pipeline {
             steps {
                 script {
                     env.BUILD_ENV = params.DEBUG ? "dev" : "prod"
-                    booleanParam(name: 'DOCKER_NO_CACHE', defaultValue: false, description: '')
                 }
                 sh "rm -rf dist"
                 nodejs(nodeJSInstallationName: 'node 7', configId: '') {

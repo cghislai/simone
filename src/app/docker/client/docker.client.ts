@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
 import {Http, RequestOptionsArgs, Response, URLSearchParams} from '@angular/http';
 import {Injectable, NgZone} from '@angular/core';
 import {ServiceJson} from './domain/service';
@@ -28,6 +28,8 @@ import {DockerClientConfigService} from '../services/docker-client.service';
 import {DockerClientConfig} from '../domain/docker-client-config';
 import {LogFilter} from './domain/log-filter';
 import {Config} from './domain/config';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/publishReplay';
 
 
 @Injectable()

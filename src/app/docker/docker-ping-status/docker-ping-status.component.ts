@@ -1,6 +1,10 @@
 import {animate, ChangeDetectorRef, Component, OnInit, state, style, transition, trigger} from '@angular/core';
 import {DockerService} from '../services/docker.service';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/share';
 
 @Component({
   selector: 'app-docker-ping-status',

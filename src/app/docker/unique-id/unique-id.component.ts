@@ -2,6 +2,11 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {DockerClientConfigService} from '../services/docker-client.service';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/empty';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/do';
 
 @Component({
   selector: 'app-unique-id',

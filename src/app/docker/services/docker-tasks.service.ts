@@ -8,6 +8,9 @@ import {Task} from '../domain/tasks/task';
 import {TaskFilter} from '../client/domain/task-filter';
 import {DockerServicesService} from './docker-services.service';
 import {DockerNodesService} from './docker-nodes.service';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/observable/of';
 
 /**
  * Created by cghislai on 11/02/17.

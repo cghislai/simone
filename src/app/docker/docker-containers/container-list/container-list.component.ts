@@ -1,3 +1,4 @@
+///<reference path="../../../../../node_modules/rxjs/add/operator/mergeMap.d.ts"/>
 import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {ContainerFilter, EMPTY_CONTAINER_FILTER} from '../../domain/containers/container-filter';
 import {SelectItem} from 'primeng/primeng';
@@ -8,6 +9,10 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {DockerService} from '../../services/docker.service';
 import {DockerContainersService} from '../../services/docker-containers.service';
 import {Subscription} from 'rxjs/Subscription';
+import 'rxjs/add/operator/concat';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/share';
+import 'rxjs/add/observable/of';
 
 @Component({
   selector: 'app-container-list',

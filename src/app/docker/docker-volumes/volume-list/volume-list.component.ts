@@ -5,6 +5,12 @@ import {VOLUME_COLUMN_DATA, VolumeColumn} from './volume-column';
 import {Volume} from '../../client/domain/volume';
 import {DockerVolumesService} from '../../services/docker-volumes.service';
 import {DockerService} from '../../services/docker.service';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/concat';
+import 'rxjs/add/operator/share';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/catch';
 
 @Component({
   selector: 'app-volume-list',

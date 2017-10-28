@@ -5,6 +5,12 @@ import {DockerTasksService} from '../../services/docker-tasks.service';
 import {Observable} from 'rxjs/Observable';
 import {Task} from '../../domain/tasks/task';
 import {Subscription} from 'rxjs/Subscription';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/concat';
+import 'rxjs/add/operator/combineLatest';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/observable/of';
 
 @Component({
   selector: 'app-task-details-page',
@@ -33,7 +39,7 @@ export class TaskDetailsPageComponent implements OnInit, OnDestroy {
     let heartbeats = Observable.of(true)
       .concat(this.dockerService.getHeartBeatObservable());
     this.subscription = heartbeats.combineLatest(id)
-      .subscribe(results=>this.fetchTask(results[1]));
+      .subscribe(results => this.fetchTask(results[1]));
   }
 
   ngOnDestroy() {
