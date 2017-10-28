@@ -96,7 +96,8 @@
 
       <div class="row" *ngIf="spec.UpdateConfig != null">
         <label>Update Config</label>
-        <app-update-config [(ngModel)]="spec.UpdateConfig"
+        <app-update-config [ngModel]="spec.UpdateConfig"
+                           (ngModelChange)="onUpdateConfigChange($event)"
                            (touched)="onTouched()"
                            [editable]="editable"
                            name="update-input"
@@ -105,7 +106,8 @@
 
       <div class="row" *ngIf="spec.RollbackConfig != null">
         <label>Rollback Config</label>
-        <app-update-config [(ngModel)]="spec.RollbackConfig"
+        <app-update-config [ngModel]="spec.RollbackConfig"
+                           (ngModelChange)="onRollbackConfigChange($event)"
                            (touched)="onTouched()"
                            [editable]="editable"
                            name="update-input"

@@ -67,7 +67,10 @@ export class ServiceDetailsComponent implements OnInit, OnChanges {
 
   onUpdateClicked() {
     this.dockerService.update(this.service.id, this.service.version, this.editingSpec)
-      .subscribe(r => this.serviceChanged.next(true));
+      .subscribe(result => {
+        this.serviceChanged.next(true);
+        this.specTouched = false;
+      });
   }
 
   onRevertClicked() {

@@ -45,8 +45,8 @@ export class UpdateConfigComponent implements OnInit, ControlValueAccessor {
 
   writeValue(obj: any): void {
     this.originalSpec = obj;
-    if (!this.specTouched && obj != null) {
-      this.setSpec(ObjectUtils.jsonClone(this.originalSpec));
+    if (obj != null) {
+      this.setSpec(obj, false);
     }
   }
 
@@ -210,12 +210,14 @@ export class UpdateConfigComponent implements OnInit, ControlValueAccessor {
     }];
   }
 
-  private setSpec(spec: ServiceUpdateConfig) {
+  private setSpec(spec: ServiceUpdateConfig, fireChange = true) {
     this.spec = spec;
     if (spec == null) {
       return;
     }
-    this.fireChange(spec);
+    if (fireChange) {
+      this.fireChange(spec);
+    }
   }
 
 }
