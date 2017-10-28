@@ -44,11 +44,10 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
 
   writeValue(obj: any): void {
     this.originalSpec = obj;
-    if (!this.specTouched && obj != null) {
-      this.setSpec(ObjectUtils.jsonClone(this.originalSpec));
+    if (obj != null) {
+      this.setSpec(ObjectUtils.jsonClone(this.originalSpec), false);
     }
   }
-
 
   registerOnChange(fn: any): void {
     this.onChangeFunction = fn;
@@ -57,7 +56,6 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
   registerOnTouched(fn: any): void {
     this.onTouchedFunction = fn;
   }
-
 
   onTouched() {
     this.firetouched();
@@ -266,12 +264,14 @@ export class TaskTemplateComponent implements OnInit, ControlValueAccessor {
 
   }
 
-  private setSpec(spec: TaskTemplateJson) {
+  private setSpec(spec: TaskTemplateJson, fireChange = true) {
     this.template = spec;
     if (spec == null) {
       return;
     }
-    this.fireChange(spec);
+    if (fireChange) {
+      this.fireChange(spec);
+    }
   }
 
   private getComparisonSpec() {

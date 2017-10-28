@@ -1,0 +1,20 @@
+<div class="update-status">
+  <div *ngIf="updateStatus != null" class="container"
+       [class.error]="updateInError"
+       [class.pause]="updatePaused"
+       [class.updating]="updating"
+  >
+    <i class="fa"
+       [class.fa-refresh]="updating"
+       [class.fa-pause]="updatePaused"
+       [class.fa-times]="updateInError"
+       [class.fa-check]="updateCompleted && !updateInError"
+    ></i>
+    <span class="state">
+       {{ updateStatus.State }}
+    </span>
+    <span class="message" *ngIf="showMessage">
+      {{ updateStatus.Message }}
+    </span>
+  </div>
+</div>

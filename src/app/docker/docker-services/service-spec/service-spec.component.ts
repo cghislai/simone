@@ -8,6 +8,8 @@ import {ObjectUtils} from '../../../utils/ObjectUtils';
 import {NetworkSpec} from '../../client/domain/network-spec';
 import {SingleActiveEditableFieldProvider} from '../../../utils/editable-field/SingleActiveEditableFieldProvider';
 import {ServiceUpdateConfig} from '../../client/domain/service-update-config';
+import {TaskTemplateJson} from '../../client/domain/task-template';
+import {ContainerSpecJson} from '../../client/domain/container-spec';
 
 @Component({
   selector: 'app-service-spec',
@@ -51,7 +53,7 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
   writeValue(obj: any): void {
     this.originalSpec = obj;
     if (obj != null) {
-      this.setSpec(ObjectUtils.jsonClone(this.originalSpec));
+      this.setSpec(ObjectUtils.jsonClone(this.originalSpec), false);
     }
   }
 
@@ -202,6 +204,17 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
     return this.spec.UpdateConfig !== this.getComparisonSpec().UpdateConfig;
   }
 
+  onTaskTemplateChange(taskTemplate: TaskTemplateJson) {
+    let newSpec = ObjectUtils.jsonClone(this.spec);
+    newSpec.TaskTemplate = taskTemplate;
+    this.setSpec(newSpec);
+  }
+
+  onContainerSpecChange(spec: ContainerSpecJson) {
+    let newSpec = ObjectUtils.jsonClone(this.spec);
+    newSpec.TaskTemplate.ContainerSpec = spec;
+    this.setSpec(newSpec);
+  }
 
   onTouched() {
     this.firetouched();
@@ -221,7 +234,7 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
 
   }
 
-  private setSpec(spec: ServiceSpec) {
+  private setSpec(spec: ServiceSpec, fireChange = true) {
     this.spec = spec;
     if (spec == null) {
       return;
@@ -235,6 +248,10 @@ export class ServiceSpecComponent implements OnInit, ControlValueAccessor {
       }
     } else if (this.spec.EndpointSpec.Ports == null) {
       this.spec.EndpointSpec.Ports = [];
+    }
+
+    if (fireChange) {
+      this.fireChange(this.spec);
     }
   }
 

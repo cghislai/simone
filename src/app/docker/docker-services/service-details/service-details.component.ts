@@ -86,7 +86,8 @@ export class ServiceDetailsComponent implements OnInit, OnChanges {
     if (updateStatus == null) {
       return false;
     }
-    return updateStatus.StartedAt != null && updateStatus.CompletedAt == null;
+    return updateStatus.StartedAt != null && updateStatus.CompletedAt == null
+      && ( updateStatus.State == 'updating' || updateStatus.State == 'rollback_started');
   }
 
   onSpecTouched() {

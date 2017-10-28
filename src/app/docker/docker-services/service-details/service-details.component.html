@@ -4,8 +4,9 @@
     <h1>
       {{ service.spec.Name }}
     </h1>
+    <app-update-status [updateStatus]="service.updateStatus"
+    ></app-update-status>
   </header>
-
 
   <p-tabView>
     <p-tabPanel header="Status">

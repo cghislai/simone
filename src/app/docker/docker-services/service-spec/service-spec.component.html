@@ -117,7 +117,8 @@
       <div class="title">
         Task template
       </div>
-      <app-task-template [(ngModel)]="spec.TaskTemplate"
+      <app-task-template [ngModel]="spec.TaskTemplate"
+                         (ngModelChange)="onTaskTemplateChange($event)"
                          [highlightDiffTo]="getComparisonSpec().TaskTemplate"
                          [editable]="editable"
                          name="task-template"
@@ -129,7 +130,8 @@
       <div class="title">
         Container spec
       </div>
-      <app-container-spec [(ngModel)]="spec.TaskTemplate.ContainerSpec"
+      <app-container-spec [ngModel]="spec.TaskTemplate.ContainerSpec"
+                          (ngModelChange)="onContainerSpecChange($event)"
                           [highlightDiffTo]="getComparisonSpec().TaskTemplate.ContainerSpec"
                           [editable]="editable"
                           name="container-spec"

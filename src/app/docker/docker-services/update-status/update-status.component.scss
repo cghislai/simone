@@ -1,0 +1,31 @@
+.update-status {
+  display: inline-block;
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    &.error {
+      color: red;
+    }
+    &.updating {
+      color: darkorange;
+    }
+
+    > * {
+      padding: .3em;
+    }
+    > i {
+      flex: 0 0 auto;
+    }
+    > .state {
+      flex: 1 1 auto;
+      font-weight: bold;
+    }
+    > .message {
+      flex: 0 0 auto;
+      font-size: .8em;
+    }
+  }
+}

@@ -33,10 +33,10 @@
   <span *ngSwitchCase="serviceColumn.PORTS">
     <app-port-mappings [ngModel]="service.endPoint.Ports"></app-port-mappings>
   </span>
-  <span *ngSwitchCase="serviceColumn.UPDATE_STATUS" class="update-status">
-    <span *ngIf="service.updateStatus != null"
-          [title]="service.updateStatus.Message">
-      <span class="status">{{ service.updateStatus.State }}</span>
-      <span class="message">{{ service.updateStatus.Message}}</span>
+  <span *ngSwitchCase="serviceColumn.UPDATE_STATUS" class="update-status"
+        [title]="service.updateStatus?.Message">
+    <app-update-status [updateStatus]="service.updateStatus"
+                       [showMessage]="false"
+    ></app-update-status>
   </span>
 </span>

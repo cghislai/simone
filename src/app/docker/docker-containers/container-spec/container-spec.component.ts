@@ -50,8 +50,8 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
 
   writeValue(obj: any): void {
     this.originalSpec = obj;
-    if (!this.specTouched && obj != null) {
-      this.setSpec(ObjectUtils.jsonClone(this.originalSpec));
+    if (obj != null) {
+      this.setSpec(ObjectUtils.jsonClone(this.originalSpec), false);
     }
   }
 
@@ -335,7 +335,7 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
 
   }
 
-  private setSpec(spec: ContainerSpecJson) {
+  private setSpec(spec: ContainerSpecJson, fireChange = true) {
     this.spec = spec;
     if (spec == null) {
       return;
@@ -352,7 +352,9 @@ export class ContainerSpecComponent implements OnInit, ControlValueAccessor {
     this.configSpecs = spec.Configs == null ? '' : spec.Configs
       .map(s => ContainerUtils.stringifyContainerConfigSpec(s))
       .reduce((cur, next) => cur == null ? next : cur + '\n' + next, null);
-    this.fireChange(spec);
+    if (fireChange) {
+      this.fireChange(spec);
+    }
   }
 
 
