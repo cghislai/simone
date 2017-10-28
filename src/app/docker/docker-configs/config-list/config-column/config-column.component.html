@@ -1,0 +1,22 @@
+<span class="column" [ngSwitch]="column" *ngIf="config != null">
+
+  <span class="created date" *ngSwitchCase="configColumns.CREATED_AT">
+    {{config.CreatedAt | date:'medium' }}
+  </span>
+  <span class="updated date" *ngSwitchCase="configColumns.UPDATED_AT">
+    {{config.UpdatedAt | date:'medium' }}
+  </span>
+  <span class="updated date" *ngSwitchCase="configColumns.ID">
+    <app-unique-id [id]="config.ID"
+                   type="config"
+    ></app-unique-id>
+  </span>
+
+  <span class="updated date" *ngSwitchCase="configColumns.NAME">
+    {{config.Spec.Name }}
+  </span>
+
+  <span *ngSwitchDefault>
+      {{config[columnData.field]}}
+  </span>
+</span>

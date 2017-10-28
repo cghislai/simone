@@ -1,0 +1,15 @@
+<div class="config-list ui-widget">
+
+  <p-dataTable [value]="configs | async">
+    <p-column *ngFor="let column of columns"
+              [sortable]="true"
+              [sortField]="getColumnField(column)"
+              [header]="getColumnLabel(column)">
+      <ng-template let-col let-config="rowData" let-rowIndex="rowIndex" pTemplate="body">
+        <app-config-column [config]="config"
+                           [column]="column"
+        ></app-config-column>
+      </ng-template>
+    </p-column>
+  </p-dataTable>
+</div>

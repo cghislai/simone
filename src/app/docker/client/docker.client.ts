@@ -27,6 +27,7 @@ import {Info} from './domain/info';
 import {DockerClientConfigService} from '../services/docker-client.service';
 import {DockerClientConfig} from '../domain/docker-client-config';
 import {LogFilter} from './domain/log-filter';
+import {Config} from './domain/config';
 
 
 @Injectable()
@@ -205,6 +206,20 @@ export class DockerClient {
       method: 'GET',
     }).map(response => response.json());
   }
+
+  listConfigs(filter?: FilterJson): Observable<Config[]> {
+    return this.request(`configs`, {
+      method: 'GET',
+      search: this.createSearchParams(filter),
+    }).map(response => response.json());
+  }
+
+  inspectConfig(name: string): Observable<Config> {
+    return this.request(`configs/${name}`, {
+      method: 'GET',
+    }).map(response => response.json());
+  }
+
 
   listNetworks(filter: FilterJson): Observable<Network[]> {
     return this.request(`networks`, {

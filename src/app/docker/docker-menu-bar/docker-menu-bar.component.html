@@ -25,6 +25,12 @@
       <i class="fa fa-anchor"></i>
       Secrets
     </a>
+    <a routerLink="/docker/configs" class="action"
+       [class.disabled]="!(swarmControl | async)"
+       routerLinkActive="active">
+      <i class="fa fa-anchor"></i>
+      Configs
+    </a>
 
     <span class="h-separator"></span>
 

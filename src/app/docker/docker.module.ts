@@ -117,6 +117,13 @@ import {DockerOptionsFormComponent} from './docker-client-config-form/docker-cli
 import {SwarmControlRouteGuard} from './services/guards/SwarmControlRouteGuard';
 import {ServiceStatusComponent} from './docker-services/service-status/service-status.component';
 import {UpdateStatusComponent} from './docker-services/update-status/update-status.component';
+import {ConfigListComponent} from './docker-configs/config-list/config-list.component';
+import {ConfigColumnComponent} from './docker-configs/config-list/config-column/config-column.component';
+import {ConfigFilterComponent} from './docker-configs/config-list/config-filter/config-filter.component';
+import {ConfigListPageComponent} from './docker-configs/config-list-page/config-list-page.component';
+import {ConfigDetailsComponent} from './docker-configs/config-details/config-details.component';
+import {ConfigDetailsPageComponent} from './docker-configs/config-details-page/config-details-page.component';
+import {DockerConfigsService} from './services/docker-configs.service';
 
 @NgModule({
   imports: [
@@ -224,6 +231,12 @@ import {UpdateStatusComponent} from './docker-services/update-status/update-stat
     TaskStatusIconComponent,
     ServiceStatusComponent,
     UpdateStatusComponent,
+    ConfigListComponent,
+    ConfigColumnComponent,
+    ConfigFilterComponent,
+    ConfigListPageComponent,
+    ConfigDetailsComponent,
+    ConfigDetailsPageComponent,
   ],
   exports: [
     RouterModule,
@@ -234,6 +247,7 @@ import {UpdateStatusComponent} from './docker-services/update-status/update-stat
     HttpClient,
     DockerClient,
     DockerClientConfigService,
+    DockerConfigsService,
     DockerService,
     DockerServicesService,
     DockerTasksService,
